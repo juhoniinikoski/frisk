@@ -12,7 +12,12 @@ import Event from './types/Event'
 import UserConnection from './types/UserConnection'
 import SportConnection from './types/SportConnection'
 import EventConnection from './types/EventConnection'
+import LocationConnection from './types/LocationConnection'
 import PageInfo from './types/PageInfo'
+
+import usersQuery from './queries/users'
+import eventsQuery from './queries/events'
+import locationsQuery from './queries/locations'
 
 import DateTime from './scalars/DateTime'
 
@@ -36,8 +41,12 @@ const typeDefs = [
   UserConnection.typeDefs,
   SportConnection.typeDefs,
   EventConnection.typeDefs,
+  LocationConnection.typeDefs,
   PageInfo.typeDefs,
   DateTime.typeDefs,
+  usersQuery.typeDefs,
+  eventsQuery.typeDefs,
+  locationsQuery.typeDefs,
 ]
 
 const resolvers = merge(
@@ -49,8 +58,12 @@ const resolvers = merge(
   UserConnection.resolvers,
   SportConnection.resolvers,
   EventConnection.resolvers,
+  LocationConnection.resolvers,
   PageInfo.resolvers,
   DateTime.resolvers,
+  usersQuery.resolvers,
+  eventsQuery.resolvers,
+  locationsQuery.resolvers,
 )
 
 const schema = makeExecutableSchema({
