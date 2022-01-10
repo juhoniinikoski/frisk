@@ -1,6 +1,5 @@
 import { ApolloServer } from 'apollo-server'
 import schema from './graphql/schema'
-import createDataLoaders from './services/loaders/createDataLoaders';
 
 const server = new ApolloServer({ 
   schema,
@@ -8,14 +7,11 @@ const server = new ApolloServer({
     // const authorization = req.get('authorization');
 
     // const accessToken = authorization ? authorization.split(' ')[1] : undefined;
-    const dataLoaders = createDataLoaders();
-
     return {
       // authService: new AuthService({
       //   accessToken,
       //   dataLoaders,
       // }),
-      dataLoaders,
     };
   },
 })

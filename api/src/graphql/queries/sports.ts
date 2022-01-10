@@ -1,17 +1,17 @@
 import { gql } from 'apollo-server'
 import * as yup from 'yup'
-import Event from '../../models/Event'
+import Sport from '../../models/Sport'
 
 export const typeDefs = gql`
   extend type Query {
     """
     Returns paginated users.
     """
-    events(
+    sports(
       first: Int
       after: String
       searchKeyword: String
-    ): EventConnection!
+    ): SportConnection!
   }
 `;
 
@@ -31,21 +31,21 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    events: async (_obj: any, args: Args) => {
+    sports: async (_obj: any, args: Args) => {
       const { first, after, searchKeyword } = await argsSchema.validate(args)
 
-      let query: any = Event.query()
+      let query: any = Sport.query()
 
       if (searchKeyword) {
         const likeFilter = getLikeFilter(searchKeyword)
 
         query = query.where((qb: any) => {
-          return qb.where('eventTitle', 'like', likeFilter)
+          return qb.where('name', 'like', likeFilter)
         })
       }
 
       return query.cursorPaginate({
-        orderBy: [{ column: 'createdAt', order: 'desc' }, 'id'],
+        orderBy: [{ column: 'name', order: 'asc' }, 'id'],
         first,
         after,
       })
