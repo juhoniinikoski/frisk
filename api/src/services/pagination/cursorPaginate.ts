@@ -4,8 +4,11 @@ import reverseOrderBy from './reverseOrderBy'
 import serializeCursor from './serializeCursor'
 import parseCursor from './parseCursor'
 import cursorWhere from './cursorWhere'
+import { QueryBuilderType } from 'objection'
+import { OrderBy, OrderByObject } from './types'
 
-const getValidLimitOrFail = ({ first, last }) => {
+const getValidLimitOrFail = ({ first, last }: OrderBy) => {
+
   const limit = isNumber(first) ? first : isNumber(last) ? last : 30
 
   if (limit < 0 || limit > 100) {
@@ -15,17 +18,18 @@ const getValidLimitOrFail = ({ first, last }) => {
   }
 
   return limit
-};
+}
 
-const createCursor = (row, orderBy) => {
+const createCursor = (row: any, orderBy: OrderBy[]) => {
+  
   const payload = orderBy.map(({ column }) => row[column])
 
   return serializeCursor(payload)
-};
+}
 
 const cursorPaginate = async (
-  builder,
-  { orderBy: orderByOption, after, before, first, last },
+  builder: QueryBuilderType<any>,
+  { orderBy: orderByOption, after, before, first, last }: OrderByObject,
 ) => {
   let orderBy = normalizeOrderBy(orderByOption)
 
@@ -46,7 +50,7 @@ const cursorPaginate = async (
     : null
 
   const cursorQuery = cursor
-    ? builder.clone().andWhere(b => cursorWhere(b, orderBy, cursor))
+    ? builder.clone().andWhere((b: QueryBuilderType<any>) => cursorWhere(b, orderBy, cursor))
     : builder
 
   const paginationQuery = cursorQuery
@@ -87,7 +91,7 @@ const cursorPaginate = async (
     (Boolean(before) && remaining > 0) ||
     (!before && totalCount - cursorCount > 0)
 
-  const edges = rows.map(node => ({
+  const edges = rows.map((node: any) => ({
     node,
     cursor: createCursor(node, orderBy),
   }))

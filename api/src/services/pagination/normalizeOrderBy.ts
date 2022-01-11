@@ -1,6 +1,8 @@
 import { isArray, isString, isObject } from 'lodash'
+import { OrderBy, ItemObject } from './types'
 
-const normalizeOrderByItem = item => {
+const normalizeOrderByItem = (item: string | ItemObject) => {
+  
   if (isString(item)) {
     return { column: item, order: 'asc' }
   }
@@ -14,7 +16,7 @@ const normalizeOrderByItem = item => {
   throw new Error('Order by item must be a string or an object')
 }
 
-const normalizeOrderBy = orderBy => {
+const normalizeOrderBy = (orderBy: [OrderBy, string]) => {
   if (!orderBy) {
     return []
   }

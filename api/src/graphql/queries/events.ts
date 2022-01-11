@@ -1,5 +1,7 @@
 import { gql } from 'apollo-server'
+import { Model } from 'objection'
 import * as yup from 'yup'
+import { BaseQueryBuilder } from '../../models/BaseModel'
 import Event from '../../models/Event'
 
 export const typeDefs = gql`
@@ -32,14 +34,15 @@ interface Args {
 export const resolvers = {
   Query: {
     events: async (_obj: any, args: Args) => {
+
       const { first, after, searchKeyword } = await argsSchema.validate(args)
 
-      let query: any = Event.query()
+      let query: BaseQueryBuilder<Model, Model[]> = Event.query()
 
       if (searchKeyword) {
         const likeFilter = getLikeFilter(searchKeyword)
 
-        query = query.where((qb: any) => {
+        query = query.where((qb: BaseQueryBuilder<Model, Model[]>) => {
           return qb.where('eventTitle', 'like', likeFilter)
         })
       }

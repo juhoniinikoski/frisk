@@ -20,9 +20,15 @@ const argsSchema = yup.object({
     .default(30),
 })
 
+interface Args {
+  first: number
+  after: string
+}
+
 export const resolvers = {
   Query: {
-    users: async (_obj: any, args: any) => {
+    users: async (_obj: any, args: Args) => {
+
       const { first, after } = await argsSchema.validate(args)
 
       return User.query().cursorPaginate({

@@ -1,14 +1,14 @@
 import { Model, Page, QueryBuilder } from 'objection'
 import cursorPaginate from '../services/pagination/cursorPaginate'
 
-class MyQueryBuilder<M extends Model, R = M[]> extends QueryBuilder<M, R> {
+export class BaseQueryBuilder<M extends Model, R = M[]> extends QueryBuilder<M, R> {
   // These are necessary. You can just copy-paste them and change the
   // name of the query builder class.
-  ArrayQueryBuilderType!: MyQueryBuilder<M, M[]>;
-  SingleQueryBuilderType!: MyQueryBuilder<M, M>;
-  MaybeSingleQueryBuilderType!: MyQueryBuilder<M, M | undefined>;
-  NumberQueryBuilderType!: MyQueryBuilder<M, number>;
-  PageQueryBuilderType!: MyQueryBuilder<M, Page<M>>;
+  ArrayQueryBuilderType!: BaseQueryBuilder<M, M[]>;
+  SingleQueryBuilderType!: BaseQueryBuilder<M, M>;
+  MaybeSingleQueryBuilderType!: BaseQueryBuilder<M, M | undefined>;
+  NumberQueryBuilderType!: BaseQueryBuilder<M, number>;
+  PageQueryBuilderType!: BaseQueryBuilder<M, Page<M>>;
 
   cursorPaginate(options: any) {
     return cursorPaginate(this, options)
@@ -17,8 +17,8 @@ class MyQueryBuilder<M extends Model, R = M[]> extends QueryBuilder<M, R> {
 
 class BaseModel extends Model {
 
-  QueryBuilderType!: MyQueryBuilder<this>;
-  static QueryBuilder = MyQueryBuilder;
+  QueryBuilderType!: BaseQueryBuilder<this>;
+  static QueryBuilder = BaseQueryBuilder;
 
   static useLimitInFirst = true
 

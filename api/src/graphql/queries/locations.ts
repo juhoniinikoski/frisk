@@ -1,5 +1,7 @@
 import { gql } from 'apollo-server'
+import { Model } from 'objection';
 import * as yup from 'yup'
+import { BaseQueryBuilder } from '../../models/BaseModel';
 import Location from '../../models/Location'
 
 export const typeDefs = gql`
@@ -23,17 +25,23 @@ const argsSchema = yup.object({
   searchKeyword: yup.string().trim(),
 })
 
+interface Args {
+  first: number
+  after: string
+  searchKeyword: string
+}
+
 export const resolvers = {
   Query: {
-    locations: async (_obj: any, args: any) => {
+    locations: async (_obj: any, args: Args) => {
       const { first, after, searchKeyword } = await argsSchema.validate(args)
 
-      let query: any = Location.query()
+      let query: BaseQueryBuilder<Model, Model[]> = Location.query()
 
       if (searchKeyword) {
         const likeFilter = getLikeFilter(searchKeyword)
 
-        query = query.where((qb: any) => {
+        query = query.where((qb: BaseQueryBuilder<Model, Model[]>) => {
           return qb.where('locationTitle', 'like', likeFilter)
         })
       }
