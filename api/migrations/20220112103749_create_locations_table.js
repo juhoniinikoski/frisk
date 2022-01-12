@@ -3,10 +3,7 @@ exports.up = function (knex) {
     table.text('id').primary()
     table.text('name').unique()
     table.text('location_description')
-    table
-      .specificType('sport_id', 'text[]')
-      .references('sports.id')
-      .onDelete('cascade')
+    table.specificType('sport_id', 'text[]')
     table.timestamp('created_at')
     table.timestamp('updated_at')
     table.json('address')

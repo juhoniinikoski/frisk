@@ -4,9 +4,9 @@ import { loaders } from '../../services/loaders/dataloaders'
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns an event by an id.
+    Returns a sport by an id.
     """
-    event(id: ID!): Event
+    sport(id: ID!): Sport
   }
 `
 
@@ -16,8 +16,8 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    event: async (_obj: any, args: Args) =>
-      loaders.event.load(args.id),
+    sport: async (_obj: any, args: Args) =>
+      loaders.sport.load(args.id),
   },
 }
 

@@ -4,7 +4,7 @@ import { loaders } from '../../services/loaders/dataloaders'
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns location by an id.
+    Returns a location by an id.
     """
     location(id: ID!): Location
   }

@@ -22,6 +22,7 @@ import eventQuery from './queries/event'
 import locationsQuery from './queries/locations'
 import locationQuery from './queries/location'
 import sportsQuery from './queries/sports'
+import sportQuery from './queries/sport'
 
 import DateTime from './scalars/DateTime'
 
@@ -54,7 +55,8 @@ const typeDefs = [
   locationsQuery.typeDefs,
   locationQuery.typeDefs,
   eventQuery.typeDefs,
-  sportsQuery.typeDefs
+  sportsQuery.typeDefs,
+  sportQuery.typeDefs
 ]
 
 const resolvers = merge(
@@ -76,6 +78,7 @@ const resolvers = merge(
   locationQuery.resolvers,
   eventQuery.resolvers,
   sportsQuery.resolvers,
+  sportQuery.resolvers
 )
 
 const schema = makeExecutableSchema({

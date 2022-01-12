@@ -1,19 +1,10 @@
 exports.up = function(knex) {
   return knex.schema.createTable('events', table => {
     table.text('id').primary()
-    table
-      .text('user_id')
-      .references('users.id')
-      .onDelete('cascade')
+    table.text('user_id')
     table.text('event_title')
-    table
-      .text('location_id')
-      .references('locations.id')
-      .onDelete('cascade')
-    table
-      .text('sport_id')
-      .references('sports.id')
-      .onDelete('cascade')
+    table.text('location_id')
+    table.text('sport_id')
     table.boolean('free')
     table.float('price')
     table.text('event_description')

@@ -8,9 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node-dev ./src/index.ts",
     "start": "node build/index.js",
+    "build": "npm run migrate:latest",
     "migrate:make": "knex migrate:make",
     "migrate:latest": "knex migrate:latest",
-    "build": "npm run migrate:latest",
     "seed:make": "knex seed:make",
     "seed:run": "knex seed:run"
   },
@@ -31,6 +31,7 @@
     "knex": "^0.95.15",
     "lodash": "^4.17.21",
     "objection": "^3.0.1",
+    "pg": "^8.7.1",
     "sqlite3": "^5.0.2",
     "yup": "^0.32.11"
   }

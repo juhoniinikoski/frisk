@@ -4,7 +4,7 @@ import { loaders } from '../../services/loaders/dataloaders'
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns user by an id.
+    Returns an user by an id.
     """
     user(id: ID!): User
   }

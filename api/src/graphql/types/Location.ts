@@ -25,7 +25,7 @@ interface EventArgs {
 
 export const resolvers = {
   Location: {
-    sports: async ({ sportId }: Args, _args: Args) => await loaders.sports.load(sportId.split(",")),
+    sports: async ({ sportId }: Args, _args: Args) => await loaders.sports.load(sportId),
     events: async ({ id }: Args, args: EventArgs) => {
       return Event.query()
         .where({ locationId: id })

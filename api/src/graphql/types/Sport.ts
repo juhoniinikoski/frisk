@@ -1,25 +1,18 @@
 import { gql } from 'apollo-server'
 import Location from '../../models/Location'
 
-// export const typeDefs = gql`
-// type Sport {
-//   id: ID!
-//   name: String!
-//   locations(first: Int after: String): LocationConnection!
-//   events: EventConnection!
-// }
-// `
+
 export const typeDefs = gql`
 type Sport {
   id: ID!
   name: String!
-  locations(first: Int after: String): String
+  locations(first: Int after: String): LocationConnection!
   events: EventConnection!
 }
 `
 
 interface Args {
-  id: string | number
+  id: string
 }
 
 interface LocationArgs {
@@ -29,11 +22,13 @@ interface LocationArgs {
 
 export const resolvers = {
   Sport: {
-    locations: async ({id}: Args, args: LocationArgs) => {
-      const result = await Location.query().whereRaw('ARRAY_AGG(sportId)')
-      console.log(result)
-      return "testissä"
-    }
+    locations: async ({ id }: Args, args: LocationArgs) => 
+      await Location.query().where('sportId', '@>', [id])
+        .cursorPaginate({
+          orderBy: [{ column: 'createdAt', order: 'desc' }, 'id'],
+          first: args.first,
+          after: args.after
+        })
   }
 }
 
