@@ -1,18 +1,17 @@
 import { ApolloServer } from 'apollo-server'
 import schema from './graphql/schema'
+import AuthService from './services/authentication/authService'
 
 const server = new ApolloServer({ 
   schema,
   context: ({ req }) => {
-    // const authorization = req.get('authorization');
 
-    // const accessToken = authorization ? authorization.split(' ')[1] : undefined;
+    const authorization = req.get('authorization')
+    const accessToken = authorization ? authorization.split(' ')[1] : undefined
+
     return {
-      // authService: new AuthService({
-      //   accessToken,
-      //   dataLoaders,
-      // }),
-    };
+      authService: new AuthService({ accessToken }),
+    }
   },
 })
 

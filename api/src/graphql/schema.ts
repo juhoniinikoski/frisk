@@ -24,6 +24,11 @@ import locationQuery from './queries/location'
 import sportsQuery from './queries/sports'
 import sportQuery from './queries/sport'
 
+import authorizeMutation from './mutations/authorize'
+import createUserMutation from './mutations/createUser'
+import createEventMutation from './mutations/createEvent'
+import deleteEventMutation from './mutations/deleteEvent'
+
 import DateTime from './scalars/DateTime'
 
 const rootTypeDefs = gql`
@@ -56,7 +61,11 @@ const typeDefs = [
   locationQuery.typeDefs,
   eventQuery.typeDefs,
   sportsQuery.typeDefs,
-  sportQuery.typeDefs
+  sportQuery.typeDefs,
+  authorizeMutation.typeDefs,
+  createUserMutation.typeDefs,
+  deleteEventMutation.typeDefs,
+  createEventMutation.typeDefs
 ]
 
 const resolvers = merge(
@@ -78,7 +87,11 @@ const resolvers = merge(
   locationQuery.resolvers,
   eventQuery.resolvers,
   sportsQuery.resolvers,
-  sportQuery.resolvers
+  sportQuery.resolvers,
+  authorizeMutation.resolvers,
+  createUserMutation.resolvers,
+  deleteEventMutation.resolvers,
+  createEventMutation.resolvers
 )
 
 const schema = makeExecutableSchema({

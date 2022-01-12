@@ -1,59 +1,57 @@
 import { AuthenticationError } from 'apollo-server';
-import { ACCESS_TOKEN_EXPIRATION_TIME } from '../../utils/config';
-import signJwt from './signJwt';
-import verifyJwt from './verifyJwt';
+import { ACCESS_TOKEN_EXPIRATION_TIME } from '../../utils/config'
+import { loaders } from '../loaders/dataloaders'
+import signJwt from './signJwt'
+import verifyJwt from './verifyJwt'
 
 const subject = 'accessToken';
 
 class AuthService {
-  constructor({ accessToken, dataLoaders }) {
-    this.accessToken = accessToken;
-    this.dataLoaders = dataLoaders;
+  constructor({ accessToken }) {
+    this.accessToken = accessToken
   }
 
   async getAuthorizedUserId() {
     if (!this.accessToken) {
-      return null;
+      return null
     }
-
-    // console.log("authservice: " + this.accessToken)
 
     let tokenPayload;
 
     try {
-      tokenPayload = verifyJwt(this.accessToken, { subject });
+      tokenPayload = verifyJwt(this.accessToken, { subject })
     } catch (e) {
-      return null;
+      return null
     }
 
-    return tokenPayload.userId;
+    return tokenPayload.userId
   }
 
   async getAuthorizedUser() {
-    const id = await this.getAuthorizedUserId();
+    const id = await this.getAuthorizedUserId()
 
     if (!id) {
-      return null;
+      return null
     }
 
-    return this.dataLoaders.userLoader.load(id);
+    return loaders.user.load(id)
   }
 
   async getAuthorizedUserOrFail(error) {
     const normalizedError =
-      error || new AuthenticationError('Authorization is required');
+      error || new AuthenticationError('Authorization is required')
 
-    const user = await this.getAuthorizedUser();
+    const user = await this.getAuthorizedUser()
 
     if (!user) {
-      throw normalizedError;
+      throw normalizedError
     }
 
-    return user;
+    return user
   }
 
   createAccessToken(userId) {
-    const expiresAt = new Date(Date.now() + ACCESS_TOKEN_EXPIRATION_TIME);
+    const expiresAt = new Date(Date.now() + ACCESS_TOKEN_EXPIRATION_TIME)
 
     return {
       accessToken: signJwt(
@@ -64,8 +62,8 @@ class AuthService {
         },
       ),
       expiresAt,
-    };
+    }
   }
 }
 
-export default AuthService;
+export default AuthService
