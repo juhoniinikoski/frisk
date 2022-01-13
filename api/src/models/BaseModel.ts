@@ -1,4 +1,4 @@
-import { Model, Page, QueryBuilder } from 'objection'
+import { Model, Page, QueryBuilder, Transaction } from 'objection'
 import cursorPaginate from '../services/pagination/cursorPaginate'
 
 export class BaseQueryBuilder<M extends Model, R = M[]> extends QueryBuilder<M, R> {
@@ -17,10 +17,14 @@ export class BaseQueryBuilder<M extends Model, R = M[]> extends QueryBuilder<M, 
 
 class BaseModel extends Model {
 
-  QueryBuilderType!: BaseQueryBuilder<this>;
-  static QueryBuilder = BaseQueryBuilder;
+  QueryBuilderType!: BaseQueryBuilder<this>
+  static QueryBuilder = BaseQueryBuilder
 
   static useLimitInFirst = true
+
+  static relatedQuery(str?: string, trx?: Transaction): BaseQueryBuilder<BaseModel, BaseModel[]> {
+    return <any> super.relatedQuery(str, trx)
+  }
 
   $beforeInsert(this: any) {
     if (!this.createdAt) {

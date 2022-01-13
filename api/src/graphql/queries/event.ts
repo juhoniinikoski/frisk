@@ -17,7 +17,7 @@ interface Args {
 export const resolvers = {
   Query: {
     event: async (_obj: any, args: Args) =>
-      loaders.event.load(args.id),
+      await loaders.event.load(args.id)
   },
 }
 

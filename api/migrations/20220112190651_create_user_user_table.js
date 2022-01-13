@@ -1,5 +1,5 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('followed_users', table => {
+  return knex.schema.createTable('user_user', table => {
     table.increments('id').primary()
     table.text('follower_id').notNullable()
     table.text('following_id').notNullable()
@@ -16,5 +16,5 @@ exports.up = function(knex) {
 }
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('followed_users')
+  return knex.schema.dropTableIfExists('user_user')
 }

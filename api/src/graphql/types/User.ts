@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server'
-import FollowedUsers from '../../models/FollowedUsers'
 import User from '../../models/User'
 
 export const typeDefs = gql`
@@ -26,19 +25,19 @@ interface FollowedArgs {
 
 export const resolvers = {
   User: {
-    followed: async ({ id }: Args, args: FollowedArgs) => {
+    followed: async ({ id }: Args, args: FollowedArgs) => 
+      await User.relatedQuery('following').for(id).cursorPaginate({
+        orderBy: [{ column: 'createdAt', order: 'desc' }, 'id'],
+          first: args.first,
+          after: args.after
+      }),
 
-      const ids = await FollowedUsers.query()
-        .where({followerId: id})
-        .select('followingId')
-        .then(items => items.map((it: any) => it.followingId))
-
-      return await User.query().findByIds(ids).cursorPaginate({
+    upcoming: async ({ id }: Args, args: FollowedArgs) => 
+      await User.relatedQuery('events').for(id).cursorPaginate({
         orderBy: [{ column: 'createdAt', order: 'desc' }, 'id'],
           first: args.first,
           after: args.after
       })
-    }
   }
 }
 
