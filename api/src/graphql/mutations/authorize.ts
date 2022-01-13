@@ -1,7 +1,7 @@
 import { gql, UserInputError } from 'apollo-server'
 import * as yup from 'yup'
 import bcrypt from 'bcrypt'
-import User from '../../models/User'
+import { User } from '../../models/User'
 import { QueryBuilderType } from 'objection'
 
 export const typeDefs = gql`

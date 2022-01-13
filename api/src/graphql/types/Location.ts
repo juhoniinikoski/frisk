@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server'
-import Event from '../../models/Event'
+import { Location } from '../../models/Location'
 import { loaders } from '../../services/loaders/dataloaders'
 
 export const typeDefs = gql`
@@ -7,8 +7,8 @@ type Location {
   id: ID!
   name: String!
   description: String
-  events(first: Int, after: String): EventConnection!
-  sports: [Sport]
+  events(first: Int, after: String): [Event]!
+  sports: [Sport]!
   address: Address
 }
 `
@@ -25,16 +25,8 @@ interface EventArgs {
 
 export const resolvers = {
   Location: {
-    sports: async ({ sportId }: Args, _args: Args) => await loaders.sports.load(sportId),
-    events: async ({ id }: Args, args: EventArgs) => {
-      return Event.query()
-        .where({ locationId: id })
-        .cursorPaginate({
-          orderBy: [{ column: 'createdAt', order: 'desc' }, 'id'],
-          first: args.first,
-          after: args.after
-        })
-    }
+    sports: async ({ id }: Args) => await Location.relatedQuery('sports').for(id),
+    events: async ({ id }: Args) => await Location.relatedQuery('events').for(id)
   },
 }
 

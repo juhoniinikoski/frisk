@@ -1,11 +1,11 @@
 import BaseModel from './BaseModel'
 import knex from '../utils/knex'
 
-class Sport extends BaseModel {
+export default class SportClass extends BaseModel {
   
   static idColumn = 'id'
 
   static tableName = 'sports'
 }
 
-export default Sport.bindKnex(knex)
+export const Sport = SportClass.bindKnex(knex)

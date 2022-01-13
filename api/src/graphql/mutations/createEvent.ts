@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server'
 import * as yup from 'yup'
 import { v4 as uuid } from 'uuid'
-import Event from '../../models/Event'
+import { Event } from '../../models/Event'
 
 export const typeDefs = gql`
   input CreateEventInput {

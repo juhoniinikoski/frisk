@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server'
 import DataLoader from 'dataloader'
 import { loaders } from '../../services/loaders/dataloaders'
-import Event from '../../models/Event'
+import { Event } from '../../models/Event'
 
 export const typeDefs = gql`
 type Event {
@@ -10,8 +10,7 @@ type Event {
   description: String
   location: Location!
   sport: Sport!
-  followedBy: UserConnection!
-  attendants: UserConnection!
+  attendants: [User]!
   free: Boolean!
   price: Float!
   createdBy: User!
@@ -44,12 +43,7 @@ export const resolvers = {
     createdBy: async ({ userId }: Args, _args: Args) => await loaders.user.load(userId),
     location: async ({ locationId }: Args, _args: Args) => await loaders.location.load(locationId),
     sport: async ({ sportId }: Args, _args: Args) => await loaders.sport.load(sportId),
-    followedBy: async ({ id }: Args, args: Args) => 
-      await Event.relatedQuery('followedBy').for(id).cursorPaginate({
-        orderBy: ['id'],
-          first: args.first,
-          after: args.after
-      }),
+    attendants: async ({ id }: Args) => await Event.relatedQuery('attendants').for(id)
   },
 }
 

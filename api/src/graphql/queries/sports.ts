@@ -2,7 +2,7 @@ import { gql } from 'apollo-server'
 import { Model } from 'objection';
 import * as yup from 'yup'
 import { BaseQueryBuilder } from '../../models/BaseModel';
-import Sport from '../../models/Sport'
+import { Sport } from '../../models/Sport'
 
 export const typeDefs = gql`
   extend type Query {
@@ -13,7 +13,7 @@ export const typeDefs = gql`
       first: Int
       after: String
       searchKeyword: String
-    ): SportConnection!
+    ): [Sport]!
   }
 `;
 
@@ -46,11 +46,7 @@ export const resolvers = {
         })
       }
 
-      return query.cursorPaginate({
-        orderBy: [{ column: 'name', order: 'asc' }, 'id'],
-        first,
-        after,
-      })
+      return query
     },
   },
 }

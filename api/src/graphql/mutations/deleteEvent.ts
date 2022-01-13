@@ -1,6 +1,6 @@
 import { gql, UserInputError, ForbiddenError } from 'apollo-server'
 import { QueryBuilderType } from 'objection'
-import Event from '../../models/Event'
+import { Event } from '../../models/Event'
 
 export const typeDefs = gql`
   extend type Mutation {

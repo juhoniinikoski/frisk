@@ -2,7 +2,7 @@ import { gql, ApolloError } from 'apollo-server'
 import * as yup from 'yup'
 import { v4 as uuid } from 'uuid'
 import bcrypt from 'bcrypt'
-import User from '../../models/User'
+import { User } from '../../models/User'
 
 export const typeDefs = gql`
   input CreateUserInput {

@@ -35,5 +35,9 @@ exports.seed = async knex => {
       ...createColumns('juhoniinikoski', 'Ulkokoris'),
       ...createDateColumns(new Date(Date.now() - 3 * oneHour)),
     },
+    {
+      ...createColumns('juhoniinikoski', 'Katulätkä'),
+      ...createDateColumns(new Date(Date.now() - 3 * oneHour)),
+    },
   ]);
 };

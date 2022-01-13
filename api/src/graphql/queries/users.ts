@@ -1,13 +1,13 @@
 import { gql } from 'apollo-server'
 import * as yup from 'yup'
-import User from '../../models/User'
+import { User } from '../../models/User'
 
 export const typeDefs = gql`
   extend type Query {
     """
     Returns paginated users.
     """
-    users(first: Int, after: String): UserConnection!
+    users(first: Int, after: String): [User]!
   }
 `
 

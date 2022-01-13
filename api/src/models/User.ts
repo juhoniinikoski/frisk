@@ -1,9 +1,8 @@
 import BaseModel from './BaseModel'
 import knex from '../utils/knex'
 import { Model } from 'objection'
-import Event from './Event'
 
-export class User extends BaseModel {
+export default class UserClass extends BaseModel {
   
   static idColumn = 'id'
 
@@ -13,7 +12,7 @@ export class User extends BaseModel {
     
     following: {
       relation: Model.ManyToManyRelation,
-      modelClass: User,
+      modelClass: UserClass,
       join: {
         from: 'users.id',
         through: {
@@ -27,7 +26,7 @@ export class User extends BaseModel {
 
     events: {
       relation: Model.ManyToManyRelation,
-      modelClass: Event,
+      modelClass: __dirname + '/Event',
       join: {
         from: 'users.id',
         through: {
@@ -42,4 +41,4 @@ export class User extends BaseModel {
 
 }
 
-export default User.bindKnex(knex)
+export const User = UserClass.bindKnex(knex)

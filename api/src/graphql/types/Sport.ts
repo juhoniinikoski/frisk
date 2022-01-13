@@ -1,14 +1,14 @@
 import { gql } from 'apollo-server'
 import Location from '../../models/Location'
-import Event from '../../models/Event'
+import { Event } from '../../models/Event'
 
 
 export const typeDefs = gql`
 type Sport {
   id: ID!
   name: String!
-  locations(first: Int after: String): LocationConnection!
-  events(first: Int after: String): EventConnection!
+  locations(first: Int after: String): [Location]!
+  events(first: Int after: String): [Event]!
 }
 `
 

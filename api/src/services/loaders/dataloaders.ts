@@ -1,9 +1,9 @@
 import DataLoader from 'dataloader'
-import User from '../../models/User'
-import Location from '../../models/Location'
-import Sport from '../../models/Sport'
+import { User } from '../../models/User'
+import { Location } from '../../models/Location'
+import { Sport } from '../../models/Sport'
 import { ModelObject } from 'objection'
-import Event from '../../models/Event'
+import { Event } from '../../models/Event'
 
 const batchFunction = (keys: readonly unknown[], Model: ModelObject<any>) => {
   return Promise.all(keys.map(key => {
