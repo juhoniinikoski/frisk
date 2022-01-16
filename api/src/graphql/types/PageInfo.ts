@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server';
 
 export const typeDefs = gql`
   type PageInfo {
@@ -7,11 +7,11 @@ export const typeDefs = gql`
     startCursor: String
     endCursor: String
   }
-`
+`;
 
-export const resolvers = {}
+export const resolvers = {};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

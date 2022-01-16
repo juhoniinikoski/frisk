@@ -1,8 +1,8 @@
-import { gql, UserInputError } from 'apollo-server'
-import * as yup from 'yup'
-import bcrypt from 'bcrypt'
-import { User } from '../../models/User'
-import { QueryBuilderType } from 'objection'
+import { gql, UserInputError } from 'apollo-server';
+import * as yup from 'yup';
+import bcrypt from 'bcrypt';
+import { User } from '../../models/User';
+import { Context, UserType } from "../entities";
 
 export const typeDefs = gql`
   input AuthorizeInput {
@@ -20,7 +20,14 @@ export const typeDefs = gql`
     """
     authorize(credentials: AuthorizeInput): AuthorizationPayload
   }
-`
+`;
+
+interface Args {
+  credentials: {
+    username: string
+    password: string
+  }
+}
 
 const argsSchema = yup.object().shape({
   credentials: yup.object().shape({
@@ -34,38 +41,38 @@ const argsSchema = yup.object().shape({
       .required()
       .trim(),
   }),
-})
+});
 
 export const resolvers = {
   Mutation: {
-    authorize: async (_obj: any, args: any, { authService }: any) => {
+    authorize: async (_obj: null, args: Args, { authService }: Context) => {
       const {
         credentials: { username, password },
       } = await argsSchema.validate(args, {
         stripUnknown: true,
-      })
+      });
 
-      const user: QueryBuilderType<any> = await User.query().findOne({ username })
+      const user: UserType = await User.query().findOne({ username });
 
       if (!user) {
-        throw new UserInputError('Invalid username or password')
+        throw new UserInputError('Invalid username or password');
       }
 
-      const match = await bcrypt.compare(password, user.password)
+      const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
-        throw new UserInputError('Invalid username or password')
+        throw new UserInputError('Invalid username or password');
       }
 
       return {
         user,
         ...authService.createAccessToken(user.id),
-      }
+      };
     },
   },
-}
+};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

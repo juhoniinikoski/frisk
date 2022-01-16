@@ -1,6 +1,6 @@
-import { gql } from 'apollo-server'
-import Location from '../../models/Location'
-import { Event } from '../../models/Event'
+import { gql } from 'apollo-server';
+import Location from '../../models/Location';
+import { Event } from '../../models/Event';
 
 
 export const typeDefs = gql`
@@ -10,7 +10,7 @@ type Sport {
   locations(first: Int after: String): [Location]!
   events(first: Int after: String): [Event]!
 }
-`
+`;
 
 interface Args {
   id: string
@@ -21,7 +21,7 @@ interface LocationArgs {
   after?: string
 }
 
-type EventArgs = LocationArgs
+type EventArgs = LocationArgs;
 
 export const resolvers = {
   Sport: {
@@ -40,9 +40,9 @@ export const resolvers = {
           after: args.after
         }),
   }
-}
+};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

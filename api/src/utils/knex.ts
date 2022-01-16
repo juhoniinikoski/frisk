@@ -1,7 +1,7 @@
-import createKnex from 'knex'
+import createKnex from 'knex';
 
-import { KNEX_CONFIG } from './config'
+import { KNEX_CONFIG } from './config';
 
-const knex = createKnex(KNEX_CONFIG)
+const knex = createKnex(KNEX_CONFIG);
 
-export default knex
+export default knex;

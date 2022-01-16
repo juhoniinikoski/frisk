@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server';
 
 export const typeDefs = gql`
 type Address {
@@ -7,11 +7,11 @@ type Address {
   zipcode: String!
   city: String!
 }
-`
+`;
 
-export const resolvers = {}
+export const resolvers = {};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

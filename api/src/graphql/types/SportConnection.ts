@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server';
 
 export const typeDefs = gql`
   type SportEdge {
@@ -10,11 +10,11 @@ export const typeDefs = gql`
     pageInfo: PageInfo!
     edges: [SportEdge!]!
   }
-`
+`;
 
 export const resolvers = {};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

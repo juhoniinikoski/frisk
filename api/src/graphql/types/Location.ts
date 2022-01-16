@@ -1,6 +1,5 @@
-import { gql } from 'apollo-server'
-import { Location } from '../../models/Location'
-import { loaders } from '../../services/loaders/dataloaders'
+import { gql } from 'apollo-server';
+import { Location } from '../../models/Location';
 
 export const typeDefs = gql`
 type Location {
@@ -11,16 +10,11 @@ type Location {
   sports: [Sport]!
   address: Address
 }
-`
-interface Args {
-  id?: string | number
-  locationId?: string | number
-  sportId?: string[] | number[] | any
-}
+`;
 
-interface EventArgs {
-  first: number
-  after?: string
+interface Args {
+  id: string | number
+  locationId: string | number
 }
 
 export const resolvers = {
@@ -28,9 +22,9 @@ export const resolvers = {
     sports: async ({ id }: Args) => await Location.relatedQuery('sports').for(id),
     events: async ({ id }: Args) => await Location.relatedQuery('events').for(id)
   },
-}
+};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

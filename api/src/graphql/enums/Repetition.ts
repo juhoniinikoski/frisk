@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server';
 
 export const typeDefs = gql`
   enum Repetition {
@@ -8,8 +8,8 @@ export const typeDefs = gql`
     MONTHLY
     ANNUALY
   }
-`
+`;
 
 export default {
   typeDefs
-}
+};

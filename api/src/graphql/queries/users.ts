@@ -1,6 +1,5 @@
-import { gql } from 'apollo-server'
-import * as yup from 'yup'
-import { User } from '../../models/User'
+import { gql } from 'apollo-server';
+import { User } from '../../models/User';
 
 export const typeDefs = gql`
   extend type Query {
@@ -9,38 +8,15 @@ export const typeDefs = gql`
     """
     users(first: Int, after: String): [User]!
   }
-`
-
-const argsSchema = yup.object({
-  after: yup.string(),
-  first: yup
-    .number()
-    .min(1)
-    .max(30)
-    .default(30),
-})
-
-interface Args {
-  first: number
-  after: string
-}
+`;
 
 export const resolvers = {
   Query: {
-    users: async (_obj: any, args: Args) => {
-
-      const { first, after } = await argsSchema.validate(args)
-
-      return User.query().cursorPaginate({
-        orderBy: [{ column: 'createdAt', order: 'desc' }, 'id'],
-        first,
-        after,
-      })
-    },
+    users: async () => await User.query()
   },
-}
+};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

@@ -1,5 +1,5 @@
-import { gql } from 'apollo-server'
-import { User } from '../../models/User'
+import { gql } from 'apollo-server';
+import { User } from '../../models/User';
 
 export const typeDefs = gql`
   type User {
@@ -12,7 +12,7 @@ export const typeDefs = gql`
     favorites(first: Int, after: String): [Sport]!
     saved(first: Int, after: String): [Event]!
   }
-`
+`;
 
 interface Args {
   id: string
@@ -23,9 +23,9 @@ export const resolvers = {
     followed: async ({ id }: Args) => await User.relatedQuery('following').for(id),
     upcoming: async ({ id }: Args) => await User.relatedQuery('events').for(id)
   }
-}
+};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

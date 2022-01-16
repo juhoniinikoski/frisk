@@ -1,13 +1,12 @@
-import BaseModel from './BaseModel'
-import knex from '../utils/knex'
-import { Model } from 'objection'
-import path from 'path'
+import BaseModel from './BaseModel';
+import knex from '../utils/knex';
+import { Model } from 'objection';
 
 export default class EventClass extends BaseModel {
   
-  static idColumn = 'id'
+  static idColumn = 'id';
 
-  static tableName = 'events'
+  static tableName = 'events';
 
   static relationMappings = {
     
@@ -25,7 +24,7 @@ export default class EventClass extends BaseModel {
       }
     }
 
-  }
+  };
 }
 
-export const Event = EventClass.bindKnex(knex)
+export const Event = EventClass.bindKnex(knex);

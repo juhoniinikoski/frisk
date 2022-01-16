@@ -1,12 +1,12 @@
-import BaseModel from './BaseModel'
-import knex from '../utils/knex'
-import { Model } from 'objection'
+import BaseModel from './BaseModel';
+import knex from '../utils/knex';
+import { Model } from 'objection';
 
 export default class UserClass extends BaseModel {
   
-  static idColumn = 'id'
+  static idColumn = 'id';
 
-  static tableName = 'users'
+  static tableName = 'users';
 
   static relationMappings = {
     
@@ -37,8 +37,8 @@ export default class UserClass extends BaseModel {
         to: 'events.id'
       }
     }
-  }
+  };
 
 }
 
-export const User = UserClass.bindKnex(knex)
+export const User = UserClass.bindKnex(knex);

@@ -1,5 +1,5 @@
-import { gql } from 'apollo-server'
-import { loaders } from '../../services/loaders/dataloaders'
+import { gql } from 'apollo-server';
+import { loaders } from '../../services/loaders/dataloaders';
 
 export const typeDefs = gql`
   extend type Query {
@@ -8,7 +8,7 @@ export const typeDefs = gql`
     """
     event(id: ID!): Event
   }
-`
+`;
 
 interface Args {
   id: number | string
@@ -16,12 +16,11 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    event: async (_obj: any, args: Args) =>
-      await loaders.event.load(args.id)
-  },
-}
+    event: async (_obj: null, args: Args) => await loaders.event.load(args.id)
+  }
+};
 
 export default {
   typeDefs,
   resolvers,
-}
+};

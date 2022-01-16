@@ -1,6 +1,8 @@
+/* eslint-disable */
 
-const serializeCursor = (payload: [number, string] | any) => {
-  return Buffer.from(JSON.stringify(payload)).toString('base64')
-}
+const serializeCursor = (payload: any[]) => {
+  console.log("serializecursor: " + payload);
+  return Buffer.from(JSON.stringify(payload)).toString('base64');
+};
 
-export default serializeCursor
+export default serializeCursor;
