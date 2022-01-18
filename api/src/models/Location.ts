@@ -16,7 +16,6 @@ export default class LocationClass extends BaseModel {
       join: {
         from: 'locations.id',
         through: {
-          // user_event is the join table.
           from: 'location_event.locationId',
           to: 'location_event.eventId'
         },
@@ -30,7 +29,6 @@ export default class LocationClass extends BaseModel {
       join: {
         from: 'locations.id',
         through: {
-          // user_event is the join table.
           from: 'location_sport.locationId',
           to: 'location_sport.sportId'
         },

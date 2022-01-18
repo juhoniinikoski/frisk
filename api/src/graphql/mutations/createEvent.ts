@@ -2,7 +2,7 @@ import { gql } from 'apollo-server';
 import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
 import { Event } from '../../models/Event';
-import { Context } from '../entities';
+import { Context } from '../../entities';
 
 export const typeDefs = gql`
   input CreateEventInput {
@@ -54,7 +54,7 @@ export const resolvers = {
 
       await Event.query().insertAndFetch({
         id: uuid(),
-        userId: authorizedUser.id,
+        createdBy: authorizedUser.id,
         eventTitle: event.eventTitle,
         locationId: args.event.locationId,
         sportId: args.event.sportId,

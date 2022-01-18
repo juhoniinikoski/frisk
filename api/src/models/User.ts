@@ -2,7 +2,7 @@ import BaseModel from './BaseModel';
 import knex from '../utils/knex';
 import { Model } from 'objection';
 
-export default class UserClass extends BaseModel {
+class UserClass extends BaseModel {
   
   static idColumn = 'id';
 
@@ -24,7 +24,7 @@ export default class UserClass extends BaseModel {
       }
     },
 
-    events: {
+    upcoming: {
       relation: Model.ManyToManyRelation,
       modelClass: __dirname + '/Event',
       join: {
@@ -39,6 +39,12 @@ export default class UserClass extends BaseModel {
     }
   };
 
+  username: string;
+  password: string;
+  id: string | number;
+
 }
+
+export default UserClass;
 
 export const User = UserClass.bindKnex(knex);

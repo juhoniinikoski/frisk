@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server';
-import { loaders } from '../../services/loaders/dataloaders';
+import { Location } from '../../models/Location';
 
 export const typeDefs = gql`
   extend type Query {
@@ -16,8 +16,9 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    location: async (_obj: null, args: Args) => loaders.location.load(args.id)
-  }
+    location: async (_obj: null, args: Args) =>
+      await Location.query().findById(args.id).withGraphFetched('[events, sports]')
+  },
 };
 
 export default {

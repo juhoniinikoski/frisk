@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server';
-import { loaders } from '../../services/loaders/dataloaders';
+import { User } from '../../models/User';
 
 export const typeDefs = gql`
   extend type Query {
@@ -16,7 +16,8 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    user: async (_obj: null, args: Args) => loaders.user.load(args.id)
+    user: async (_obj: null, args: Args) =>
+      await User.query().findById(args.id).withGraphFetched('[following, upcoming]')
   }
 };
 

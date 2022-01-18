@@ -16,6 +16,11 @@ const batchFunction = (keys: readonly unknown[], Model: ModelObject<any>) => {
 const singleFunction = (keys: readonly unknown[], Model: ModelObject<any>) => 
   Model.query().findByIds(keys);
 
+const eventFunction = (keys: readonly unknown[], Model: ModelObject<any>) => 
+  Model.query().findByIds(keys).withGraphJoined('attendants').cursorPaginate({
+    orderBy: 'id'
+  });
+
 // The list of data loaders
 
 export const loaders = {
@@ -24,7 +29,7 @@ export const loaders = {
 
   location: new DataLoader(keys => singleFunction(keys, Location)),
 
-  event: new DataLoader(keys => singleFunction(keys, Event)),
+  event: new DataLoader(keys => eventFunction(keys, Event)),
 
   sport: new DataLoader(keys => singleFunction(keys, Sport)),
 

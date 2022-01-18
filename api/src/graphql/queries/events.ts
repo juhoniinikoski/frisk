@@ -13,7 +13,7 @@ export const typeDefs = gql`
       first: Int
       after: String
       searchKeyword: String
-    ): [Event]!
+    ): [Event]
   }
 `;
 
@@ -37,7 +37,7 @@ export const resolvers = {
 
       const { searchKeyword } = await argsSchema.validate(args);
 
-      let query: BaseQueryBuilder<Model, Model[]> = Event.query();
+      let query = Event.query().withGraphFetched('[createdBy, location, sport]');
 
       if (searchKeyword) {
         const likeFilter = getLikeFilter(searchKeyword);

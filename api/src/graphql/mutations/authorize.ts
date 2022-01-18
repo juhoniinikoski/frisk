@@ -2,7 +2,7 @@ import { gql, UserInputError } from 'apollo-server';
 import * as yup from 'yup';
 import bcrypt from 'bcrypt';
 import { User } from '../../models/User';
-import { Context, UserType } from "../entities";
+import { Context } from "../../entities";
 
 export const typeDefs = gql`
   input AuthorizeInput {
@@ -52,7 +52,7 @@ export const resolvers = {
         stripUnknown: true,
       });
 
-      const user: UserType = await User.query().findOne({ username });
+      const user = await User.query().findOne({ username });
 
       if (!user) {
         throw new UserInputError('Invalid username or password');
