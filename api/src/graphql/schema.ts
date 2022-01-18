@@ -25,9 +25,11 @@ import sportsQuery from './queries/sports';
 import sportQuery from './queries/sport';
 
 import authorizeMutation from './mutations/authorize';
-import createUserMutation from './mutations/createUser';
-import createEventMutation from './mutations/createEvent';
-import deleteEventMutation from './mutations/deleteEvent';
+import createUserMutation from './mutations/create/createUser';
+import createEventMutation from './mutations/create/createEvent';
+import createLocationMutation from './mutations/create/createLocation';
+import deleteEventMutation from './mutations/delete/deleteEvent';
+import deleteLocationMutation from './mutations/delete/deleteLocation';
 
 import DateTime from './scalars/DateTime';
 
@@ -67,7 +69,9 @@ const typeDefs = [
   authorizeMutation.typeDefs,
   createUserMutation.typeDefs,
   deleteEventMutation.typeDefs,
-  createEventMutation.typeDefs
+  createEventMutation.typeDefs,
+  createLocationMutation.typeDefs,
+  deleteLocationMutation.typeDefs
 ];
 
 const resolvers = merge(
@@ -93,7 +97,9 @@ const resolvers = merge(
   authorizeMutation.resolvers,
   createUserMutation.resolvers,
   deleteEventMutation.resolvers,
-  createEventMutation.resolvers
+  createEventMutation.resolvers,
+  createLocationMutation.resolvers,
+  deleteLocationMutation.resolvers
 );
 
 const schema = makeExecutableSchema({

@@ -11,15 +11,11 @@ export default class LocationClass extends BaseModel {
   static relationMappings = {
     
     events: {
-      relation: Model.ManyToManyRelation,
+      relation: Model.HasManyRelation,
       modelClass: __dirname + '/Event',
       join: {
         from: 'locations.id',
-        through: {
-          from: 'location_event.locationId',
-          to: 'location_event.eventId'
-        },
-        to: 'events.id'
+        to: 'events.locationId'
       }
     },
 

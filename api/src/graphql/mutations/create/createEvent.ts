@@ -1,8 +1,8 @@
 import { gql } from 'apollo-server';
 import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
-import { Event } from '../../models/Event';
-import { Context } from '../../entities';
+import { Event } from '../../../models/Event';
+import { Context } from '../../../entities';
 
 export const typeDefs = gql`
   input CreateEventInput {
@@ -48,13 +48,17 @@ export const resolvers = {
       
       const authorizedUser: User = await authService.getAuthorizedUserOrFail();
 
+      console.log(authorizedUser);
+
       const { event } = await argsSchema.validate(args, {
         stripUnknown: true,
       });
 
+      const id = uuid();
+
       await Event.query().insertAndFetch({
-        id: uuid(),
-        createdBy: authorizedUser.id,
+        id: id,
+        userId: authorizedUser.id,
         eventTitle: event.eventTitle,
         locationId: args.event.locationId,
         sportId: args.event.sportId,

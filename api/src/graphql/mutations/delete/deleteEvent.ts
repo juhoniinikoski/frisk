@@ -1,6 +1,6 @@
 import { gql, UserInputError, ForbiddenError } from 'apollo-server';
-import { Event } from '../../models/Event';
-import { Context } from '../../entities';
+import { Event } from '../../../models/Event';
+import { Context } from '../../../entities';
 
 export const typeDefs = gql`
   extend type Mutation {
@@ -27,11 +27,13 @@ export const resolvers = {
 
       const event = await Event.query().findById(args.id);
 
+      console.log(event);
+
       if (!event) {
         throw new UserInputError(`Event with id ${args.id} does not exist`);
       }
 
-      if (event.createdBy !== authorizedUser.id) {
+      if (event.userId !== authorizedUser.id) {
         throw new ForbiddenError('User is not authorized to delete the event');
       }
 

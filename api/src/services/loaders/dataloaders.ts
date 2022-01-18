@@ -16,23 +16,32 @@ const batchFunction = (keys: readonly unknown[], Model: ModelObject<any>) => {
 const singleFunction = (keys: readonly unknown[], Model: ModelObject<any>) => 
   Model.query().findByIds(keys);
 
+const singleFunctionRelation = (keys: readonly unknown[], Model: ModelObject<any>, relations: string) => 
+  Model.query().findByIds(keys).withGraphFetched(`[${relations}]`);
+
 const eventFunction = (keys: readonly unknown[], Model: ModelObject<any>) => 
-  Model.query().findByIds(keys).withGraphJoined('attendants').cursorPaginate({
+  Model.query().findByIds(keys).withGraphFetched('attendants').cursorPaginate({
     orderBy: 'id'
   });
+
+const userFunction = async (keys: readonly unknown[], Model: ModelObject<any>) => 
+  await Model.query().findByIds(keys).withGraphFetched('[following, upcoming]')
+
+const usersFunction = async (keys: readonly unknown[], Model: ModelObject<any>) => 
+  await Model.query()
 
 // The list of data loaders
 
 export const loaders = {
 
-  user: new DataLoader(keys => singleFunction(keys, User)),
+  authorizedUser: new DataLoader(keys => singleFunction(keys, User)),
 
-  location: new DataLoader(keys => singleFunction(keys, Location)),
+  user: new DataLoader(keys => singleFunctionRelation(keys, User, 'following, upcoming')),
 
-  event: new DataLoader(keys => eventFunction(keys, Event)),
+  location: new DataLoader(keys => singleFunctionRelation(keys, Location, 'events, sports')),
 
-  sport: new DataLoader(keys => singleFunction(keys, Sport)),
+  event: new DataLoader(keys => singleFunctionRelation(keys, Event, 'attendants, sport, location, createdBy')),
 
-  sports: new DataLoader(keys => batchFunction(keys, Sport))
+  sport: new DataLoader(keys => singleFunctionRelation(keys, Sport, 'events, locations')),
 
 };

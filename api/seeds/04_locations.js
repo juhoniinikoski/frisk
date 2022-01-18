@@ -8,7 +8,7 @@ const createDateColumns = (date) => ({
 const createColumns = (locationName) => ({
   id: `${locationName}1234`,
   name: locationName,
-  location_description: "Testilokaatio",
+  description: "Testilokaatio",
   address: JSON.stringify(
     {
       id: 1,

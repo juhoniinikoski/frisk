@@ -60,7 +60,7 @@ class EventClass extends BaseModel {
   sportId: string | number;
   free: boolean;
   price: number;
-  createdBy: string | number;
+  userId: string | number;
   createdAt: Date;
   start: Date;
   end: Date;

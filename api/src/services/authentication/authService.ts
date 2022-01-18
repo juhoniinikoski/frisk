@@ -42,7 +42,7 @@ class AuthService {
       return null;
     }
 
-    return await loaders.user.load(id);
+    return await loaders.authorizedUser.load(id);
   }
 
   async getAuthorizedUserOrFail(error?: Error) {
