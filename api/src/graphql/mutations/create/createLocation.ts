@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
 import { Location } from '../../../models/Location';
 import { Context } from '../../../entities';
+import { LocationSport } from '../../../models/LocationSport';
 
 export const typeDefs = gql`
   input CreateLocationInput {
@@ -44,11 +45,20 @@ export const resolvers = {
 
       const id = uuid();
 
+      const relationData = args.location.sports.map((sport: string) => {
+        return {
+          sportId: sport,
+          locationId: id
+        };
+      });
+
       await Location.query().insertAndFetch({
         id: id,
         name: location.name,
         description: args.location.description
       });
+
+      await LocationSport.query().insert(relationData);
 
       return true;
     },

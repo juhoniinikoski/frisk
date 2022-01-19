@@ -31,6 +31,10 @@ import createLocationMutation from './mutations/create/createLocation';
 import deleteEventMutation from './mutations/delete/deleteEvent';
 import deleteLocationMutation from './mutations/delete/deleteLocation';
 
+import followUser from './mutations/follow/followUser';
+
+import addSport from './mutations/add/addSport';
+
 import DateTime from './scalars/DateTime';
 
 /* eslint-disable  @typescript-eslint/no-unsafe-assignment */
@@ -71,7 +75,9 @@ const typeDefs = [
   deleteEventMutation.typeDefs,
   createEventMutation.typeDefs,
   createLocationMutation.typeDefs,
-  deleteLocationMutation.typeDefs
+  deleteLocationMutation.typeDefs,
+  followUser.typeDefs,
+  addSport.typeDefs
 ];
 
 const resolvers = merge(
@@ -99,7 +105,9 @@ const resolvers = merge(
   deleteEventMutation.resolvers,
   createEventMutation.resolvers,
   createLocationMutation.resolvers,
-  deleteLocationMutation.resolvers
+  deleteLocationMutation.resolvers,
+  followUser.resolvers,
+  addSport.resolvers
 );
 
 const schema = makeExecutableSchema({
