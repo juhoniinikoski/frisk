@@ -27,7 +27,7 @@ export const resolvers = {
       const eventToFollow = await Event.query().findById(args.eventId);
 
       if (!eventToFollow) {
-        throw new ApolloError('Event to follow not found')
+        throw new ApolloError('Event to follow not found');
       }
 
       const alreadyFollow = await UserEvent.query().where({
@@ -42,9 +42,9 @@ export const resolvers = {
             userId: authorizedUser.id,
             eventId: args.eventId,
           })
-          .delete()
+          .delete();
 
-        return true
+        return true;
       }
 
       await UserEvent.query().insertAndFetch({

@@ -20,23 +20,19 @@ interface Args {
   }
 }
 
-interface User {
-  id?: string
-}
-
 export const resolvers = {
   Mutation: {
     addSport: async (_obj: Args, args: Args) => {
 
-      const location = await Location.query().findById(args.add.locationId)
-      const sport = await Sport.query().findById(args.add.sportId)
+      const location = await Location.query().findById(args.add.locationId);
+      const sport = await Sport.query().findById(args.add.sportId);
 
       if (!location) {
-        throw new ApolloError('Location not found')
+        throw new ApolloError('Location not found');
       }
 
       if (!sport) {
-        throw new ApolloError('Sport not found')
+        throw new ApolloError('Sport not found');
       }
 
       // sportin virheilmoitus puuttuu
@@ -44,7 +40,7 @@ export const resolvers = {
       const alreadyAdded = await LocationSport.query().where({
         locationId: args.add.locationId,
         sportId: args.add.sportId,
-      })
+      });
 
       // Delete the follow
       if (alreadyAdded.length !== 0) {
@@ -53,9 +49,9 @@ export const resolvers = {
             locationId: args.add.locationId,
             sportId: args.add.sportId,
           })
-          .delete()
+          .delete();
 
-        return true
+        return true;
       }
 
       await LocationSport.query().insertAndFetch({

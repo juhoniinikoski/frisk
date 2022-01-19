@@ -29,7 +29,7 @@ class AuthService {
     try {
       tokenPayload = verifyJwt(this.accessToken, { subject }) as JwtPayload;
     } catch (e) {
-      return null;
+      throw new AuthenticationError('Authorization is required');
     }
 
     return tokenPayload.userId;
@@ -39,10 +39,20 @@ class AuthService {
     const id = this.getAuthorizedUserId();
 
     if (!id) {
-      return null;
+      throw new AuthenticationError('Authorization is required');
     }
 
     return await loaders.authorizedUser.load(id);
+  }
+
+  async getAuthorizedUserRelations() {
+    const id = this.getAuthorizedUserId();
+
+    if (!id) {
+      return null;
+    }
+
+    return await loaders.authorizedUserRelations.load(id);
   }
 
   async getAuthorizedUserOrFail(error?: Error) {

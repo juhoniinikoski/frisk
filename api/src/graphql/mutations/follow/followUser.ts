@@ -23,16 +23,16 @@ export const resolvers = {
       
       const authorizedUser: User = await authService.getAuthorizedUserOrFail();
 
-      const userToFollow = await User.query().findById(args.followedId)
+      const userToFollow = await User.query().findById(args.followedId);
 
       if (!userToFollow) {
-        throw new ApolloError('User to follow not found')
+        throw new ApolloError('User to follow not found');
       }
 
       const alreadyFollow = await UserUser.query().where({
         followerId: authorizedUser.id,
         followingId: args.followedId,
-      })
+      });
 
       // Delete the follow
       if (alreadyFollow.length !== 0) {
@@ -41,9 +41,9 @@ export const resolvers = {
             followerId: authorizedUser.id,
             followingId: args.followedId,
           })
-          .delete()
+          .delete();
 
-        return true
+        return true;
       }
 
       await UserUser.query().insertAndFetch({

@@ -34,7 +34,9 @@ export default class SportClass extends BaseModel {
 
   };
 
+  id: string | number;
   createdById: string | number;
+  name: string | number;
   
 }
 

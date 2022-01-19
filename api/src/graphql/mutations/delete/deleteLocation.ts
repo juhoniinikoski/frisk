@@ -23,7 +23,7 @@ export const resolvers = {
   Mutation: {
     deleteLocation: async (_obj: null, args: Args, { authService }: Context) => {
 
-      // const authorizedUser: User = await authService.getAuthorizedUserOrFail();
+      const authorizedUser: User = await authService.getAuthorizedUserOrFail();
 
       const location = await Location.query().findById(args.id);
 
@@ -31,9 +31,9 @@ export const resolvers = {
         throw new UserInputError(`Location with id ${args.id} does not exist`);
       }
 
-      // if (location.userId !== authorizedUser.id) {
-      //   throw new ForbiddenError('User is not authorized to delete the location');
-      // }
+      if (location.createdById !== authorizedUser.id) {
+        throw new ForbiddenError('User is not authorized to delete the location');
+      }
 
       await Location.query().findById(args.id).delete();
 

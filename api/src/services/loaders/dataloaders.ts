@@ -36,7 +36,9 @@ export const loaders = {
 
   authorizedUser: new DataLoader(keys => singleFunction(keys, User)),
 
-  user: new DataLoader(keys => singleFunctionRelation(keys, User, 'following, upcoming')),
+  authorizedUserRelations: new DataLoader(keys => singleFunctionRelation(keys, User, 'following, saved')),
+
+  user: new DataLoader(keys => singleFunctionRelation(keys, User, 'following, saved')),
 
   location: new DataLoader(keys => singleFunctionRelation(keys, Location, 'events, sports')),
 

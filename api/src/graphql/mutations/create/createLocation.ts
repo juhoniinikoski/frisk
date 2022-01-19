@@ -33,11 +33,15 @@ interface Args {
   }
 }
 
+interface User {
+  id?: string
+}
+
 export const resolvers = {
   Mutation: {
     createLocation: async (_obj: Args, args: Args, { authService }: Context) => {
       
-      const authorizedUser = await authService.getAuthorizedUserOrFail();
+      const authorizedUser: User = await authService.getAuthorizedUserOrFail();
 
       const { location } = await argsSchema.validate(args, {
         stripUnknown: true,
@@ -55,6 +59,7 @@ export const resolvers = {
       await Location.query().insertAndFetch({
         id: id,
         name: location.name,
+        createdById: authorizedUser.id,
         description: args.location.description
       });
 
