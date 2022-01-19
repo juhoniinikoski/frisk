@@ -1,6 +1,7 @@
 import { ApolloError, gql } from 'apollo-server';
 import { Location } from '../../../models/Location';
 import { LocationSport } from '../../../models/LocationSport';
+import { Sport } from '../../../models/Sport';
 
 export const typeDefs = gql`
   input AddSportInput {
@@ -28,9 +29,14 @@ export const resolvers = {
     addSport: async (_obj: Args, args: Args) => {
 
       const location = await Location.query().findById(args.add.locationId)
+      const sport = await Sport.query().findById(args.add.sportId)
 
       if (!location) {
         throw new ApolloError('Location not found')
+      }
+
+      if (!sport) {
+        throw new ApolloError('Sport not found')
       }
 
       // sportin virheilmoitus puuttuu

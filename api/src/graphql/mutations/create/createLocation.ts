@@ -37,7 +37,7 @@ export const resolvers = {
   Mutation: {
     createLocation: async (_obj: Args, args: Args, { authService }: Context) => {
       
-      await authService.getAuthorizedUserOrFail();
+      const authorizedUser = await authService.getAuthorizedUserOrFail();
 
       const { location } = await argsSchema.validate(args, {
         stripUnknown: true,

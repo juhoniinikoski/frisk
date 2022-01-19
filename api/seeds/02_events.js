@@ -7,7 +7,7 @@ const createDateColumns = date => ({
 
 const createColumns = (ownerName, eventTitle) => ({
   id: `${ownerName}.${eventTitle}`,
-  user_id: 'bbe42984-051b-4a01-b45d-b8d29c32200c',
+  created_by_id: 'bbe42984-051b-4a01-b45d-b8d29c32200c',
   event_description: 'Testitapahtuma',
   event_title: eventTitle,
   location_id: 'Töölönlahti1234',

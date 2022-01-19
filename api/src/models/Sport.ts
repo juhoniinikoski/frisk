@@ -1,6 +1,6 @@
-import BaseModel from './BaseModel';
 import knex from '../utils/knex';
 import { Model } from 'objection';
+import BaseModel from './BaseModel';
 
 export default class SportClass extends BaseModel {
   
@@ -33,6 +33,8 @@ export default class SportClass extends BaseModel {
     },
 
   };
+
+  createdById: string | number;
   
 }
 

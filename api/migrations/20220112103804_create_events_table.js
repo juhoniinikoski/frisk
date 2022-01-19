@@ -1,7 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable('events', table => {
     table.text('id').primary()
-    table.text('user_id')
+    table.text('created_by_id')
     table.text('event_title')
     table.text('location_id')
     table.text('sport_id')
@@ -13,7 +13,7 @@ exports.up = function(knex) {
     table.timestamp('start')
     table.timestamp('end')
     table.text('repetition')
-    table.index(['user_id', 'location_id', 'sport_id'])
+    table.index(['created_by_id', 'location_id', 'sport_id'])
   })
 };
 

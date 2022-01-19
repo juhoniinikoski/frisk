@@ -24,7 +24,7 @@ class UserClass extends BaseModel {
       }
     },
 
-    upcoming: {
+    saved: {
       relation: Model.ManyToManyRelation,
       modelClass: __dirname + '/Event',
       join: {

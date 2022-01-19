@@ -28,7 +28,7 @@ class EventClass extends BaseModel {
       relation: Model.BelongsToOneRelation,
       modelClass: __dirname + '/User',
       join: {
-        from: 'events.userId',
+        from: 'events.createdById',
         to: 'users.id'
       }
     },
@@ -60,7 +60,7 @@ class EventClass extends BaseModel {
   sportId: string | number;
   free: boolean;
   price: number;
-  userId: string | number;
+  createdById: string | number;
   createdAt: Date;
   start: Date;
   end: Date;

@@ -17,7 +17,7 @@ interface Args {
 export const resolvers = {
   Query: {
     user: async (_obj: null, args: Args) =>
-      await User.query().findById(args.id).withGraphFetched('[following, upcoming]')
+      await User.query().findById(args.id).withGraphFetched('[following, saved]')
   }
 };
 

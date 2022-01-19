@@ -33,6 +33,9 @@ export default class LocationClass extends BaseModel {
     },
 
   };
+
+  createdById: string | number;
+  
 }
 
 export const Location = LocationClass.bindKnex(knex);

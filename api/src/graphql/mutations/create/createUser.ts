@@ -30,7 +30,6 @@ interface Args {
 
 class UsernameTakenError extends ApolloError {
   constructor(message: string, properties: Properties) {
-    console.log(properties);
     super(message, 'USERNAME_TAKEN', properties);
   }
 

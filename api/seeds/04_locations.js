@@ -9,6 +9,7 @@ const createColumns = (locationName) => ({
   id: `${locationName}1234`,
   name: locationName,
   description: "Testilokaatio",
+  created_by_id: 'bbe42984-051b-4a01-b45d-b8d29c32200c',
   address: JSON.stringify(
     {
       id: 1,

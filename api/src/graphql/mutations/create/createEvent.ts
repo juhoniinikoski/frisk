@@ -48,8 +48,6 @@ export const resolvers = {
       
       const authorizedUser: User = await authService.getAuthorizedUserOrFail();
 
-      console.log(authorizedUser);
-
       const { event } = await argsSchema.validate(args, {
         stripUnknown: true,
       });
@@ -58,7 +56,7 @@ export const resolvers = {
 
       await Event.query().insertAndFetch({
         id: id,
-        userId: authorizedUser.id,
+        createdById: authorizedUser.id,
         eventTitle: event.eventTitle,
         locationId: args.event.locationId,
         sportId: args.event.sportId,

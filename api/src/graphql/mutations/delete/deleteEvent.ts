@@ -27,13 +27,11 @@ export const resolvers = {
 
       const event = await Event.query().findById(args.id);
 
-      console.log(event);
-
       if (!event) {
         throw new UserInputError(`Event with id ${args.id} does not exist`);
       }
 
-      if (event.userId !== authorizedUser.id) {
+      if (event.createdById !== authorizedUser.id) {
         throw new ForbiddenError('User is not authorized to delete the event');
       }
 
