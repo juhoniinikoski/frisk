@@ -39,7 +39,7 @@ export interface User {
   email: string
   createdAt: Date
   upcoming: Event[]
-  followed: User[]
+  following: User[]
   favorites: Sport[]
   saved: Event[]
 }
