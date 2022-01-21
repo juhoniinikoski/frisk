@@ -19,11 +19,11 @@ interface Args {
 export const resolvers = {
   Query: {
     user: async (_obj: null, args: Args) =>
-      await User.query().findById(args.id).withGraphFetched('[following, saved]')
+      await User.query().findById(args.id).withGraphFetched('[followedUsers, savedEvents, savedLocations, savedSports]')
   },
   User: {
-    saved: async (user: UserType) => {
-      const ids = user.saved.map((saved: EventType) => saved.id);
+    savedEvents: async (user: UserType) => {
+      const ids = user.savedEvents.map((saved: EventType) => saved.id);
       return await Event.query().findByIds(ids).withGraphFetched('[createdBy, location, sport]');
     }
   }

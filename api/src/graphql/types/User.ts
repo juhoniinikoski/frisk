@@ -6,10 +6,11 @@ export const typeDefs = gql`
     username: String!
     email: String!
     createdAt: DateTime!
-    upcoming(first: Int, after: String): [Event]
-    following(first: Int, after: String): [User]
-    favorites(first: Int, after: String): [Sport]
-    saved(first: Int, after: String): [Event]
+    upcomingEvents(first: Int, after: String): [Event]
+    followedUsers(first: Int, after: String): [User]
+    savedLocations(first: Int, after: String): [Location]
+    savedSports(first: Int, after: String): [Sport]
+    savedEvents(first: Int, after: String): [Event]
   }
 `;
 

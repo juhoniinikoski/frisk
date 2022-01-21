@@ -25,7 +25,7 @@ export const resolvers = {
 
       const authorizedUser: UserType = await authService.getAuthorizedUserOrFail();
 
-      await User.query().findById(authorizedUser.id).delete()
+      await User.query().findById(authorizedUser.id).delete();
 
       return true;
     },

@@ -39,9 +39,10 @@ export interface User {
   email: string
   createdAt: Date
   upcoming: Event[]
-  following: User[]
-  favorites: Sport[]
-  saved: Event[]
+  followedUsers: User[]
+  savedEvents: Event[]
+  savedSports: Sport[]
+  savedLocations: Location[]
 }
 
 export interface Address {

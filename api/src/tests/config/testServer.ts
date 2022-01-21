@@ -11,4 +11,4 @@ const testServer = new ApolloServer({
   },
 });
 
-export default testServer
+export default testServer;

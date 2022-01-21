@@ -1,17 +1,17 @@
 import { ApolloError, gql } from 'apollo-server';
 import { Context } from '../../../entities';
-import { Sport } from '../../../models/Sport';
+import { Location } from '../../../models/Location';
 import { User } from '../../../models/User';
-import { UserSport } from '../../../models/UserSport';
+import { UserLocation } from '../../../models/UserLocation';
 
 export const typeDefs = gql`
   extend type Mutation {
-    saveSport(sportId: ID!): Boolean
+    saveLocation(locationId: ID!): Boolean
   }
 `;
 
 interface Args {
-  sportId: string | number
+  locationId: string | number
 }
 
 interface User {
@@ -20,36 +20,36 @@ interface User {
 
 export const resolvers = {
   Mutation: {
-    saveSport: async (_obj: Args, args: Args, { authService }: Context) => {
+    saveLocation: async (_obj: Args, args: Args, { authService }: Context) => {
       
       const authorizedUser: User = await authService.getAuthorizedUserOrFail();
 
-      const sportToFollow = await Sport.query().findById(args.sportId);
+      const locationToFollow = await Location.query().findById(args.locationId);
 
-      if (!sportToFollow) {
+      if (!locationToFollow) {
         throw new ApolloError('Sport to follow not found');
       }
 
-      const alreadyFollow = await UserSport.query().where({
+      const alreadyFollow = await UserLocation.query().where({
         userId: authorizedUser.id,
-        sportId: args.sportId,
+        locationId: args.locationId,
       });
 
       // Delete the follow
       if (alreadyFollow.length !== 0) {
-        await UserSport.query()
+        await UserLocation.query()
           .where({
             userId: authorizedUser.id,
-            sportId: args.sportId,
+            locationId: args.locationId,
           })
           .delete();
 
         return true;
       }
 
-      await UserSport.query().insertAndFetch({
+      await UserLocation.query().insertAndFetch({
         userId: authorizedUser.id,
-        sportId: args.sportId,
+        locationId: args.locationId,
       });
 
       return true;

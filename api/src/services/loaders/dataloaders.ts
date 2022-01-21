@@ -19,14 +19,6 @@ const singleFunction = (keys: readonly unknown[], Model: ModelObject<any>) =>
 const singleFunctionRelation = (keys: readonly unknown[], Model: ModelObject<any>, relations: string) => 
   Model.query().findByIds(keys).withGraphFetched(`[${relations}]`);
 
-const eventFunction = (keys: readonly unknown[], Model: ModelObject<any>) => 
-  Model.query().findByIds(keys).withGraphFetched('attendants').cursorPaginate({
-    orderBy: 'id'
-  });
-
-const userFunction = async (keys: readonly unknown[], Model: ModelObject<any>) => 
-  await Model.query().findByIds(keys).withGraphFetched('[following, upcoming]')
-
 const usersFunction = async (keys: readonly unknown[], Model: ModelObject<any>) => 
   await Model.query()
 
@@ -36,9 +28,11 @@ export const loaders = {
 
   authorizedUser: new DataLoader(keys => singleFunction(keys, User)),
 
-  authorizedUserRelations: new DataLoader(keys => singleFunctionRelation(keys, User, 'following, saved')),
+  authorizedUserRelations: new DataLoader(keys => 
+    singleFunctionRelation(keys, User, 'followedUsers, savedEvents, savedLocations, savedSports')),
 
-  user: new DataLoader(keys => singleFunctionRelation(keys, User, 'following, saved')),
+  user: new DataLoader(keys => 
+    singleFunctionRelation(keys, User, 'followedUsers, savedEvents, savedLocations, savedSports')),
 
   location: new DataLoader(keys => singleFunctionRelation(keys, Location, 'events, sports')),
 
