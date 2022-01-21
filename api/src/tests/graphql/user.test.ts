@@ -30,25 +30,132 @@ const followUserMutation = {
   `
 }
 
+const createUserMutation = {
+  id: 'createUser',
+  mutation: `
+    mutation {
+      createUser(user: {username: "testikäyttäjä", password: "password", email: "testi@gmail.com"}) {
+        username
+        email
+      }
+    }
+  `
+}
+
+const saveEventMutation = {
+  id: 'saveEvent',
+  mutation: `
+    mutation {
+      saveEvent(eventId: "johndoe.Testievent")
+    }
+  `
+}
+
+const saveSportMutation = {
+  id: 'saveSport',
+  mutation: `
+    mutation {
+      saveSport(sportId: "1")
+    }
+  `
+}
+
+
+describe('user creation and deleting', () => {
+
+  const { mutation } = createUserMutation
+
+  test('new user', async () => {
+    const mutate = await testServer.executeOperation({query: mutation})
+    expect(mutate.data.createUser.email).toEqual("testi@gmail.com")
+    return expect(mutate.data.createUser.username).toEqual("testikäyttäjä")
+  })
+
+  test('already taken username', async () => {
+    const mutate = await testServer.executeOperation({query: mutation})
+    return expect(mutate.errors[0].message).toContain("Username testikäyttäjä is already taken. Choose another username")
+  })
+
+})
+
 describe('follow/unfollow antoher user', () => {
 
   const { query } = userQueryTest
-  const { id, mutation } = followUserMutation
+  const { mutation } = followUserMutation
 
-  test(`mutation: ${id}`, async () => {
+  let initialUser: Partial<User> = null
+
+  test('follow', async () => {
     const initial = await testServer.executeOperation({query: query})
-    const initialUser: Partial<User> = initial.data.user
+    initialUser = initial.data.user
     await testServer.executeOperation({query: mutation})
-    let result = await testServer.executeOperation({query: query})
-    let user: Partial<User> = result.data.user
-    expect(user.following.length).toBe(initialUser.following.length + 1)
+    const result = await testServer.executeOperation({query: query})
+    const user: Partial<User> = result.data.user
+    return expect(user.following.length).toBe(initialUser.following.length + 1)
+  })
+
+  test('unfollow', async () => {
     await testServer.executeOperation({query: mutation})
-    result = await testServer.executeOperation({query: query})
-    user = result.data.user
+    const result = await testServer.executeOperation({query: query})
+    const user = result.data.user
     return expect(user.following.length).toBe(initialUser.following.length)
   })
 
 })
+
+
+describe('save event', () => {
+
+  const { mutation } = saveEventMutation
+  const { query } = userQueryTest
+
+  let initialUser: Partial<User> = null
+
+  test('save', async () => {
+    const initial = await testServer.executeOperation({query: query})
+    initialUser = initial.data.user
+    await testServer.executeOperation({query: mutation})
+    const result = await testServer.executeOperation({query: query})
+    const user: Partial<User> = result.data.user
+    return expect(user.saved.length).toBe(initialUser.saved.length + 1)
+  })
+
+  test('unsave', async () => {
+    await testServer.executeOperation({query: mutation})
+    const result = await testServer.executeOperation({query: query})
+    const user = result.data.user
+    return expect(user.saved.length).toBe(initialUser.saved.length)
+  })
+
+})
+
+
+describe('save sport', () => {
+
+  const { mutation } = saveSportMutation
+  const { query } = userQueryTest
+
+  let initialUser: Partial<User> = null
+
+  test('save', async () => {
+    const initial = await testServer.executeOperation({query: query})
+    initialUser = initial.data.user
+    await testServer.executeOperation({query: mutation})
+    const result = await testServer.executeOperation({query: query})
+    const user: Partial<User> = result.data.user
+    return expect(user.favorites.length).toBe(initialUser.favorites.length + 1)
+  })
+
+  test('unsave', async () => {
+    await testServer.executeOperation({query: mutation})
+    const result = await testServer.executeOperation({query: query})
+    const user = result.data.user
+    return expect(user.favorites.length).toBe(initialUser.favorites.length)
+  })
+
+})
+
+// lokaation tallentaminen ja tallennuksen poisto
 
 afterAll(done => {
   done()

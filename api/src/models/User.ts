@@ -42,6 +42,7 @@ class UserClass extends BaseModel {
   username: string;
   password: string;
   id: string | number;
+  email: string
 
 }
 

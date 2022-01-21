@@ -8,6 +8,7 @@ export const typeDefs = gql`
   input CreateUserInput {
     username: String!
     password: String!
+    email: String!
   }
   extend type Mutation {
     """
@@ -25,6 +26,7 @@ interface Args {
   user: {
     username: string
     password: string
+    email: string
   }
 }
 
@@ -74,6 +76,7 @@ export const resolvers = {
         username,
         password: passwordHash,
         id: uuid(),
+        email: args.user.email
       });
     },
   },
