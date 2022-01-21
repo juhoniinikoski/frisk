@@ -72,7 +72,7 @@ export const resolvers = {
   Mutation: {
     updateUser: async (_obj: null, args: Args, { authService }: Context) => {
       const {
-        user: { username, ...user },
+        user: { username },
       } = await argsSchema.validate(args, {
         stripUnknown: true,
       });

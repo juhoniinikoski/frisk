@@ -5,6 +5,7 @@ export interface Event {
   eventTitle: string
   description: string
   locationId: string
+  location: Location
   sport: Sport
   attendants: User[]
   free: boolean

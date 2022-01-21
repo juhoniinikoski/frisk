@@ -22,7 +22,7 @@ export const resolvers = {
   },
   Sport: {
     events: async (obj: Args) =>
-      await Event.query().where('sportId', obj.id).withGraphFetched('location')
+      await Event.query().where('sportId', obj.id).withGraphFetched('[location, createdBy]')
   }
 };
 

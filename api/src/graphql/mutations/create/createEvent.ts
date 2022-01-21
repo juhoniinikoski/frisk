@@ -3,6 +3,7 @@ import * as yup from 'yup';
 import { v4 as uuid } from 'uuid';
 import { Event } from '../../../models/Event';
 import { Context } from '../../../entities';
+import { LocationSport } from '../../../models/LocationSport';
 
 export const typeDefs = gql`
   input CreateEventInput {
@@ -53,6 +54,16 @@ export const resolvers = {
       });
 
       const id = uuid();
+
+      const existingLocationSport = await LocationSport.query()
+        .where({ locationId: args.event.locationId, sportId: args.event.sportId })
+
+      if (existingLocationSport.length === 0) {
+        await LocationSport.query().insertAndFetch({
+          locationId: args.event.locationId,
+          sportId: args.event.sportId,
+        });
+      }
 
       await Event.query().insertAndFetch({
         id: id,

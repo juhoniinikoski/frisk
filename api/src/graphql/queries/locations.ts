@@ -36,7 +36,7 @@ export const resolvers = {
     locations: async (_obj: null, args: Args) => {
       const { searchKeyword } = await argsSchema.validate(args);
 
-      let query: BaseQueryBuilder<Model, Model[]> = Location.query();
+      let query: BaseQueryBuilder<Model, Model[]> = Location.query().withGraphFetched('sports');
 
       if (searchKeyword) {
         const likeFilter = getLikeFilter(searchKeyword);

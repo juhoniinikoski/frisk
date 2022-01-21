@@ -1,6 +1,8 @@
 import testServer from '../config/testServer';
 import { User } from '../../entities';
 
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 const userQueryTest = {
     id: 'user',
     query: `
@@ -226,6 +228,8 @@ describe('save event', () => {
     await testServer.executeOperation({query: mutation});
     const result = await testServer.executeOperation({query: query});
     const user: Partial<User> = result.data.user;
+    expect(user.savedEvents[0].eventTitle).toBe("Testievent");
+    expect(user.savedEvents[0].location.name).toBe("Töölönlahti");
     return expect(user.savedEvents.length).toBe(initialUser.savedEvents.length + 1);
   });
 
@@ -278,6 +282,7 @@ describe('save location', () => {
     await testServer.executeOperation({query: mutation});
     const result = await testServer.executeOperation({query: query});
     const user: Partial<User> = result.data.user;
+    expect(user.savedLocations[0].name).toBe("Töölönlahti");
     return expect(user.savedLocations.length).toBe(initialUser.savedLocations.length + 1);
   });
 
@@ -301,14 +306,12 @@ describe('update personal information', () => {
 
   const { query } = userQueryTest;
 
-  let initialUser: Partial<User> = null;
-
   test('change username', async () => {
     await testServer.executeOperation({query: usernameMutation});
     const result = await testServer.executeOperation({query: query});
     const user: Partial<User> = result.data.user;
     expect(user.username).toEqual("juhoniinikoski2");
-    return expect(user.email).toEqual("testi1@gmail.com")
+    return expect(user.email).toEqual("testi1@gmail.com");
   });
 
   test('change email', async () => {
@@ -316,7 +319,7 @@ describe('update personal information', () => {
     const result = await testServer.executeOperation({query: query});
     const user: Partial<User> = result.data.user;
     expect(user.username).toEqual("juhoniinikoski2");
-    return expect(user.email).toEqual("testi9@gmail.com")
+    return expect(user.email).toEqual("testi9@gmail.com");
   });
 
   test('change username to existing one', async () => {
@@ -329,9 +332,7 @@ describe('update personal information', () => {
 
   test('change email to existing one', async () => {
     const mutate = await testServer.executeOperation({query: emailMutation3});
-    console.log(mutate)
     const result = await testServer.executeOperation({query: query});
-    console.log(result)
     const user: Partial<User> = result.data.user;
     expect(mutate.errors[0].message).toContain("Email testi3@gmail.com is already taken.");
     return expect(user.email).toEqual("testi9@gmail.com");
@@ -342,20 +343,19 @@ describe('update personal information', () => {
     const result = await testServer.executeOperation({query: query});
     const user = result.data.user;
     expect(user.username).toEqual("juhoniinikoski");
-    return expect(user.email).toEqual("testi9@gmail.com")
+    return expect(user.email).toEqual("testi9@gmail.com");
   });
 
   test('change email to old one', async () => {
-    const mutation = await testServer.executeOperation({query: emailMutation2});
-    console.log(mutation)
+    await testServer.executeOperation({query: emailMutation2});
     const result = await testServer.executeOperation({query: query});
     const user: Partial<User> = result.data.user;
     expect(user.username).toEqual("juhoniinikoski");
-    return expect(user.email).toEqual("testi1@gmail.com")
+    return expect(user.email).toEqual("testi1@gmail.com");
   });
   
 
-})
+});
 
 afterAll(done => {
   done();
