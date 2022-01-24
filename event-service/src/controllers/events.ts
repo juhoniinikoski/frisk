@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import EventClass from '../models/Event';
-import { createEvent, getEvent, getEvents, updateEvent } from '../services/eventService';
+import { createEvent, deleteEvent, getEvent, getEvents, updateEvent } from '../services/eventService';
 
 const eventsRouter = express.Router();
 
@@ -59,6 +59,21 @@ eventsRouter.put("/:id", async (req: EventRequest, res: Response) => {
   }
 
   return res.sendStatus(201);
+
+});
+
+eventsRouter.delete("/:id", async (req: Request, res: Response) => {
+
+  const id = req.params.id;
+
+  const result = await deleteEvent(id);
+  console.log(result)
+
+  if (!result) {
+    return res.sendStatus(404);
+  }
+
+  return res.sendStatus(204);
 
 });
 

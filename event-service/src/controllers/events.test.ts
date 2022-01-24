@@ -58,7 +58,7 @@ describe("event", () => {
     });
   });
 
-  describe("updating user attributes", () => {
+  describe("updating event attributes", () => {
     
     const eventId = "juhoniinikoski.Pihapelit2";
     
@@ -73,6 +73,26 @@ describe("event", () => {
         .send(event)
         .set('Accept', 'application/json')
         .expect(201);
+    });
+
+  });
+
+  describe("deleting event", () => {
+    
+    const eventId = "juhoniinikoski.Pihapelit2";
+    
+    it("should delete one event succesfully", async () => {
+
+      return await supertest(app).delete(`/events/${eventId}`)
+        .set('Accept', 'application/json')
+        .expect(204);
+    });
+
+    it("shouldn't delete event that doesn't exist", async () => {
+
+      return await supertest(app).delete('/events/12345678')
+        .set('Accept', 'application/json')
+        .expect(404);
     });
 
   });

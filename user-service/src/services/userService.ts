@@ -72,7 +72,10 @@ export const deleteUser = async (id: string | number) => {
 
   try {
 
-    await User.query().findById(id).delete();
+    const res = await User.query().findById(id).delete();
+    if (res === 0) {
+      return false;
+    }
     return true;
 
   } catch (error) {

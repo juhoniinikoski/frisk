@@ -42,3 +42,20 @@ export const updateEvent = async (id: string | number, event: Partial<EventClass
   }
 
 }
+
+export const deleteEvent = async (id: string | number) => {
+
+  try {
+
+    const res = await Event.query().findById(id).delete();
+    if (res === 0) {
+      return false;
+    }
+    return true;
+
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+
+};
