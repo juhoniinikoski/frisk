@@ -20,12 +20,14 @@ export const createUser = async (body: Partial<UserClass>) => {
 
     const passwordHash = await createPasswordHash(password);
 
-    return User.query().insertAndFetch({
+    await User.query().insertAndFetch({
       username,
       password: passwordHash,
       id: uuid(),
       email
     });
+
+    return true;
     
   } catch (error) {
     console.log(error);
