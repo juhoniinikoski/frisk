@@ -2,7 +2,7 @@ import supertest from "supertest";
 import app from "../app";
 import EventClass from "../models/Event";
 
-describe("users", () => {
+describe("events", () => {
 
   describe("quering for events", () => {
     it("should return array of events", async () => {
