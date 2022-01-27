@@ -1,7 +1,8 @@
 const createColumns = (id, sportTitle) => ({
   id: id,
   name: `${sportTitle}`,
-  created_by_id: 'bbe42984-051b-4a01-b45d-b8d29c32200c'
+  created_by_id: 'bbe42984-051b-4a01-b45d-b8d29c32200c',
+  created_at: new Date()
 });
 
 exports.seed = async (knex) => {
