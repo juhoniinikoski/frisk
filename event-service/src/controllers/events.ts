@@ -12,7 +12,10 @@ type EventRequest = Request<Params, unknown, Partial<EventClass>>;
 
 eventsRouter.get("/", async (req: Request, res: Response) => {
 
-  const result = await getEvents();
+  const filters = req.query;
+  const { location, sport, user } = filters;
+
+  const result = await getEvents(location as string, sport as string, user as string);
 
   if (!result) {
     return res.sendStatus(404);
@@ -67,7 +70,6 @@ eventsRouter.delete("/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
 
   const result = await deleteEvent(id);
-  console.log(result)
 
   if (!result) {
     return res.sendStatus(404);

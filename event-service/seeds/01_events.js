@@ -5,13 +5,13 @@ const createDateColumns = date => ({
   updated_at: date,
 })
 
-const createColumns = (ownerName, eventTitle, createdBy) => ({
+const createColumns = (ownerName, eventTitle, createdBy, sportId) => ({
   id: `${ownerName}.${eventTitle}`,
   created_by_id: createdBy,
   description: 'Testitapahtuma',
   name: eventTitle,
-  location_id: 'Töölönlahti1234',
-  sport_id: '4',
+  location_id: 'Nordis1234',
+  sport_id: sportId,
   repetition: 'SINGLE',
   free: true,
   price: 0.00,
@@ -24,23 +24,23 @@ exports.seed = async knex => {
 
   await knex('events').insert([
     {
-      ...createColumns('juhoniinikoski', 'Pihapelit', 'bbe42984-051b-4a01-b45d-b8d29c32200c'),
+      ...createColumns('juhoniinikoski', 'Pihapelit', 'bbe42984-051b-4a01-b45d-b8d29c32200c', '1'),
       ...createDateColumns(new Date(Date.now() - oneHour)),
     },
     {
-      ...createColumns('juhoniinikoski', 'Pihapelit2', 'bbe42984-051b-4a01-b45d-b8d29c32200c'),
+      ...createColumns('juhoniinikoski', 'Pihapelit2', 'bbe42984-051b-4a01-b45d-b8d29c32200c', '2'),
       ...createDateColumns(new Date(Date.now() - 2 * oneHour)),
     },
     {
-      ...createColumns('juhoniinikoski', 'Ulkokoris', 'bbe42984-051b-4a01-b45d-b8d29c32200c'),
+      ...createColumns('juhoniinikoski', 'Ulkokoris', 'bbe42984-051b-4a01-b45d-b8d29c32200c', '3'),
       ...createDateColumns(new Date(Date.now() - 3 * oneHour)),
     },
     {
-      ...createColumns('juhoniinikoski', 'Katulätkä', 'bbe42984-051b-4a01-b45d-b8d29c32200c'),
+      ...createColumns('juhoniinikoski', 'Katulätkä', 'bbe42984-051b-4a01-b45d-b8d29c32200c', '1'),
       ...createDateColumns(new Date(Date.now() - 3 * oneHour)),
     },
     {
-      ...createColumns('johndoe', 'Testievent', '9b9d927e-2ee9-4f93-b96b-c8f677c63a5f'),
+      ...createColumns('johndoe', 'Testievent', '9b9d927e-2ee9-4f93-b96b-c8f677c63a5f', '1'),
       ...createDateColumns(new Date(Date.now() - 4 * oneHour)),
     },
   ]);

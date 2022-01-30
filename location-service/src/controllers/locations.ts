@@ -18,7 +18,8 @@ type LocationRequest = Request<Params, unknown, Partial<LocationClass>>;
 
 locationRouter.get("/", async (req: Request, res: Response) => {
 
-  const result = await getLocations();
+  const { sport } = req.query;
+  const result = await getLocations(sport as string);
 
   if (!result) {
     return res.sendStatus(404);

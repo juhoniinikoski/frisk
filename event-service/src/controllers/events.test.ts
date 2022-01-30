@@ -14,6 +14,81 @@ describe("events", () => {
       return expect(result.body.length).toBeDefined();
     });
   });
+  
+  describe("quering for events with sport as filter", () => {
+    it("should return array of events", async () => {
+
+      const sportId = "1"
+
+      const result = await supertest(app).get(`/events?sport=${sportId}`)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(result.body.length).toBeDefined();
+      return result.body.forEach((body: any) => {
+        expect(body.sportId).toBe(sportId)
+      });
+    });
+  });
+  
+  describe("quering for events with location as filter", () => {
+    it("should return array of events", async () => {
+
+      const locationId = "Nordis1234"
+
+      const result = await supertest(app).get(`/events?location=${locationId}`)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(result.body.length).toBeDefined();
+      return result.body.forEach((body: any) => {
+        expect(body.locationId).toBe(locationId)
+      });
+    });
+  });
+  
+  describe("quering for events with user as filter", () => {
+    it("should return array of events", async () => {
+
+      const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c"
+
+      const result = await supertest(app).get(`/events?user=${userId}`)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(result.body.length).toBeDefined();
+      return result.body.forEach((body: any) => {
+        expect(body.createdById).toBe(userId)
+      });
+    });
+  });
+
+  describe("quering for events with location, sport and user as filter", () => {
+    it("should return array of events", async () => {
+
+      const locationId = "Nordis1234";
+      const sportId = "2";
+      const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c";
+
+      const result = await supertest(app).get(`/events?location=${locationId}&sport=${sportId}&user=${userId}`)
+        .expect(200)
+        .expect('Content-Type', /json/);
+
+      expect(result.body.length).toBeDefined();
+    
+      result.body.forEach((body: any) => {
+        expect(body.sportId).toBe(sportId)
+      });
+      
+      result.body.forEach((body: any) => {
+        expect(body.createdById).toBe(userId)
+      });
+
+      return result.body.forEach((body: any) => {
+        expect(body.locationId).toBe(locationId)
+      });
+    });
+  });
 
 });
 

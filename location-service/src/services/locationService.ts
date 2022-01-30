@@ -1,7 +1,22 @@
 import LocationClass, { Location } from "../models/Location";
 import { v4 as uuid } from "uuid";
 
-export const getLocations = async () => await Location.query();
+export const getLocations = async (sportId: string) => {
+  
+  let query = Location.query();
+
+  if (sportId) {
+    query = Location.query().withGraphJoined('sports(onlySportId)')
+      .modifiers({
+        onlySportId(builder) {
+          void builder.select('sportId');
+        }
+      })
+      .where('sportId', sportId);
+  };
+
+  return await query;
+}
 
 export const getLocation = async (id: string | number) => {
 

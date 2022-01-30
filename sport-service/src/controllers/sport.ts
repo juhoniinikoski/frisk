@@ -18,7 +18,8 @@ type SportRequest = Request<Params, unknown, Partial<SportClass>>;
 
 sportsRouter.get("/", async (req: Request, res: Response) => {
 
-  const result = await getSports();
+  const { location } = req.query;
+  const result = await getSports(location as string);
 
   if (!result) {
     return res.sendStatus(404);

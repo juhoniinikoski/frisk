@@ -1,7 +1,22 @@
 import SportClass, { Sport } from "../models/Sport";
 import { v4 as uuid } from 'uuid';
 
-export const getSports = async () => await Sport.query();
+export const getSports = async (locationId: string) => {
+  
+  let query = Sport.query();
+
+  if (locationId) {
+    query = Sport.query().withGraphJoined('locations(onlyLocationId)')
+      .modifiers({
+        onlyLocationId(builder) {
+          void builder.select('locationId');
+        }
+      })
+      .where('locationId', locationId);
+  };
+
+  return await query;
+};
 
 export const getSport = async (id: string | number) => {
 

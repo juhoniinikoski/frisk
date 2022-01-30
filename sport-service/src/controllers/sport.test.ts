@@ -12,6 +12,23 @@ describe("sports", () => {
     return expect(result.body.length).toBeDefined();
 
   });
+  
+  it("should return array of sports filtered with location", async () => {
+
+    const locationId = "Nordis1234"
+
+    const result = await supertest(app).get(`/sports?location=${locationId}`)
+      .expect(200)
+      .expect('Content-Type', /json/);
+    
+    expect(result.body.length).toBeDefined();
+    return result.body.forEach((sport: any) => {
+      sport.locations.forEach((location: any) => {
+        expect(location.locationId).toBe(locationId)
+      });
+    });
+
+  });
 
 });
 
