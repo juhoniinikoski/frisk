@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+
+  event-api:
+    image: frisk-event
+    build: 
+      context: ./event-service
+      args: 
+        build_info: Built from Docker compose
+    ports: 
+      - 9010:3010   
+    environment:
+      - PORT=3010
+    networks: 
+      - microservice-network
+
+  location-api:
+    image: frisk-location
+    build: 
+      context: ./location-service
+      args: 
+        build_info: Built from Docker compose
+    ports: 
+     - 9020:3020
+    expose:
+      - 3020
+    environment:
+      - PORT=3020
+    networks: 
+      - microservice-network
+  
+  sport-api:
+    image: frisk-sport
+    build: 
+      context: ./sport-service
+      args: 
+        build_info: Built from Docker compose
+    ports: 
+     - 9040:3040
+    expose:
+      - 3040
+    environment:
+      - PORT=3040
+    networks: 
+      - microservice-network
+  
+  user-api:
+    image: frisk-user
+    build: 
+      context: ./user-service
+      args: 
+        build_info: Built from Docker compose
+    ports: 
+     - 9030:3030
+    expose:
+      - 3030
+    environment:
+      - PORT=3030
+    networks: 
+      - microservice-network
+
+networks:
+  microservice-network:
