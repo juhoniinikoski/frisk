@@ -169,14 +169,14 @@ describe("location attributes", () => {
 
     const locationId = "Ogeli1234";
     const sportId = "6";
-    const initial = await supertest(app).get(`/locations/${locationId}`);
+    const initial = await supertest(app).get(`/locations/${locationId}/test`);
 
     await supertest(app).post(`/locations/${locationId}/sports`)
       .send({ sportId })
       .set('Accept', 'application/json')
       .expect(201);
     
-    const result = await supertest(app).get(`/locations/${locationId}`);
+    const result = await supertest(app).get(`/locations/${locationId}/test`);
     return expect(result.body.sports.length).toBe(initial.body.sports.length + 1);
 
   });
@@ -185,15 +185,31 @@ describe("location attributes", () => {
 
     const locationId = "Ogeli1234";
     const sportId = "6";
-    const initial = await supertest(app).get(`/locations/${locationId}`);
+    const initial = await supertest(app).get(`/locations/${locationId}/test`);
 
     await supertest(app).post(`/locations/${locationId}/sports`)
       .send({ sportId })
       .set('Accept', 'application/json')
       .expect(201);
     
-    const result = await supertest(app).get(`/locations/${locationId}`);
+    const result = await supertest(app).get(`/locations/${locationId}/test`);
     return expect(result.body.sports.length).toBe(initial.body.sports.length - 1);
+
+  });
+
+  it("should add a user to location", async () => {
+
+    const locationId = "Ogeli1234";
+    const userId = "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f";
+    const initial = await supertest(app).get(`/locations/${locationId}/test`);
+
+    await supertest(app).post(`/locations/${locationId}/users`)
+      .send({ userId })
+      .set('Accept', 'application/json')
+      .expect(201);
+    
+    const result = await supertest(app).get(`/locations/${locationId}/test`);
+    return expect(result.body.savedBy.length).toBe(initial.body.savedBy.length + 1);
 
   });
 

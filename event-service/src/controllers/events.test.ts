@@ -173,3 +173,39 @@ describe("event", () => {
   });
 
 });
+
+describe("event attributes", () => {
+
+  it("should add a user to event", async () => {
+
+    const userId = "753f3e99-e73a-43a3-9a50-b30d7727c0eb";
+    const eventId = "juhoniinikoski.Pihapelit";
+    const initial = await supertest(app).get(`/events/${eventId}/test`);
+
+    await supertest(app).post(`/events/${eventId}/users`)
+      .send({ userId })
+      .set('Accept', 'application/json')
+      .expect(201);
+    
+    const result = await supertest(app).get(`/events/${eventId}/test`);
+    return expect(result.body.savedBy.length).toBe(initial.body.savedBy.length + 1);
+
+  });
+  
+  it("should remove a user from event", async () => {
+
+    const userId = "753f3e99-e73a-43a3-9a50-b30d7727c0eb";
+    const eventId = "juhoniinikoski.Pihapelit";
+    const initial = await supertest(app).get(`/events/${eventId}/test`);
+
+    await supertest(app).post(`/events/${eventId}/users`)
+      .send({ userId })
+      .set('Accept', 'application/json')
+      .expect(201);
+    
+      const result = await supertest(app).get(`/events/${eventId}/test`);
+      return expect(result.body.savedBy.length).toBe(initial.body.savedBy.length - 1);
+
+  });
+
+});

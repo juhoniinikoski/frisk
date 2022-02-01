@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import EventClass from '../models/Event';
-import { createEvent, deleteEvent, getEvent, getEvents, updateEvent } from '../services/eventService';
+import { addUser } from '../services/addService';
+import { createEvent, deleteEvent, getEvent, getEvents, getEventTest, updateEvent } from '../services/eventService';
 
 const eventsRouter = express.Router();
 
@@ -8,14 +9,19 @@ interface Params {
   id: string | number
 }
 
+interface UserInput {
+  userId: string | number
+}
+
+type UserRequest = Request<Params, unknown, UserInput>;
 type EventRequest = Request<Params, unknown, Partial<EventClass>>;
 
 eventsRouter.get("/", async (req: Request, res: Response) => {
 
   const filters = req.query;
-  const { location, sport, user } = filters;
+  const { location, sport, user, savedBy } = filters;
 
-  const result = await getEvents(location as string, sport as string, user as string);
+  const result = await getEvents(location as string, sport as string, user as string, savedBy as string);
 
   if (!result) {
     return res.sendStatus(404);
@@ -29,6 +35,19 @@ eventsRouter.get("/:id", async (req: Request, res: Response) => {
 
   const id = req.params.id;
   const result = await getEvent(id);
+
+  if (!result) {
+    return res.sendStatus(404);
+  }
+
+  return res.json(result);
+
+});
+
+eventsRouter.get("/:id/test", async (req: Request, res: Response) => {
+
+  const id = req.params.id;
+  const result = await getEventTest(id);
 
   if (!result) {
     return res.sendStatus(404);
@@ -76,6 +95,20 @@ eventsRouter.delete("/:id", async (req: Request, res: Response) => {
   }
 
   return res.sendStatus(204);
+
+});
+
+eventsRouter.post("/:id/users", async (req: UserRequest, res: Response) => {
+
+  const eventId = req.params.id;
+  const userId = req.body.userId;
+
+  const result = await addUser(userId, eventId);
+  if (!result) {
+    return res.sendStatus(400);
+  }
+
+  return res.sendStatus(201);
 
 });
 

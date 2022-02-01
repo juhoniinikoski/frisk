@@ -167,14 +167,14 @@ describe("sport attributes", () => {
 
     const locationId = "Ogeli1234";
     const sportId = "1";
-    const initial = await supertest(app).get(`/sports/${sportId}`);
+    const initial = await supertest(app).get(`/sports/${sportId}/test`);
 
     await supertest(app).post(`/sports/${sportId}/locations`)
       .send({ locationId })
       .set('Accept', 'application/json')
       .expect(201);
     
-    const result = await supertest(app).get(`/sports/${sportId}`);
+    const result = await supertest(app).get(`/sports/${sportId}/test`);
     return expect(result.body.locations.length).toBe(initial.body.locations.length + 1);
 
   });
@@ -183,15 +183,47 @@ describe("sport attributes", () => {
 
     const locationId = "Ogeli1234";
     const sportId = "1";
-    const initial = await supertest(app).get(`/sports/${sportId}`);
+    const initial = await supertest(app).get(`/sports/${sportId}/test`);
 
     await supertest(app).post(`/sports/${sportId}/locations`)
       .send({ locationId })
       .set('Accept', 'application/json')
       .expect(201);
     
-    const result = await supertest(app).get(`/sports/${sportId}`);
+    const result = await supertest(app).get(`/sports/${sportId}/test`);
     return expect(result.body.locations.length).toBe(initial.body.locations.length - 1);
+
+  });
+
+  it("should add a user to sport", async () => {
+
+    const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c";
+    const sportId = "2";
+    const initial = await supertest(app).get(`/sports/${sportId}/test`);
+
+    await supertest(app).post(`/sports/${sportId}/users`)
+      .send({ userId })
+      .set('Accept', 'application/json')
+      .expect(201);
+    
+    const result = await supertest(app).get(`/sports/${sportId}/test`);
+    return expect(result.body.users.length).toBe(initial.body.users.length + 1);
+
+  });
+
+  it("should remove a user from sport", async () => {
+
+    const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c";
+    const sportId = "1";
+    const initial = await supertest(app).get(`/sports/${sportId}/test`);
+
+    await supertest(app).post(`/sports/${sportId}/users`)
+      .send({ userId })
+      .set('Accept', 'application/json')
+      .expect(201);
+    
+    const result = await supertest(app).get(`/sports/${sportId}/test`);
+    return expect(result.body.users.length).toBe(initial.body.users.length - 1);
 
   });
 

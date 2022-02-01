@@ -18,6 +18,15 @@ export default class LocationClass extends BaseModel {
         to: 'location_sport.locationId'
       }
     },
+    
+    savedBy: {
+      relation: Model.HasManyRelation,
+      modelClass: __dirname + '/LocationUser',
+      join: {
+        from: 'locations.id',
+        to: 'location_user.locationId'
+      }
+    }
 
   };
 

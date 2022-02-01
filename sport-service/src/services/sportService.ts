@@ -1,7 +1,7 @@
 import SportClass, { Sport } from "../models/Sport";
 import { v4 as uuid } from 'uuid';
 
-export const getSports = async (locationId: string) => {
+export const getSports = async (locationId: string, savedById: string) => {
   
   let query = Sport.query();
 
@@ -14,6 +14,16 @@ export const getSports = async (locationId: string) => {
       })
       .where('locationId', locationId);
   };
+  
+  if (savedById) {
+    query = Sport.query().withGraphJoined('users(onlyUserId)')
+      .modifiers({
+        onlyUserId(builder) {
+          void builder.select('userId');
+        }
+      })
+      .where('userId', savedById);
+  };
 
   return await query;
 };
@@ -21,7 +31,18 @@ export const getSports = async (locationId: string) => {
 export const getSport = async (id: string | number) => {
 
   try {
-    return await Sport.query().findById(id).withGraphFetched('locations');
+    return await Sport.query().findById(id);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+
+};
+
+export const getSportTest = async (id: string | number) => {
+
+  try {
+    return await Sport.query().findById(id).withGraphFetched('[locations, users]');
   } catch (error) {
     console.log(error);
     return false;

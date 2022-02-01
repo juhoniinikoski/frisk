@@ -1,7 +1,7 @@
 import EventClass, { Event } from "../models/Event";
 import { v4 as uuid } from "uuid";
 
-export const getEvents = async (locationId: string, sportId: string, userId: string) =>  {
+export const getEvents = async (locationId: string, sportId: string, userId: string, savedBy: string) =>  {
   
   let query = Event.query();
 
@@ -16,6 +16,16 @@ export const getEvents = async (locationId: string, sportId: string, userId: str
   if (userId) {
     query = query.where({createdById: userId})
   }
+
+  if (savedBy) {
+    query = query.withGraphJoined('savedBy(onlyUserId)')
+      .modifiers({
+        onlyUserId(builder) {
+          void builder.select('userId');
+        }
+      })
+      .where('userId', savedBy);
+  }
   
   return await query;
 
@@ -24,6 +34,15 @@ export const getEvents = async (locationId: string, sportId: string, userId: str
 export const getEvent = async (id: string | number) => {
   try {
     return await Event.query().findById(id);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const getEventTest = async (id: string | number) => {
+  try {
+    return await Event.query().findById(id).withGraphFetched('savedBy');
   } catch (error) {
     console.log(error);
     return false;

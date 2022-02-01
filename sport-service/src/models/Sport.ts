@@ -2,6 +2,7 @@ import knex from '../utils/knex';
 import { Model } from 'objection';
 import BaseModel from './BaseModel';
 import SportLocationClass from './SportLocation';
+import SportUserClass from './SportUser';
 
 export default class SportClass extends BaseModel {
   
@@ -19,6 +20,15 @@ export default class SportClass extends BaseModel {
         to: 'sport_location.sportId'
       }
     },
+    
+    users: {
+      relation: Model.HasManyRelation,
+      modelClass: __dirname + '/SportUser',
+      join: {
+        from: 'sports.id',
+        to: 'sport_user.sportId'
+      }
+    }
 
   };
 
@@ -26,6 +36,7 @@ export default class SportClass extends BaseModel {
   createdById: string | number;
   name: string | number;
   locations: SportLocationClass[];
+  users: SportUserClass[];
 
 }
 

@@ -1,11 +1,25 @@
 import BaseModel from './BaseModel';
 import knex from '../utils/knex';
+import { Model } from 'objection';
 
 class EventClass extends BaseModel {
   
   static idColumn = 'id';
 
   static tableName = 'events';
+
+  static relationMappings = {
+
+    savedBy: {
+      relation: Model.HasManyRelation,
+      modelClass: __dirname + '/EventUser',
+      join: {
+        from: 'events.id',
+        to: 'event_user.eventId'
+      }
+    },
+
+  };
   
   id: string | number;
   name: string;
