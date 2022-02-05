@@ -1,6 +1,9 @@
 import { gql } from 'apollo-server';
 import { User } from '../../entities';
-import { fetch } from '../../services/fetch';
+import { getEvents } from '../../operations/eventOperations';
+import { getLocations } from '../../operations/locationOperations';
+import { getSports } from '../../operations/sportOperations';
+import { getUser } from '../../operations/userOperations';
 
 export const typeDefs = gql`
   extend type Query {
@@ -17,28 +20,12 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    user: async (_obj: null, args: Args) => {
-      const result = await fetch(`http://localhost:9030/users/${args.id}`);
-      const data = result.json();
-      return data;
-    }
+    user: async (_obj: null, args: Args) => await getUser(args.id)
   },
   User: {
-    savedEvents: async (obj: User) => {
-      const result = await fetch(`http://localhost:9010/events?savedBy=${obj.id}`);
-      const data = result.json();
-      return data;
-    },
-    savedLocations: async (obj: User) => {
-      const result = await fetch(`http://localhost:9020/locations?savedBy=${obj.id}`);
-      const data = result.json();
-      return data;
-    },
-    savedSports: async (obj: User) => {
-      const result = await fetch(`http://localhost:9040/sports?savedBy=${obj.id}`);
-      const data = result.json();
-      return data;
-    }
+    savedEvents: async (obj: User) => await getEvents({ savedBy: obj.id }),
+    savedLocations: async (obj: User) => await getLocations({ savedBy: obj.id }),
+    savedSports: async (obj: User) => await getSports({ savedBy: obj.id })
   }
 };
 

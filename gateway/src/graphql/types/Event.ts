@@ -28,19 +28,19 @@ export const resolvers = {
       return {
         username: obj.createdByName,
         id: obj.createdById
-      }
+      };
     },
     location: (obj: Event) => {
       return {
         name: obj.locationName,
         id: obj.locationId
-      }
+      };
     },
     sport: (obj: Event) => {
       return {
         name: obj.sportName,
         id: obj.sportId
-      }
+      };
     }
   }
 };

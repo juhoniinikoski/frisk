@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server';
-import { fetch } from '../../services/fetch';
+import { getEvent } from '../../operations/eventOperations';
 
 export const typeDefs = gql`
   extend type Query {
@@ -12,22 +12,12 @@ export const typeDefs = gql`
 
 interface Args {
   id: number | string
-  createdById?: string | number
-  createdByName?: string
-  sportId?: string | number
-  sportName?: string
-  locationId?: string | number
-  locationName?: string
 }
 
 
 export const resolvers = {
   Query: {
-    event: async (_obj: null, args: Args) => { 
-      const result = await fetch(`http://localhost:9010/events/${args.id}`);
-      const data = result.json();
-      return data;
-    }
+    event: async (_obj: null, args: Args) => await getEvent(args.id)
   },
 };
 

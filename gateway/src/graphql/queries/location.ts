@@ -1,6 +1,8 @@
 import { gql } from 'apollo-server';
 import { Location } from '../../entities';
-import { fetch } from '../../services/fetch';
+import { getEvents } from '../../operations/eventOperations';
+import { getLocation } from '../../operations/locationOperations';
+import { getSports } from '../../operations/sportOperations';
 
 export const typeDefs = gql`
   extend type Query {
@@ -17,23 +19,11 @@ interface Args {
 
 export const resolvers = {
   Query: {
-    location: async (_obj: null, args: Args) => {
-      const result = await fetch(`http://localhost:9020/locations/${args.id}`);
-      const data = result.json();
-      return data
-    }
+    location: async (_obj: null, args: Args) => await getLocation(args.id)
   },
   Location: {
-    events: async (obj: Location) => {
-      const result = await fetch(`http://localhost:9010/events?location=${obj.id}`);
-      const data = result.json();
-      return data
-    },
-    sports: async (obj: Location) => {
-      const result = await fetch(`http://localhost:9040/sports?location=${obj.id}`);
-      const data = result.json();
-      return data
-    }
+    events: async (obj: Location) => await getEvents({ location: obj.id }),
+    sports: async (obj: Location) => await getSports({ location: obj.id }),
   }
 };
 

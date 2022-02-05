@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server';
 import * as yup from 'yup';
-import { fetch } from '../../services/fetch';
+import { getSports } from '../../operations/sportOperations';
 
 export const typeDefs = gql`
   extend type Query {
@@ -11,6 +11,8 @@ export const typeDefs = gql`
       first: Int
       after: String
       searchKeyword: String
+      location: ID
+      savedBy: ID
     ): [Sport]!
   }
 `;
@@ -27,15 +29,13 @@ interface Args {
   first: number
   after: string
   searchKeyword: string
+  location: string | number
+  savedBy: string | number
 }
 
 export const resolvers = {
   Query: {
-    sports: async () => {
-      const result = await fetch("http://localhost:9040/sports");
-      const data = result.json();
-      return data;
-    }
+    sports: async (_obj: null, args: Args) => await getSports(args)
   }
 };
 
