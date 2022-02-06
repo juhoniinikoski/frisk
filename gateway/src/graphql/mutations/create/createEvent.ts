@@ -1,6 +1,6 @@
 import { ApolloError, gql } from 'apollo-server';
 import * as yup from 'yup';
-// import { createEvent } from '../../../operations/event/eventOperations';
+import { createEvent } from '../../../operations/eventOperations';
 
 
 export const typeDefs = gql`
@@ -49,16 +49,16 @@ const authorizedUser = {
 };
 
 export const resolvers = {
-  // Mutation: {
-  //   createEvent: async (_obj: null, args: Args) => {
+  Mutation: {
+    createEvent: async (_obj: null, args: Args) => {
 
-  //     const { event } = args;
-  //     const res = createEvent(event)
+      const { event } = args;
+      createEvent(event)
 
-  //     return true;
+      return true;
 
-  //   }
-  // }
+    }
+  }
 };
 
 export default {

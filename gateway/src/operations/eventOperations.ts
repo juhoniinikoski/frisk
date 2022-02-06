@@ -1,21 +1,22 @@
 import axios from "axios";
 import { InvalidIdError } from "./errors";
+import { v4 as uuid } from "uuid";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-// interface Event {
-//   name: string
-//   description: string
-//   locationId: string | number
-//   sportId: string | number
-//   start: number
-//   end: number
-// }
+interface Event {
+  name: string
+  description: string
+  locationId: string | number
+  sportId: string | number
+  start: number
+  end: number
+}
 
-// const authorizedUser = {
-//   username: "juhoniinikoski",
-//   id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
-// };
+const authorizedUser = {
+  username: "juhoniinikoski",
+  id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
+};
 
 interface Args {
   first?: number
@@ -56,35 +57,35 @@ export const getEvent = async (id: string | number) => {
   }
 };
 
-// export const createEvent = async (event: Event) => {
+export const createEvent = async (event: Event) => {
 
-//   const location = await fetch(`http://localhost:9020/locations/${event.locationId}`);
-//   if (location.status === 404) {
-//     throw new InvalidIdError("Location")
-//   }
+  const location = await axios.get(`http://localhost:9020/locations/${event.locationId}`);
+  if (location.status === 404) {
+    throw new InvalidIdError("Location")
+  }
 
-//   const { name: locationName } = await location.json();
+  const { name: locationName } = location.data;
   
-//   const sport = await fetch(`http://localhost:9040/sports/${event.sportId}`);
-//   if (sport.status === 404) {
-//     throw new InvalidIdError("Sport")
-//   }
+  const sport = await axios.get(`http://localhost:9040/sports/${event.sportId}`);
+  if (sport.status === 404) {
+    throw new InvalidIdError("Sport")
+  }
 
-//   const { name: sportName } = await sport.json();
+  const { name: sportName } = sport.data;
 
-//   const body = {
-//     id: uuid(),
-//     name: event.name,
-//     description: event.description,
-//     createdById: authorizedUser.id,
-//     createdByName: authorizedUser.username,
-//     locationId: event.locationId,
-//     locationName: locationName,
-//     sportId: event.sportId,
-//     sportName: sportName,
-//   };
+  const body = {
+    id: uuid(),
+    name: event.name,
+    description: event.description,
+    createdById: authorizedUser.id,
+    createdByName: authorizedUser.username,
+    locationId: event.locationId,
+    locationName: locationName,
+    sportId: event.sportId,
+    sportName: sportName,
+  };
 
-//   console.log(body)
-
-//   return true;
-// }
+  const res = axios.post("http://localhost:9010/events", body);
+  
+  return true;
+}
