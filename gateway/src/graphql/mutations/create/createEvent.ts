@@ -8,11 +8,12 @@ export const typeDefs = gql`
     name: String!
     description: String
     locationId: ID!
-    locationName: String
     sportId: ID!
-    sportName: String
     start: Int!
     end: Int!
+    free: Boolean!
+    repetition: Repetition!
+    price: Float!
   }
   extend type Mutation {
     createEvent(event: CreateEventInput): Boolean
@@ -34,6 +35,9 @@ interface Args {
     description: string
     locationId: string | number
     sportId: string | number
+    price: number
+    repetition: string
+    free: boolean
     start: number
     end: number
   }
@@ -50,14 +54,7 @@ const authorizedUser = {
 
 export const resolvers = {
   Mutation: {
-    createEvent: async (_obj: null, args: Args) => {
-
-      const { event } = args;
-      createEvent(event)
-
-      return true;
-
-    }
+    createEvent: async (_obj: null, args: Args) => await createEvent(args.event)
   }
 };
 

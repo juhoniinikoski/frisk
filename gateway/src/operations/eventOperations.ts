@@ -1,6 +1,9 @@
 import axios from "axios";
-import { InvalidIdError } from "./errors";
+import { DefectiveDataError, InvalidIdError } from "./errors";
 import { v4 as uuid } from "uuid";
+import { getLocation } from "./locationOperations";
+import { getSport } from "./sportOperations";
+import { EVENT_SERVICE_URL } from "../utils/config";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -11,6 +14,9 @@ interface Event {
   sportId: string | number
   start: number
   end: number
+  repetition: string
+  price: number
+  free: boolean
 }
 
 const authorizedUser = {
@@ -36,10 +42,10 @@ export const getEvents = async (args: Args) => {
   
   try {
     if (params.length > 0) {
-      const res = await axios.get(`http://localhost:9010/events?${queryParams}`);
+      const res = await axios.get(`${EVENT_SERVICE_URL}?${queryParams}`);
       return res.data;
     } else {
-      const res = await axios.get("http://localhost:9010/events");
+      const res = await axios.get(EVENT_SERVICE_URL);
       return res.data;
     }
   } catch (error) {
@@ -50,7 +56,7 @@ export const getEvents = async (args: Args) => {
 
 export const getEvent = async (id: string | number) => {
   try {
-    const res = await axios.get(`http://localhost:9010/events/${id}`);
+    const res = await axios.get(`${EVENT_SERVICE_URL}/${id}`);
     return res.data;
   } catch (error) {
     throw new InvalidIdError("Event");
@@ -59,19 +65,22 @@ export const getEvent = async (id: string | number) => {
 
 export const createEvent = async (event: Event) => {
 
-  const location = await axios.get(`http://localhost:9020/locations/${event.locationId}`);
-  if (location.status === 404) {
-    throw new InvalidIdError("Location")
-  }
-
-  const { name: locationName } = location.data;
+  let values = Object.values(event);
+  // removes description from checking as it's not mandatory
+  values.splice(1, 1);
   
-  const sport = await axios.get(`http://localhost:9040/sports/${event.sportId}`);
-  if (sport.status === 404) {
-    throw new InvalidIdError("Sport")
-  }
+  // check that all values are included and none of the values is empty
+  if (values.length !== 8) {
+    throw new DefectiveDataError("createEvent");
+  } else if (values.filter(value => value === "" || null).length !== 0) {
+    throw new DefectiveDataError("createEvent");
+  };
 
-  const { name: sportName } = sport.data;
+  const location = await getLocation(event.locationId);
+  const { name: locationName } = location;
+
+  const sport = await getSport(event.sportId);
+  const { name: sportName } = sport;
 
   const body = {
     id: uuid(),
@@ -83,9 +92,18 @@ export const createEvent = async (event: Event) => {
     locationName: locationName,
     sportId: event.sportId,
     sportName: sportName,
+    start: event.start,
+    free: event.free,
+    end: event.end,
+    repetition: event.repetition,
+    price: event.price
   };
 
-  const res = axios.post("http://localhost:9010/events", body);
+  const res = await axios.post(EVENT_SERVICE_URL, body);
+  if (res.status === 201) {
+    return true;
+  }
   
-  return true;
-}
+  return false;
+};
+

@@ -1,5 +1,6 @@
 import { ApolloError } from "apollo-server";
 import axios from "axios";
+import { LOCATION_SERVICE_URL } from "../utils/config";
 import { InvalidIdError } from "./errors";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -20,10 +21,10 @@ export const getLocations = async (args: Args) => {
   
   try {
     if (params.length > 0) {
-      const res = await axios.get(`http://localhost:9020/locations?${queryParams}`);
+      const res = await axios.get(`${LOCATION_SERVICE_URL}?${queryParams}`);
       return res.data;
     } else {
-      const res = await axios.get("http://localhost:9020/locations");
+      const res = await axios.get(LOCATION_SERVICE_URL);
       return res.data;
     }
   } catch (error) {
@@ -34,7 +35,7 @@ export const getLocations = async (args: Args) => {
 
 export const getLocation = async (id: string | number) => {
   try {
-    const res = await axios.get(`http://localhost:9020/locations/${id}`);
+    const res = await axios.get(`${LOCATION_SERVICE_URL}/${id}`);
     return res.data;
   } catch (error) {
     throw new InvalidIdError("Location");

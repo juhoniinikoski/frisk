@@ -53,8 +53,13 @@ export const createEvent = async (event: Partial<EventClass>) => {
 
   try {
 
+    const start = Number(event.start) * 1000
+    const end = Number(event.end) * 1000
+
     await Event.query().insertAndFetch({
       ...event,
+      start: new Date(start),
+      end: new Date(end),
       id: uuid(),
     });
 
@@ -85,7 +90,6 @@ export const deleteEvent = async (id: string | number) => {
   try {
 
     const res = await Event.query().findById(id).delete();
-    console.log(res)
     if (res === 0) {
       return false;
     }

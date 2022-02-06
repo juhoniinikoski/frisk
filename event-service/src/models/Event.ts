@@ -30,8 +30,8 @@ class EventClass extends BaseModel {
   price: number;
   createdById: string | number;
   createdAt: Date;
-  start: Date;
-  end: Date;
+  start: Date | number;
+  end: Date | number;
   repetition: string;
 }
 

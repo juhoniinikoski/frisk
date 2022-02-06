@@ -116,14 +116,19 @@ describe("event", () => {
   });
 
   describe("creating event succesfully", () => {
-    it("should create one user succesfully", async () => {
+    it("should create one event succesfully", async () => {
       
       const event: Partial<EventClass> = {
         name: "testin tekemä event",
         description: "huippudescriptioni",
         locationId: "lokaatioId",
         sportId: "1",
-        createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f"
+        createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f",
+        free: true,
+        price: 0,
+        repetition: "SINGLE",
+        start: Date.now() / 1000,
+        end: (Date.now() + 1000 * 60 * 60) / 1000
       };
 
       return await supertest(app).post('/events')

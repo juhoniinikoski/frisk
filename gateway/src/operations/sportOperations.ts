@@ -1,4 +1,5 @@
 import axios from "axios";
+import { SPORT_SERVICE_URL } from "../utils/config";
 import { InvalidIdError } from "./errors";
 
 interface Args {
@@ -17,10 +18,10 @@ export const getSports = async (args: Args) => {
   
   try {
     if (params.length > 0) {
-      const res = await axios.get(`http://localhost:9040/sports?${queryParams}`);
+      const res = await axios.get(`${SPORT_SERVICE_URL}?${queryParams}`);
       return res.data;
     } else {
-      const res = await axios.get("http://localhost:9040/sports");
+      const res = await axios.get(SPORT_SERVICE_URL);
       return res.data;
     }
   } catch (error) {
@@ -31,7 +32,7 @@ export const getSports = async (args: Args) => {
 
 export const getSport = async (id: string | number) => {
   try {
-    const res = await axios.get(`http://localhost:9040/sports/${id}`);
+    const res = await axios.get(`${SPORT_SERVICE_URL}/${id}`);
     return res.data;
   } catch (error) {
     throw new InvalidIdError("Sport");
