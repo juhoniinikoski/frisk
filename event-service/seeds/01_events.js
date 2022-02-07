@@ -18,8 +18,8 @@ const createColumns = (ownerName, eventTitle, createdBy, sportId, sportName) => 
   repetition: 'SINGLE',
   free: true,
   price: 0.00,
-  start: new Date(1641657600000),
-  end: new Date(1641664800000)
+  start: new Date(Date.now() - 2 * oneHour),
+  end: new Date(Date.now())
 })
 
 exports.seed = async knex => {

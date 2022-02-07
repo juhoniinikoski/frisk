@@ -52,14 +52,9 @@ export const getEventTest = async (id: string | number) => {
 export const createEvent = async (event: Partial<EventClass>) => {
 
   try {
-
-    const start = Number(event.start) * 1000
-    const end = Number(event.end) * 1000
-
+    
     await Event.query().insertAndFetch({
       ...event,
-      start: new Date(start),
-      end: new Date(end),
       id: uuid(),
     });
 
