@@ -1,9 +1,10 @@
 import axios from "axios";
-import { DefectiveDataError, InvalidIdError } from "./errors";
+import { InvalidIdError } from "./errors";
 import { v4 as uuid } from "uuid";
 import { getLocation } from "./locationOperations";
 import { getSport } from "./sportOperations";
 import { EVENT_SERVICE_URL } from "../utils/config";
+import { object, string, number, date, bool } from 'yup';
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -63,18 +64,23 @@ export const getEvent = async (id: string | number) => {
   }
 };
 
+const eventSchema = object({
+  name: string().required(),
+  description: string(),
+  locationId: string().required(),
+  sportId: string().required(),
+  start: date().required(),
+  end: date().required(),
+  repetition: string().required(),
+  price: number().required(),
+  free: bool().required()
+});
+
 export const createEvent = async (event: Event) => {
 
-  let values = Object.values(event);
-  // removes description from checking as it's not mandatory
-  values.splice(1, 1);
-  
-  // check that all values are included and none of the values is empty
-  if (values.length !== 8) {
-    throw new DefectiveDataError("createEvent");
-  } else if (values.filter(value => value === "" || null).length !== 0) {
-    throw new DefectiveDataError("createEvent");
-  };
+  // create event also to join tables
+
+  const data = await eventSchema.validate(event);
 
   const location = await getLocation(event.locationId);
   const { name: locationName } = location;
@@ -83,20 +89,12 @@ export const createEvent = async (event: Event) => {
   const { name: sportName } = sport;
 
   const body = {
+    ...data,
     id: uuid(),
-    name: event.name,
-    description: event.description,
     createdById: authorizedUser.id,
     createdByName: authorizedUser.username,
-    locationId: event.locationId,
     locationName: locationName,
-    sportId: event.sportId,
     sportName: sportName,
-    start: event.start,
-    free: event.free,
-    end: event.end,
-    repetition: event.repetition,
-    price: event.price
   };
 
   const res = await axios.post(EVENT_SERVICE_URL, body);
@@ -106,4 +104,16 @@ export const createEvent = async (event: Event) => {
   
   return false;
 };
+
+export const deleteEvent = async (id: string | number) => {
+
+  // handle removal of also from all possible join tables
+
+  try {
+    await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
+    return true;
+  } catch (error) {
+    throw new InvalidIdError("Event")
+  }
+}
 

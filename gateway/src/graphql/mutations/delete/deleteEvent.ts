@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { deleteEvent } from '../../../operations/eventOperations';
 
 export const typeDefs = gql`
   extend type Mutation {
@@ -9,7 +10,15 @@ export const typeDefs = gql`
   }
 `;
 
-export const resolvers = {};
+interface Args {
+  id: string | number
+}
+
+export const resolvers = {
+  Mutation: {
+    deleteEvent: async (_obj: null, args: Args) => await deleteEvent(args.id)
+  }
+};
 
 export default {
   typeDefs,

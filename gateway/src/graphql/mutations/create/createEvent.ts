@@ -9,8 +9,8 @@ export const typeDefs = gql`
     description: String
     locationId: ID!
     sportId: ID!
-    start: Int!
-    end: Int!
+    start: DateTime!
+    end: DateTime!
     free: Boolean!
     repetition: Repetition!
     price: Float!
@@ -19,15 +19,6 @@ export const typeDefs = gql`
     createEvent(event: CreateEventInput): Boolean
   }
 `;
-
-const argsSchema = yup.object().shape({
-  event: yup.object().shape({
-    name: yup
-      .string()
-      .max(200)
-      .trim(),
-  }),
-});
 
 interface Args {
   event: {
@@ -41,15 +32,6 @@ interface Args {
     start: number
     end: number
   }
-}
-
-interface User {
-  id?: string
-}
-
-const authorizedUser = {
-  username: "juhoniinikoski",
-  id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
 };
 
 export const resolvers = {
