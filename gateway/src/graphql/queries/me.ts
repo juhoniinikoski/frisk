@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server';
-import { Context } from '../../entities';
 
 export const typeDefs = gql`
   extend type Query {

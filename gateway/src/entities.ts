@@ -4,7 +4,7 @@ export interface Event {
   id: string | number
   eventTitle: string
   description: string
-  locationId: string
+  locationId: string | number
   location: Location
   locationName: string
   sport: Sport
@@ -17,8 +17,8 @@ export interface Event {
   createdByName: string
   createdById: string | number
   createdAt: Date
-  start: Date
-  end: Date
+  start: Date | number
+  end: Date | number
   repetition: string
 }
 

@@ -1,5 +1,4 @@
 import { gql } from 'apollo-server';
-import * as yup from 'yup';
 import { getSports } from '../../operations/sportOperations';
 
 export const typeDefs = gql`
@@ -17,13 +16,7 @@ export const typeDefs = gql`
   }
 `;
 
-const getLikeFilter = (value: string) => `%${value}%`;
-
-const argsSchema = yup.object({
-  after: yup.string(),
-  first: yup.number().min(1).max(30).default(30),
-  searchKeyword: yup.string().trim(),
-});
+// const getLikeFilter = (value: string) => `%${value}%`;
 
 interface Args {
   first: number

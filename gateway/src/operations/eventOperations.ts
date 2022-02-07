@@ -1,10 +1,12 @@
 import axios from "axios";
 import { InvalidIdError } from "./errors";
-import { v4 as uuid } from "uuid";
+import { Event as EventType } from "../entities";
 import { getLocation } from "./locationOperations";
 import { getSport } from "./sportOperations";
 import { EVENT_SERVICE_URL } from "../utils/config";
 import { object, string, number, date, bool } from 'yup';
+import { locationSportAdd, locationSportDelete } from "./joinTableOperations";
+import { ApolloError } from "apollo-server";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -35,7 +37,7 @@ interface Args {
   savedBy?: string | number
 }
 
-export const getEvents = async (args: Args) => {
+export const getEvents = async (args: Args): Promise<EventType[]> | null => {
   const entries = Object.entries(args);
 
   const params = entries.map(entry => `${entry[0]}=${entry[1]}`);
@@ -55,7 +57,7 @@ export const getEvents = async (args: Args) => {
   }
 };
 
-export const getEvent = async (id: string | number) => {
+export const getEvent = async (id: string | number): Promise<EventType> | null => {
   try {
     const res = await axios.get(`${EVENT_SERVICE_URL}/${id}`);
     return res.data;
@@ -76,11 +78,7 @@ const eventSchema = object({
   free: bool().required()
 });
 
-export const createEvent = async (event: Event) => {
-
-  // create event also to join tables
-
-  const data = await eventSchema.validate(event);
+export const createEvent = async (event: Event): Promise<boolean> => {
 
   const location = await getLocation(event.locationId);
   const { name: locationName } = location;
@@ -88,32 +86,44 @@ export const createEvent = async (event: Event) => {
   const sport = await getSport(event.sportId);
   const { name: sportName } = sport;
 
+  const data = await eventSchema.validate(event);
+
   const body = {
     ...data,
-    id: uuid(),
     createdById: authorizedUser.id,
     createdByName: authorizedUser.username,
     locationName: locationName,
     sportName: sportName,
   };
 
-  const res = await axios.post(EVENT_SERVICE_URL, body);
-  if (res.status === 201) {
-    return true;
+  try {
+    const result = await axios.post(EVENT_SERVICE_URL, body);
+    // handling join tables related to creating event
+    if (result.status === 201) {
+      await locationSportAdd(event);
+      return true;
+    }
+  } catch (error) {
+    throw new ApolloError("Couldn't create new event.");
   }
   
   return false;
 };
 
-export const deleteEvent = async (id: string | number) => {
+export const deleteEvent = async (id: string | number): Promise<boolean> => {
 
   // handle removal of also from all possible join tables
+  const event = await getEvent(id);
 
   try {
-    await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
+    const result = await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
+    if (result.status === 204) {
+      await locationSportDelete(event);
+    }
     return true;
   } catch (error) {
-    throw new InvalidIdError("Event")
+    console.log(error);
+    return false;
   }
-}
+};
 

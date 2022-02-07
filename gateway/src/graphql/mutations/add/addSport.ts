@@ -8,14 +8,7 @@ export const typeDefs = gql`
   extend type Mutation {
     addSport(add: AddSportInput): Boolean
   }
-`;  
-
-interface Args {
-  add: {
-    locationId: string | number
-    sportId: string | number
-  }
-}
+`;
 
 export const resolvers = {};
 

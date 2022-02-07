@@ -1,6 +1,9 @@
 import axios from "axios";
 import { SPORT_SERVICE_URL } from "../utils/config";
 import { InvalidIdError } from "./errors";
+import { Sport as SportType } from "../entities";
+
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 
 interface Args {
   first?: number
@@ -10,7 +13,7 @@ interface Args {
   savedBy?: string | number
 }
 
-export const getSports = async (args: Args) => {
+export const getSports = async (args: Args): Promise<SportType[]> | null => {
   const entries = Object.entries(args);
 
   const params = entries.map(entry => `${entry[0]}=${entry[1]}`);
@@ -30,7 +33,7 @@ export const getSports = async (args: Args) => {
   }
 };
 
-export const getSport = async (id: string | number) => {
+export const getSport = async (id: string | number): Promise<SportType> | null => {
   try {
     const res = await axios.get(`${SPORT_SERVICE_URL}/${id}`);
     return res.data;

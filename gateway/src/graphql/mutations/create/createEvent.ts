@@ -1,5 +1,4 @@
-import { ApolloError, gql } from 'apollo-server';
-import * as yup from 'yup';
+import { gql } from 'apollo-server';
 import { createEvent } from '../../../operations/eventOperations';
 
 
@@ -32,7 +31,7 @@ interface Args {
     start: number
     end: number
   }
-};
+}
 
 export const resolvers = {
   Mutation: {

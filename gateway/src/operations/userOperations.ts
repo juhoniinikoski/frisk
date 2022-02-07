@@ -1,5 +1,8 @@
 import axios from "axios";
 import { InvalidIdError } from "./errors";
+import { User as UserType } from "../entities";
+
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 
 interface Args {
   first?: number
@@ -7,7 +10,7 @@ interface Args {
   searchKeyword?: string
 }
 
-export const getUsers = async (args: Args) => {
+export const getUsers = async (args: Args): Promise<UserType[]> | null => {
   const entries = Object.entries(args);
 
   const params = entries.map(entry => `${entry[0]}=${entry[1]}`);
@@ -27,7 +30,7 @@ export const getUsers = async (args: Args) => {
   }
 };
 
-export const getUser = async (id: string | number) => {
+export const getUser = async (id: string | number): Promise<UserType> | null => {
   try {
     const res = await axios.get(`http://localhost:9030/users/${id}`);
     return res.data;

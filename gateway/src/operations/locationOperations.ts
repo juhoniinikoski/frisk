@@ -1,7 +1,7 @@
-import { ApolloError } from "apollo-server";
 import axios from "axios";
 import { LOCATION_SERVICE_URL } from "../utils/config";
 import { InvalidIdError } from "./errors";
+import { Location as LocationType } from "../entities";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -13,7 +13,7 @@ interface Args {
   savedBy?: string | number
 }
 
-export const getLocations = async (args: Args) => {
+export const getLocations = async (args: Args): Promise<LocationType[]> | null => {
   const entries = Object.entries(args);
 
   const params = entries.map(entry => `${entry[0]}=${entry[1]}`);
@@ -33,7 +33,7 @@ export const getLocations = async (args: Args) => {
   }
 };
 
-export const getLocation = async (id: string | number) => {
+export const getLocation = async (id: string | number): Promise<LocationType> | null => {
   try {
     const res = await axios.get(`${LOCATION_SERVICE_URL}/${id}`);
     return res.data;
