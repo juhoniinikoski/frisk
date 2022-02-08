@@ -19,15 +19,16 @@ export const createUser = async (body: Partial<UserClass>) => {
     }
 
     const passwordHash = await createPasswordHash(password);
+    const id = uuid();
 
     await User.query().insertAndFetch({
       username,
       password: passwordHash,
-      id: uuid(),
+      id: id,
       email
     });
 
-    return true;
+    return id;
     
   } catch (error) {
     console.log(error);
@@ -59,7 +60,7 @@ export const updateUser = async (id: string | number, body: Partial<UserClass>) 
       email: email
     });
 
-    return true;
+    return id;
     
   } catch (error) {
     console.log(error);

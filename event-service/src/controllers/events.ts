@@ -66,7 +66,8 @@ eventsRouter.post("/", async (req: EventRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
+  res.status(201);
+  return res.send(result);
 
 });
 
@@ -80,7 +81,8 @@ eventsRouter.put("/:id", async (req: EventRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
+  res.status(201);
+  return res.send(id);
 
 });
 

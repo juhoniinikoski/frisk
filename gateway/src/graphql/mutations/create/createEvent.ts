@@ -15,7 +15,7 @@ export const typeDefs = gql`
     price: Float!
   }
   extend type Mutation {
-    createEvent(event: CreateEventInput): Boolean
+    createEvent(event: CreateEventInput): String
   }
 `;
 

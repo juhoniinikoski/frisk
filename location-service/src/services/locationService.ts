@@ -61,12 +61,14 @@ export const createLocation = async (location: Partial<LocationClass>) => {
       return false;
     }
 
+    const id = uuid();
+
     await Location.query().insertAndFetch({
       ...location,
-      id: uuid(),
+      id: id,
     });
 
-    return true;
+    return id;
     
   } catch (error) {
     console.log(error);

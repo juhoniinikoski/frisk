@@ -57,8 +57,8 @@ usersRouter.post("/", async (req: UserRequest, res: Response) => {
     return res.sendStatus(400);
   }
 
-  return res.sendStatus(201);
-
+  res.status(201);
+  return res.send(result);
 });
 
 usersRouter.get("/:id", async (req: Request, res: Response) => {
@@ -86,8 +86,8 @@ usersRouter.put("/:id", async (req: UserRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
-
+  res.status(201);
+  return res.send(result);
 });
 
 usersRouter.delete("/:id", async (req: Request, res: Response) => {

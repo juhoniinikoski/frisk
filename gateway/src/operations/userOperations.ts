@@ -1,6 +1,9 @@
 import axios from "axios";
 import { InvalidIdError } from "./errors";
 import { User as UserType } from "../entities";
+import { object, string } from "yup";
+import { USER_SERVICE_URL } from "../utils/config";
+import { ApolloError } from "apollo-server";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -10,6 +13,11 @@ interface Args {
   searchKeyword?: string
 }
 
+const authorizedUser = {
+  username: "juhoniinikoski",
+  id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
+};
+
 export const getUsers = async (args: Args): Promise<UserType[]> | null => {
   const entries = Object.entries(args);
 
@@ -18,10 +26,10 @@ export const getUsers = async (args: Args): Promise<UserType[]> | null => {
   
   try {
     if (params.length > 0) {
-      const res = await axios.get(`http://localhost:9030/users?${queryParams}`);
+      const res = await axios.get(`${USER_SERVICE_URL}?${queryParams}`);
       return res.data;
     } else {
-      const res = await axios.get("http://localhost:9030/users");
+      const res = await axios.get(`${USER_SERVICE_URL}`);
       return res.data;
     }
   } catch (error) {
@@ -32,9 +40,77 @@ export const getUsers = async (args: Args): Promise<UserType[]> | null => {
 
 export const getUser = async (id: string | number): Promise<UserType> | null => {
   try {
-    const res = await axios.get(`http://localhost:9030/users/${id}`);
+    const res = await axios.get(`${USER_SERVICE_URL}/${id}`);
     return res.data;
   } catch (error) {
     throw new InvalidIdError("User");
   }
+};
+
+const userSchema = object({
+  username: string().required(),
+  email: string().required(),
+  password: string().required()
+});
+
+export const createUser = async (user: Partial<UserType>) => {
+
+  const data = await userSchema.validate(location);
+
+  try {
+    const result = await axios.post(USER_SERVICE_URL, data);
+    if (result.status === 201) {
+      return result.data;
+    }
+  } catch (error) {
+    throw new ApolloError("Couldn't create a new user.");
+  }
+  
+  return false;
+};
+
+const updateSchema = object({
+  username: string(),
+  email: string()
+});
+
+export const updateUser = async (id: string | number, user: Partial<UserType>) => {
+
+  const data = await updateSchema.validate(user);
+
+  // should also change creator names of all events where this user is creator
+  
+  if (authorizedUser.id === id) {
+    try {
+      const result = await axios.put(`${USER_SERVICE_URL}/${id}`, data);
+      if (result.status === 201) {
+        return result.data;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  throw new ApolloError("Could not update the user.");
+  
+};
+
+
+export const deleteUser = async (id: string | number) => {
+
+  // should also remove all upcoming events created by user
+
+  if (authorizedUser.id === id) {
+    try {
+      const result = await axios.delete(`${USER_SERVICE_URL}/${id}`);
+      if (result.status === 204) {
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  throw new ApolloError("Could not delete the user.");
+
 };

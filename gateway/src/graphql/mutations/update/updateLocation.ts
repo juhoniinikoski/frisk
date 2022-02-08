@@ -12,7 +12,7 @@ export const typeDefs = gql`
     country: String
   }
   extend type Mutation {
-    updateLocation(id: ID!, data: UpdateLocationInput): Boolean
+    updateLocation(id: ID!, data: UpdateLocationInput): String
   }
 `;
 

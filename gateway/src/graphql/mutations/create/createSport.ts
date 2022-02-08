@@ -1,32 +1,26 @@
 import { gql } from 'apollo-server';
+import { createSport } from '../../../operations/sportOperations';
 
 export const typeDefs = gql`
   input CreateSportInput {
     name: String!
-    locations: [String]
   }
   extend type Mutation {
-    createSport(sport: CreateSportInput): Boolean
+    createSport(sport: CreateSportInput): String
   }
 `;
 
-// const argsSchema = yup.object().shape({
-//   sport: yup.object().shape({
-//     name: yup
-//       .string()
-//       .max(200)
-//       .trim(),
-//   }),
-// });
+interface Args {
+  sport: {
+    name: string
+  }
+}
 
-// interface Args {
-//   sport: {
-//     name: string
-//     locations: string[]
-//   }
-// }
-
-export const resolvers = {};
+export const resolvers = {
+  Mutation: {
+    createSport: async (_obj: null, args: Args) => await createSport(args.sport)
+  }
+};
 
 export default {
   typeDefs,

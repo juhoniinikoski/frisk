@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LOCATION_SERVICE_URL } from "../utils/config";
-import { InvalidIdError } from "./errors";
+import { InvalidIdError, NameTakenError } from "./errors";
 import { Location as LocationType } from "../entities";
 import { object, string } from "yup";
 import { ApolloError } from "apollo-server";
@@ -71,13 +71,12 @@ export const createLocation = async (location: Partial<LocationType>) => {
   try {
     const result = await axios.post(LOCATION_SERVICE_URL, body);
     if (result.status === 201) {
-      return true;
+      return result.data;
     }
   } catch (error) {
-    throw new ApolloError("Couldn't create new location.");
+    throw new NameTakenError("Location");
   }
-  
-  return false;
+
 };
 
 const updateSchema = object({
@@ -97,13 +96,13 @@ export const updateLocation = async (id: string | number, location: Partial<Loca
   try {
     const result = await axios.put(`${LOCATION_SERVICE_URL}/${id}`, data);
     if (result.status === 201) {
-      return true;
+      return result.data;
     }
   } catch (error) {
     console.log(error);
+    throw new NameTakenError("location");
   }
 
-  throw new ApolloError("Could not update the location.")
 };
 
 export const deleteLocation = async (id: string | number) => {

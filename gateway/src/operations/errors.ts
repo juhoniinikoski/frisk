@@ -11,3 +11,9 @@ export class DefectiveDataError extends ApolloError {
     super("Input data is missing some required properties.", 'DEFECTIVE_DATA', { function: fnc });
   }
 }
+
+export class NameTakenError extends ApolloError {
+  constructor(field: string) {
+    super("Given name already taken.", 'NAME_TAKEN', { field: field });
+  }
+}

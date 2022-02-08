@@ -30,14 +30,18 @@ import createUserMutation from './mutations/create/createUser';
 import createEventMutation from './mutations/create/createEvent';
 import createLocationMutation from './mutations/create/createLocation';
 import createSportMutation from './mutations/create/createSport';
+
 import deleteEventMutation from './mutations/delete/deleteEvent';
 import deleteLocationMutation from './mutations/delete/deleteLocation';
+import deleteSportMutation from './mutations/delete/deleteSport';
+import deleteUserMutation from './mutations/delete/deleteUser';
 
 import followUser from './mutations/follow/followUser';
 
 import updateUser from './mutations/update/updateUser';
 import updateEvent from './mutations/update/updateEvent';
 import updateLocation from './mutations/update/updateLocation';
+import updateSport from './mutations/update/updateSport';
 
 import saveEvent from './mutations/save/saveEvent';
 import saveLocation from './mutations/save/saveLocation';
@@ -86,6 +90,7 @@ const typeDefs = [
   createEventMutation.typeDefs,
   createLocationMutation.typeDefs,
   deleteLocationMutation.typeDefs,
+  deleteSportMutation.typeDefs,
   followUser.typeDefs,
   saveEvent.typeDefs,
   addSport.typeDefs,
@@ -95,7 +100,9 @@ const typeDefs = [
   saveSport.typeDefs,
   updateUser.typeDefs,
   updateEvent.typeDefs,
-  updateLocation.typeDefs
+  updateLocation.typeDefs,
+  updateSport.typeDefs,
+  deleteEventMutation.typeDefs
 ];
 
 const resolvers = merge(
@@ -124,6 +131,7 @@ const resolvers = merge(
   createEventMutation.resolvers,
   createLocationMutation.resolvers,
   deleteLocationMutation.resolvers,
+  deleteSportMutation.resolvers,
   followUser.resolvers,
   saveEvent.resolvers,
   addSport.resolvers,
@@ -133,7 +141,9 @@ const resolvers = merge(
   saveLocation.resolvers,
   updateUser.resolvers,
   updateEvent.resolvers,
-  updateLocation.resolvers
+  updateLocation.resolvers,
+  updateSport.resolvers,
+  deleteUserMutation.resolvers
 );
 
 const schema = makeExecutableSchema({

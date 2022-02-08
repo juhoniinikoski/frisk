@@ -61,12 +61,14 @@ export const createSport = async (sport: Partial<SportClass>) => {
       return false;
     }
 
+    const id = uuid();
+
     await Sport.query().insertAndFetch({
       ...sport,
-      id: uuid(),
+      id: id,
     });
 
-    return true;
+    return id;
     
   } catch (error) {
     console.log(error);

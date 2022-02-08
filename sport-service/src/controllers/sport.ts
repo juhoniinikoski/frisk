@@ -69,8 +69,8 @@ sportsRouter.post("/", async (req: SportRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
-
+  res.status(201);
+  return res.send(result)
 });
 
 sportsRouter.put("/:id", async (req: SportRequest, res: Response) => {
@@ -83,8 +83,8 @@ sportsRouter.put("/:id", async (req: SportRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
-
+  res.status(201);
+  return res.send(id)
 });
 
 sportsRouter.delete("/:id", async (req: Request, res: Response) => {

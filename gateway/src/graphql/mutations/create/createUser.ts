@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { createUser } from '../../../operations/userOperations';
 
 export const typeDefs = gql`
   input CreateUserInput {
@@ -10,11 +11,23 @@ export const typeDefs = gql`
     """
     Creates a new user, if the provided username does not already exist.
     """
-    createUser(user: CreateUserInput): User
+    createUser(user: CreateUserInput): String
   }
 `;
 
-export const resolvers = {};
+interface Args {
+  user: {
+    username: string
+    password: string
+    email: string
+  }
+}
+
+export const resolvers = {
+  Mutation: {
+    createSport: async (_obj: null, args: Args) => await createUser(args.user)
+  }
+};
 
 export default {
   typeDefs,

@@ -69,7 +69,8 @@ locationRouter.post("/", async (req: LocationRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
+  res.status(201);
+  return res.send(result);
 
 });
 
@@ -83,7 +84,8 @@ locationRouter.put("/:id", async (req: LocationRequest, res: Response) => {
     return res.sendStatus(404);
   }
 
-  return res.sendStatus(201);
+  res.status(201)
+  return res.send(id);
 
 });
 

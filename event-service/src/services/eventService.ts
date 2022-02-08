@@ -52,13 +52,15 @@ export const getEventTest = async (id: string | number) => {
 export const createEvent = async (event: Partial<EventClass>) => {
 
   try {
+
+    const id = uuid();
     
     await Event.query().insertAndFetch({
       ...event,
-      id: uuid(),
+      id: id,
     });
 
-    return true;
+    return id;
     
   } catch (error) {
     console.log(error);

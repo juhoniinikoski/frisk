@@ -1,5 +1,5 @@
 import axios from "axios";
-import { InvalidIdError } from "./errors";
+import { InvalidIdError, NameTakenError } from "./errors";
 import { Event as EventType } from "../entities";
 import { getLocation } from "./locationOperations";
 import { getSport } from "./sportOperations";
@@ -101,10 +101,10 @@ export const createEvent = async (event: Event): Promise<boolean> => {
     if (result.status === 201) {
       // handling join tables related to creating an event
       await locationSportAdd(event);
-      return true;
+      return result.data;
     }
   } catch (error) {
-    throw new ApolloError("Couldn't create new event.");
+    throw new NameTakenError("event");
   }
   
   return false;
@@ -147,11 +147,11 @@ export const updateEvent = async (id: string | number, event: Event) => {
       // handles join table operations
       await locationSportAdd(initialEvent, body.locationId, body.sportId);
       await locationSportDelete(initialEvent, body.locationId, body.sportId);
-      return true;
+      return result.data;
     } 
   } catch (error) {
     console.log(error);
-    return false;
+    throw new NameTakenError("event");
   }
 
 };

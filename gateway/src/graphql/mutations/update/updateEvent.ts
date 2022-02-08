@@ -15,7 +15,7 @@ export const typeDefs = gql`
     price: Float
   }
   extend type Mutation {
-    updateEvent(id: ID!, data: UpdateEventInput): Boolean
+    updateEvent(id: ID!, data: UpdateEventInput): String
   }
 `;
 
