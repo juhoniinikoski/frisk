@@ -1,9 +1,9 @@
 import axios from "axios";
 import { SPORT_SERVICE_URL } from "../utils/config";
 import { InvalidIdError, NameTakenError } from "./errors";
-import { Sport as SportType } from "../entities";
+import { Sport as SportType, User } from "../entities";
 import { object, string } from "yup";
-import { ApolloError } from "apollo-server";
+import { ApolloError, AuthenticationError } from "apollo-server";
 import { getEvents } from "./eventOperations";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -15,11 +15,6 @@ interface Args {
   location?: string | number
   savedBy?: string | number
 }
-
-const authorizedUser = {
-  username: "juhoniinikoski",
-  id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
-};
 
 export const getSports = async (args: Args): Promise<SportType[]> | null => {
   const entries = Object.entries(args);
@@ -54,7 +49,7 @@ const sportSchema = object({
   name: string().required()
 });
 
-export const createSport = async (sport: Partial<SportType>) => {
+export const createSport = async (sport: Partial<SportType>, authorizedUser: User) => {
 
   const data = await sportSchema.validate(sport);
 
@@ -79,9 +74,13 @@ const updateSchema = object({
   name: string()
 });
 
-export const updateSport = async (id: string | number, sport: Partial<SportType>) => {
+export const updateSport = async (id: string | number, sport: Partial<SportType>, authorizedUser: User) => {
 
   const data = await updateSchema.validate(sport);
+
+  if (sport.createdById !== authorizedUser.id) {
+    throw new AuthenticationError("You must be the creator of the sport in order to update it.");
+  }
   
   try {
     const result = await axios.put(`${SPORT_SERVICE_URL}/${id}`, data);
@@ -95,10 +94,14 @@ export const updateSport = async (id: string | number, sport: Partial<SportType>
   
 };
 
-export const deleteSport = async (id: string | number) => {
+export const deleteSport = async (id: string | number, authorizedUser: User) => {
 
   // check if sport wanted to delete really exists
-  await getSport(id);
+  const sport = await getSport(id);
+
+  if (sport.createdById !== authorizedUser.id) {
+    throw new AuthenticationError("You must be the creator of the sport in order to delete it.");
+  }
 
   // sport can be deleted only if there is no events with that sport
   const result = await getEvents({ sport: id });

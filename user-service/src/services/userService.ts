@@ -90,8 +90,13 @@ export const getUser = async (id: string | number) => {
 
   try {
 
-    const data = await User.query().findById(id)
+    let data = await User.query().findById(id)
       .withGraphFetched('[followedUsers, savedEvents, savedSports, savedLocations]');
+    
+    if (!data) {
+      data = await User.query().findOne({ username: id })
+        .withGraphFetched('[followedUsers, savedEvents, savedSports, savedLocations]');
+    }
 
     if (!data) {
       return false;

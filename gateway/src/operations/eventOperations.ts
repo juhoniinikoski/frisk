@@ -1,12 +1,12 @@
 import axios from "axios";
 import { InvalidIdError, NameTakenError } from "./errors";
-import { Event as EventType } from "../entities";
+import { Event as EventType, Context, User } from "../entities";
 import { getLocation } from "./locationOperations";
 import { getSport } from "./sportOperations";
 import { EVENT_SERVICE_URL } from "../utils/config";
 import { object, string, number, date, bool } from 'yup';
 import { locationSportAdd, locationSportDelete } from "./joinTableOperations";
-import { ApolloError } from "apollo-server";
+import { ApolloError, AuthenticationError } from "apollo-server";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -21,11 +21,6 @@ interface Event {
   price: number
   free: boolean
 }
-
-const authorizedUser = {
-  username: "juhoniinikoski",
-  id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
-};
 
 interface Args {
   first?: number
@@ -78,7 +73,7 @@ const eventSchema = object({
   free: bool().required()
 });
 
-export const createEvent = async (event: Event): Promise<boolean> => {
+export const createEvent = async (event: Event, authorizedUser: User): Promise<boolean> => {
 
   const location = await getLocation(event.locationId);
   const { name: locationName } = location;
@@ -106,8 +101,6 @@ export const createEvent = async (event: Event): Promise<boolean> => {
   } catch (error) {
     throw new NameTakenError("event");
   }
-  
-  return false;
 };
 
 const updateSchema = object({
@@ -122,10 +115,14 @@ const updateSchema = object({
   free: bool()
 });
 
-export const updateEvent = async (id: string | number, event: Event) => {
+export const updateEvent = async (id: string | number, event: Event, authorizedUser: User) => {
 
   const data = await updateSchema.validate(event);
   const initialEvent = await getEvent(id);
+
+  if (initialEvent.createdById !== authorizedUser.id) {
+    throw new AuthenticationError("You must be the creator of the event in order to update it.")
+  }
 
   let body: Partial<EventType> = { ...data };
 
@@ -156,22 +153,25 @@ export const updateEvent = async (id: string | number, event: Event) => {
 
 };
 
-export const deleteEvent = async (id: string | number): Promise<boolean> => {
+export const deleteEvent = async (id: string | number, authorizedUser: User): Promise<boolean> => {
 
   const event = await getEvent(id);
 
-  try {
-    const result = await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
-    if (result.status === 204) {
-      // handles join table operations
-      await locationSportDelete(event);
+  if (event.createdById === authorizedUser.id) {
+    try {
+      const result = await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
+      if (result.status === 204) {
+        // handles join table operations
+        await locationSportDelete(event);
+      }
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new ApolloError("Could not delete the event")
     }
-    return true;
-  } catch (error) {
-    console.log(error);
   }
 
-  return true;
+  throw new AuthenticationError("You must be the creator of event in order to delete it.");
 
 };
 

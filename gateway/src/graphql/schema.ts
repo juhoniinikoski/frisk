@@ -102,7 +102,8 @@ const typeDefs = [
   updateEvent.typeDefs,
   updateLocation.typeDefs,
   updateSport.typeDefs,
-  deleteEventMutation.typeDefs
+  deleteEventMutation.typeDefs,
+  deleteUserMutation.typeDefs
 ];
 
 const resolvers = merge(

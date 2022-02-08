@@ -13,11 +13,6 @@ interface Args {
   searchKeyword?: string
 }
 
-const authorizedUser = {
-  username: "juhoniinikoski",
-  id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
-};
-
 export const getUsers = async (args: Args): Promise<UserType[]> | null => {
   const entries = Object.entries(args);
 
@@ -74,7 +69,7 @@ const updateSchema = object({
   email: string()
 });
 
-export const updateUser = async (id: string | number, user: Partial<UserType>) => {
+export const updateUser = async (id: string | number, user: Partial<UserType>, authorizedUser: UserType) => {
 
   const data = await updateSchema.validate(user);
 
@@ -96,7 +91,7 @@ export const updateUser = async (id: string | number, user: Partial<UserType>) =
 };
 
 
-export const deleteUser = async (id: string | number) => {
+export const deleteUser = async (id: string | number, authorizedUser: UserType) => {
 
   // should also remove all upcoming events created by user
 

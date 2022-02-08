@@ -1,87 +1,74 @@
-// import { AuthenticationError } from 'apollo-server';
-// import { Jwt } from 'jsonwebtoken';
-// import { ACCESS_TOKEN_EXPIRATION_TIME } from '../../utils/config';
-// import { loaders } from '../loaders/dataloaders';
-// import signJwt from './signJwt';
-// import verifyJwt from './verifyJwt';
+import { AuthenticationError } from 'apollo-server';
+import { getUser } from '../../operations/userOperations';
+import { ACCESS_TOKEN_EXPIRATION_TIME } from '../../utils/config';
+import signJwt from './signJwt';
+import verifyJwt from './verifyJwt';
 
-// const subject = 'accessToken';
-
-// interface JwtPayload extends Jwt {
-//   userId: string | number
-// }
+const subject = 'accessToken';
 
 class AuthService {
+  
+  accessToken: string
 
-  accessToken: string;
-
-  constructor({ accessToken }: {accessToken: string}) {
+  constructor({ accessToken }: { accessToken: string }) {
     this.accessToken = accessToken;
   }
 
-//   getAuthorizedUserId() {
-//     if (!this.accessToken) {
-//       return null;
-//     }
+  async getAuthorizedUserId() {
+    if (!this.accessToken) {
+      return null;
+    }
 
-//     let tokenPayload;
+    // console.log("authservice: " + this.accessToken)
 
-//     try {
-//       tokenPayload = verifyJwt(this.accessToken, { subject }) as JwtPayload;
-//     } catch (e) {
-//       throw new AuthenticationError('Authorization is required');
-//     }
+    let tokenPayload;
 
-//     return tokenPayload.userId;
-//   }
+    try {
+      tokenPayload = verifyJwt(this.accessToken, { subject });
+    } catch (e) {
+      return null;
+    }
 
-//   async getAuthorizedUser() {
-//     const id = this.getAuthorizedUserId();
+    return tokenPayload.userId;
+  }
 
-//     if (!id) {
-//       throw new AuthenticationError('Authorization is required');
-//     }
+  async getAuthorizedUser() {
+    const id = await this.getAuthorizedUserId();
 
-//     return await loaders.authorizedUser.load(id);
-//   }
+    if (!id) {
+      return null;
+    }
 
-//   async getAuthorizedUserRelations() {
-//     const id = this.getAuthorizedUserId();
+    return await getUser(id);
+  }
 
-//     if (!id) {
-//       return null;
-//     }
+  async getAuthorizedUserOrFail(error?: string) {
+    const normalizedError =
+      error || new AuthenticationError('Authorization is required');
 
-//     return await loaders.authorizedUserRelations.load(id);
-//   }
+    const user = await this.getAuthorizedUser();
 
-//   async getAuthorizedUserOrFail(error?: Error) {
-//     const normalizedError =
-//       error || new AuthenticationError('Authorization is required');
+    if (!user) {
+      throw normalizedError;
+    }
 
-//     const user = await this.getAuthorizedUser();
+    return user;
+  }
 
-//     if (!user) {
-//       throw normalizedError;
-//     }
+  createAccessToken(userId: string | number) {
+    const expiresAt = new Date(Date.now() + ACCESS_TOKEN_EXPIRATION_TIME);
 
-//     return user;
-//   }
-
-//   createAccessToken(userId: string | number) {
-//     const expiresAt = new Date(Date.now() + ACCESS_TOKEN_EXPIRATION_TIME);
-
-//     return {
-//       accessToken: signJwt(
-//         { userId },
-//         {
-//           expiresIn: expiresAt.getDate() - new Date().getDate(),
-//           subject,
-//         },
-//       ),
-//       expiresAt,
-//     };
-//   }
+    return {
+      accessToken: signJwt(
+        { userId },
+        {
+          expiresIn: expiresAt.getDate() - new Date().getDate(),
+          subject,
+        },
+      ),
+      expiresAt,
+    };
+  }
 }
 
 export default AuthService;

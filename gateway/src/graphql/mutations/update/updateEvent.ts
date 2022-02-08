@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { Context } from '../../../entities';
 import { updateEvent } from '../../../operations/eventOperations';
 
 
@@ -36,7 +37,10 @@ interface Args {
 
 export const resolvers = {
   Mutation: {
-    updateEvent: async (_obj: null, args: Args) => await updateEvent(args.id, args.data)
+    updateEvent: async (_obj: null, args: Args, { authService }: Context) => {
+      const authorizedUser = await authService.getAuthorizedUserOrFail();
+      return await updateEvent(args.id, args.data, authorizedUser)
+    }
   }
 };
 

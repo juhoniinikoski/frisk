@@ -26,6 +26,7 @@ export interface Location {
   id: string | number
   name: string
   description: string
+  createdById: string | number
   events: Event[]
   sports: Sport[]
   city: string
@@ -38,6 +39,7 @@ export interface Location {
 export interface Sport {
   id: string | number
   name: string
+  createdById: string | number
   locations: Location[]
   events: Event[]
 }

@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { Context } from '../../../entities';
 import { createSport } from '../../../operations/sportOperations';
 
 export const typeDefs = gql`
@@ -18,7 +19,10 @@ interface Args {
 
 export const resolvers = {
   Mutation: {
-    createSport: async (_obj: null, args: Args) => await createSport(args.sport)
+    createSport: async (_obj: null, args: Args, { authService }: Context) => {
+      const authorizedUser = await authService.getAuthorizedUserOrFail();
+      return await createSport(args.sport, authorizedUser);
+    }
   }
 };
 

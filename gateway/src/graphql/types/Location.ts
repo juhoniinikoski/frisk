@@ -9,6 +9,7 @@ type Location {
   events(first: Int, after: String): [Event]!
   sports: [Sport]!
   city: String!
+  createdById: String!
   zipcode: String
   country: String
   street: String!

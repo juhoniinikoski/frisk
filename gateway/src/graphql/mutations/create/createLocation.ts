@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { Context } from '../../../entities';
 import { createLocation } from '../../../operations/locationOperations';
 
 export const typeDefs = gql`
@@ -28,7 +29,10 @@ interface Args {
 
 export const resolvers = {
   Mutation: {
-    createLocation: async (_obj: null, args: Args) => await createLocation(args.location)
+    createLocation: async (_obj: null, args: Args, { authService }: Context) => {
+      const authorizedUser = await authService.getAuthorizedUserOrFail();
+      return await createLocation(args.location, authorizedUser);
+    }
   }
 };
 

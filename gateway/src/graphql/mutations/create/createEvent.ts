@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { Context } from '../../../entities';
 import { createEvent } from '../../../operations/eventOperations';
 
 
@@ -35,7 +36,10 @@ interface Args {
 
 export const resolvers = {
   Mutation: {
-    createEvent: async (_obj: null, args: Args) => await createEvent(args.event)
+    createEvent: async (_obj: null, args: Args, { authService }: Context) => {
+      const authorizedUser = await authService.getAuthorizedUserOrFail();
+      return await createEvent(args.event, authorizedUser);
+    }
   }
 };
 
