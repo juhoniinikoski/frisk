@@ -10,15 +10,10 @@ const createColumns = (locationName) => ({
   name: locationName,
   description: "Testilokaatio",
   created_by_id: 'bbe42984-051b-4a01-b45d-b8d29c32200c',
-  address: JSON.stringify(
-    {
-      id: 1,
-      street: 'Testitienpolku 1',
-      zipcode: '00100',
-      city: 'Helsinki',
-      country: 'Finland'
-    }
-  ),
+  street: 'Testitienpolku 1',
+  zipcode: '00100',
+  city: 'Helsinki',
+  country: 'Finland'
 });
 
 exports.seed = async (knex) => {

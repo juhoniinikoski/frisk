@@ -28,6 +28,10 @@ export interface Location {
   description: string
   events: Event[]
   sports: Sport[]
+  city: string
+  zipcode: string
+  country: string
+  street: string
   address: Address
 }
 

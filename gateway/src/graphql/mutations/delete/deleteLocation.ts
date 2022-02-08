@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server';
+import { deleteLocation } from '../../../operations/locationOperations';
 
 export const typeDefs = gql`
   extend type Mutation {
@@ -10,7 +11,15 @@ export const typeDefs = gql`
 `;
 
 
-export const resolvers = {};
+interface Args {
+  id: string | number
+}
+
+export const resolvers = {
+  Mutation: {
+    deleteLocation: async (_obj: null, args: Args) => await deleteLocation(args.id)
+  }
+};
 
 export default {
   typeDefs,

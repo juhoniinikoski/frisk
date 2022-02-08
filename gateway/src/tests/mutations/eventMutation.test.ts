@@ -1,7 +1,7 @@
 import testServer from "../config/testServer";
 
-/* eslint-disable @typescript-eslint/no-unsafe-call*/
-/* eslint-disable @typescript-eslint/no-explicit-any*/
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 const invalidLocation = {
   mutation: `
@@ -59,7 +59,7 @@ const invalidInput = {
 
 describe("create event", () => {
 
-  // it.todo("should create an event succesfully");
+  it.todo("should create an event succesfully");
 
   it.todo("should add a new location to sport with id 4");
 
@@ -68,7 +68,6 @@ describe("create event", () => {
   it("should throw an error if event is created with undefined location", async () => {
 
     const result = await testServer.executeOperation({query: invalidLocation.mutation});
-    console.log(result);
     return expect(result.errors[0].message).toBe("Location with given id doesn't exist.");
 
   });
@@ -86,5 +85,13 @@ describe("create event", () => {
     return expect(result.errors[0].message).toBe("name is a required field");
 
   });
+
+});
+
+describe("delete event", () => {
+
+  it.todo("should delete an event succesfully");
+
+  it.todo("should throw an error if user is not permitted to delete the event");
 
 });

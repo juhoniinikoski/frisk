@@ -4,7 +4,7 @@ import { getLocations } from '../../operations/locationOperations';
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns paginated locations.
+    Returns array of locations.
     """
     locations(
       first: Int

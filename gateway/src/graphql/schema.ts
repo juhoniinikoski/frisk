@@ -37,6 +37,7 @@ import followUser from './mutations/follow/followUser';
 
 import updateUser from './mutations/update/updateUser';
 import updateEvent from './mutations/update/updateEvent';
+import updateLocation from './mutations/update/updateLocation';
 
 import saveEvent from './mutations/save/saveEvent';
 import saveLocation from './mutations/save/saveLocation';
@@ -93,7 +94,8 @@ const typeDefs = [
   saveLocation.typeDefs,
   saveSport.typeDefs,
   updateUser.typeDefs,
-  updateEvent.typeDefs
+  updateEvent.typeDefs,
+  updateLocation.typeDefs
 ];
 
 const resolvers = merge(
@@ -130,7 +132,8 @@ const resolvers = merge(
   saveSport.resolvers,
   saveLocation.resolvers,
   updateUser.resolvers,
-  updateEvent.resolvers
+  updateEvent.resolvers,
+  updateLocation.resolvers
 );
 
 const schema = makeExecutableSchema({

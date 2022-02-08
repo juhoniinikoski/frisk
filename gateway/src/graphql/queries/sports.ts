@@ -4,7 +4,7 @@ import { getSports } from '../../operations/sportOperations';
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns paginated users.
+    Returns array of sports.
     """
     sports(
       first: Int

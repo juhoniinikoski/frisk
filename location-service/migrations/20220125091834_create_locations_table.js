@@ -6,7 +6,10 @@ exports.up = function (knex) {
     table.text('description')
     table.timestamp('created_at')
     table.timestamp('updated_at')
-    table.json('address')
+    table.text('street')
+    table.text('zipcode')
+    table.text('city')
+    table.text('country')
     table.index('name')
   })
 }

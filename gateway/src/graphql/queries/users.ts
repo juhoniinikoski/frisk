@@ -4,7 +4,7 @@ import { getUsers } from '../../operations/userOperations';
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns paginated users.
+    Returns array of users.
     """
     users(first: Int, after: String, searchKeyword: String): [User]!
   }

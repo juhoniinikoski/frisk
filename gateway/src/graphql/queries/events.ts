@@ -4,7 +4,7 @@ import { getEvents } from '../../operations/eventOperations';
 export const typeDefs = gql`
   extend type Query {
     """
-    Returns paginated users.
+    Returns array of users.
     """
     events(
       first: Int

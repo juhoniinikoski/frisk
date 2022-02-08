@@ -2,10 +2,10 @@ import { gql } from 'apollo-server';
 
 export const typeDefs = gql`
 type Address {
-  id: ID!
   street: String!
-  zipcode: String!
+  zipcode: String
   city: String!
+  country: String
 }
 `;
 

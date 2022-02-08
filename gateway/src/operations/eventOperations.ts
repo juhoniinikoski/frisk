@@ -98,8 +98,8 @@ export const createEvent = async (event: Event): Promise<boolean> => {
 
   try {
     const result = await axios.post(EVENT_SERVICE_URL, body);
-    // handling join tables related to creating event
     if (result.status === 201) {
+      // handling join tables related to creating an event
       await locationSportAdd(event);
       return true;
     }
@@ -144,30 +144,34 @@ export const updateEvent = async (id: string | number, event: Event) => {
   try {
     const result = await axios.put(`${EVENT_SERVICE_URL}/${id}`, body);
     if (result.status === 201) {
+      // handles join table operations
       await locationSportAdd(initialEvent, body.locationId, body.sportId);
       await locationSportDelete(initialEvent, body.locationId, body.sportId);
+      return true;
     } 
   } catch (error) {
     console.log(error);
+    return false;
   }
 
-  return true;
 };
 
 export const deleteEvent = async (id: string | number): Promise<boolean> => {
 
-  // handle removal of also from all possible join tables
   const event = await getEvent(id);
 
   try {
     const result = await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
     if (result.status === 204) {
+      // handles join table operations
       await locationSportDelete(event);
     }
     return true;
   } catch (error) {
     console.log(error);
-    return false;
   }
+
+  return true;
+
 };
 
