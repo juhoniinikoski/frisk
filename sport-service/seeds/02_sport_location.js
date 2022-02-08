@@ -13,18 +13,6 @@ exports.seed = await = (knex) => {
         {
           location_id: 'Nordis1234',
           sport_id: '3'
-        },
-        {
-          location_id: 'Töölönlahti1234',
-          sport_id: '1'
-        },
-        {
-          location_id: 'Töölönlahti1234',
-          sport_id: '2'
-        },
-        {
-          location_id: 'Töölönlahti1234',
-          sport_id: '4'
         }
       ])
     })

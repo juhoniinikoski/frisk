@@ -14,7 +14,7 @@ export const getEvents = async (locationId: string, sportId: string, userId: str
   }
 
   if (userId) {
-    query = query.where({createdById: userId})
+    query = query.where({createdById: userId});
   }
 
   if (savedBy) {

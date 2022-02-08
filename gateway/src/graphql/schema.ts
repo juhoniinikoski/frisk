@@ -36,6 +36,7 @@ import deleteLocationMutation from './mutations/delete/deleteLocation';
 import followUser from './mutations/follow/followUser';
 
 import updateUser from './mutations/update/updateUser';
+import updateEvent from './mutations/update/updateEvent';
 
 import saveEvent from './mutations/save/saveEvent';
 import saveLocation from './mutations/save/saveLocation';
@@ -91,7 +92,8 @@ const typeDefs = [
   meQuery.typeDefs,
   saveLocation.typeDefs,
   saveSport.typeDefs,
-  updateUser.typeDefs
+  updateUser.typeDefs,
+  updateEvent.typeDefs
 ];
 
 const resolvers = merge(
@@ -127,7 +129,8 @@ const resolvers = merge(
   meQuery.resolvers,
   saveSport.resolvers,
   saveLocation.resolvers,
-  updateUser.resolvers
+  updateUser.resolvers,
+  updateEvent.resolvers
 );
 
 const schema = makeExecutableSchema({

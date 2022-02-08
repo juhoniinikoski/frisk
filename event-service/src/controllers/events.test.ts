@@ -2,6 +2,10 @@ import supertest from "supertest";
 import app from "../app";
 import EventClass from "../models/Event";
 
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 describe("events", () => {
 
   describe("quering for events", () => {
@@ -18,7 +22,7 @@ describe("events", () => {
   describe("quering for events with sport as filter", () => {
     it("should return array of events", async () => {
 
-      const sportId = "1"
+      const sportId = "1";
 
       const result = await supertest(app).get(`/events?sport=${sportId}`)
         .expect(200)
@@ -26,7 +30,7 @@ describe("events", () => {
 
       expect(result.body.length).toBeDefined();
       return result.body.forEach((body: any) => {
-        expect(body.sportId).toBe(sportId)
+        expect(body.sportId).toBe(sportId);
       });
     });
   });
@@ -34,7 +38,7 @@ describe("events", () => {
   describe("quering for events with location as filter", () => {
     it("should return array of events", async () => {
 
-      const locationId = "Nordis1234"
+      const locationId = "Nordis1234";
 
       const result = await supertest(app).get(`/events?location=${locationId}`)
         .expect(200)
@@ -42,7 +46,7 @@ describe("events", () => {
 
       expect(result.body.length).toBeDefined();
       return result.body.forEach((body: any) => {
-        expect(body.locationId).toBe(locationId)
+        expect(body.locationId).toBe(locationId);
       });
     });
   });
@@ -50,7 +54,7 @@ describe("events", () => {
   describe("quering for events with user as filter", () => {
     it("should return array of events", async () => {
 
-      const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c"
+      const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c";
 
       const result = await supertest(app).get(`/events?user=${userId}`)
         .expect(200)
@@ -58,7 +62,7 @@ describe("events", () => {
 
       expect(result.body.length).toBeDefined();
       return result.body.forEach((body: any) => {
-        expect(body.createdById).toBe(userId)
+        expect(body.createdById).toBe(userId);
       });
     });
   });
@@ -77,15 +81,15 @@ describe("events", () => {
       expect(result.body.length).toBeDefined();
     
       result.body.forEach((body: any) => {
-        expect(body.sportId).toBe(sportId)
+        expect(body.sportId).toBe(sportId);
       });
       
       result.body.forEach((body: any) => {
-        expect(body.createdById).toBe(userId)
+        expect(body.createdById).toBe(userId);
       });
 
       return result.body.forEach((body: any) => {
-        expect(body.locationId).toBe(locationId)
+        expect(body.locationId).toBe(locationId);
       });
     });
   });

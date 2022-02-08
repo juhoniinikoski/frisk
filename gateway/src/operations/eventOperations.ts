@@ -110,6 +110,50 @@ export const createEvent = async (event: Event): Promise<boolean> => {
   return false;
 };
 
+const updateSchema = object({
+  name: string(),
+  description: string(),
+  locationId: string(),
+  sportId: string(),
+  start: date(),
+  end: date(),
+  repetition: string(),
+  price: number(),
+  free: bool()
+});
+
+export const updateEvent = async (id: string | number, event: Event) => {
+
+  const data = await updateSchema.validate(event);
+  const initialEvent = await getEvent(id);
+
+  let body: Partial<EventType> = { ...data };
+
+  if (event.locationId) {
+    const location = await getLocation(event.locationId);
+    const { name: locationName } = location;
+    body = { ...body, locationName };
+  }
+
+  if (event.sportId) {
+    const sport = await getSport(event.sportId);
+    const { name: sportName } = sport;
+    body = { ...body, sportName }
+  }
+  
+  try {
+    const result = await axios.put(`${EVENT_SERVICE_URL}/${id}`, body);
+    if (result.status === 201) {
+      await locationSportAdd(initialEvent, body.locationId, body.sportId);
+      await locationSportDelete(initialEvent, body.locationId, body.sportId);
+    } 
+  } catch (error) {
+    console.log(error);
+  }
+
+  return true;
+};
+
 export const deleteEvent = async (id: string | number): Promise<boolean> => {
 
   // handle removal of also from all possible join tables
