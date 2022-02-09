@@ -19,8 +19,6 @@ class AuthService {
       return null;
     }
 
-    // console.log("authservice: " + this.accessToken)
-
     let tokenPayload;
 
     try {
@@ -62,7 +60,7 @@ class AuthService {
       accessToken: signJwt(
         { userId },
         {
-          expiresIn: expiresAt.getDate() - new Date().getDate(),
+          expiresIn: expiresAt.getTime() - new Date().getTime(),
           subject,
         },
       ),

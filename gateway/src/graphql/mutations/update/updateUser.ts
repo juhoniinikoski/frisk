@@ -12,7 +12,7 @@ export const typeDefs = gql`
     """
     Creates a new user, if the provided username does not already exist.
     """
-    updateUser(id: ID!, data: UpdateSportInput): String
+    updateUser(id: ID!, data: UpdateUserInput): String
   }
 `;
 

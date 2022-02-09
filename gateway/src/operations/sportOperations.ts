@@ -77,8 +77,9 @@ const updateSchema = object({
 export const updateSport = async (id: string | number, sport: Partial<SportType>, authorizedUser: User) => {
 
   const data = await updateSchema.validate(sport);
+  const initialSport = await getSport(id);
 
-  if (sport.createdById !== authorizedUser.id) {
+  if (initialSport.createdById !== authorizedUser.id) {
     throw new AuthenticationError("You must be the creator of the sport in order to update it.");
   }
   

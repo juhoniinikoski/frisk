@@ -72,6 +72,18 @@ describe("user", () => {
         .set('Accept', 'application/json')
         .expect(201);
     });
+    
+    it("should update one user succesfully", async () => {
+      
+      const user: Partial<User> = {
+        username: "juhoniinikoski1245678"
+      };
+
+      return await supertest(app).put(`/users/${userId}`)
+        .send(user)
+        .set('Accept', 'application/json')
+        .expect(201);
+    });
 
     it("shouldn't update user if username is occupied", async () => {
       

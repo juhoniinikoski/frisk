@@ -3,7 +3,7 @@ import { InvalidIdError } from "./errors";
 import { User as UserType } from "../entities";
 import { object, string } from "yup";
 import { USER_SERVICE_URL } from "../utils/config";
-import { ApolloError } from "apollo-server";
+import { ApolloError, AuthenticationError } from "apollo-server";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
@@ -75,15 +75,17 @@ export const updateUser = async (id: string | number, user: Partial<UserType>, a
 
   // should also change creator names of all events where this user is creator
   
-  if (authorizedUser.id === id) {
-    try {
-      const result = await axios.put(`${USER_SERVICE_URL}/${id}`, data);
-      if (result.status === 201) {
-        return result.data;
-      }
-    } catch (error) {
-      console.log(error);
+  if (authorizedUser.id !== id) {
+    throw new AuthenticationError("You can only update your data as an authenticated user.");
+  }
+  
+  try {
+    const result = await axios.put(`${USER_SERVICE_URL}/${id}`, data);
+    if (result.status === 201) {
+      return result.data;
     }
+  } catch (error) {
+    console.log(error);
   }
 
   throw new ApolloError("Could not update the user.");

@@ -43,22 +43,28 @@ export const updateUser = async (id: string | number, body: Partial<UserClass>) 
 
     const { username, email } = body;
 
-    const existingUser = await User.query()
+    let existingUser: UserClass[] = [];
+
+    if (username && email) {
+      existingUser = await User.query()
       .where('username', username)
       .orWhere('email', email);
+    } else if (username) {
+      existingUser = await User.query()
+      .where('username', username);
+    } else if (email) {
+      existingUser = await User.query()
+      .where('email', email)
+    }
 
 
     if (existingUser.length !== 0) {
       if (existingUser[0].id !== id) {
-        console.log("ollaan");
         return false;
       }
     }
 
-    await User.query().patchAndFetchById(id, {
-      username: username,
-      email: email
-    });
+    await User.query().patchAndFetchById(id, body);
 
     return id;
     

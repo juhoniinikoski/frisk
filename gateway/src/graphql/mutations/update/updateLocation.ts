@@ -33,6 +33,7 @@ export const resolvers = {
   Mutation: {
     updateLocation: async (_obj: null, args: Args, { authService }: Context) => {
       const authorizedUser = await authService.getAuthorizedUserOrFail();
+      console.log(authorizedUser);
       return await updateLocation(args.id, args.data, authorizedUser);
     }
   }

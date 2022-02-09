@@ -87,8 +87,10 @@ const updateSchema = object({
 export const updateLocation = async (id: string | number, location: Partial<LocationType>, authorizedUser: User) => {
 
   const data = await updateSchema.validate(location);
+  const initialLocation = await getLocation(id);
 
-  if (location.createdById !== authorizedUser.id) {
+  if (initialLocation.createdById !== authorizedUser.id) {
+    console.log(initialLocation.createdById)
     throw new AuthenticationError("You must be the creator of the location in order to update it.")
   }
   
@@ -98,7 +100,6 @@ export const updateLocation = async (id: string | number, location: Partial<Loca
       return result.data;
     }
   } catch (error) {
-    console.log(error);
     throw new NameTakenError("location");
   }
 
