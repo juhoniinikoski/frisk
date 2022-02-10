@@ -6,7 +6,7 @@ import { getEvents } from "./eventOperations";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
-type ID = string | number
+type ID = string | number;
 
 export const locationSportAdd = async (event: Partial<Event>, locationUpdate?: ID, sportUpdate?: ID): Promise<void> => {
 
@@ -26,7 +26,7 @@ export const locationSportAdd = async (event: Partial<Event>, locationUpdate?: I
 
 };
 
-export const locationSportDelete = async (event: Partial<Event>, locationUpdate?: ID, sportUpdate?: ID): Promise<void> => {
+export const locationSportDelete = async (event: Partial<Event>): Promise<void> => {
 
   const sportId = event.sportId;
   const locationId = event.locationId;

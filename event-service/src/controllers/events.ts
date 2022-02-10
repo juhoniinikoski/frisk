@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import EventClass from '../models/Event';
 import { addUser } from '../services/addService';
-import { createEvent, deleteEvent, getEvent, getEvents, getEventTest, updateEvent } from '../services/eventService';
+import { createEvent, deleteEvent, getEvent, getEvents, getEventTest, updateEvent, updateEventsCreator, updateEventsLocation, updateEventsSport } from '../services/eventService';
 
 const eventsRouter = express.Router();
 
@@ -83,6 +83,30 @@ eventsRouter.put("/:id", async (req: EventRequest, res: Response) => {
 
   res.status(201);
   return res.send(id);
+
+});
+
+eventsRouter.put("/", async (req: EventRequest, res: Response) => {
+
+  const filters = req.query;
+  const { location, sport, user } = filters;
+  
+  let result = null;
+  const event = req.body;
+  
+  if (location) {
+    result = await updateEventsLocation(location as string, event);
+  } else if (sport) {
+    result = await updateEventsSport(sport as string, event);
+  } else {
+    result = await updateEventsCreator(user as string, event);
+  }
+
+  if (!result) {
+    return res.sendStatus(404);
+  }
+
+  return res.sendStatus(201);
 
 });
 

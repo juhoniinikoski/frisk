@@ -39,7 +39,7 @@ export const resolvers = {
   Mutation: {
     updateEvent: async (_obj: null, args: Args, { authService }: Context) => {
       const authorizedUser = await authService.getAuthorizedUserOrFail();
-      return await updateEvent(args.id, args.data, authorizedUser)
+      return await updateEvent(args.id, args.data, authorizedUser);
     }
   }
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { InvalidIdError, NameTakenError } from "./errors";
-import { Event as EventType, Context, User } from "../entities";
+import { Event as EventType, User } from "../entities";
 import { getLocation } from "./locationOperations";
 import { getSport } from "./sportOperations";
 import { EVENT_SERVICE_URL } from "../utils/config";
@@ -115,13 +115,13 @@ const updateSchema = object({
   free: bool()
 });
 
-export const updateEvent = async (id: string | number, event: Event, authorizedUser: User) => {
+export const updateEvent = async (id: string | number, event: Event, authorizedUser: User): Promise<string> => {
 
   const data = await updateSchema.validate(event);
   const initialEvent = await getEvent(id);
 
   if (initialEvent.createdById !== authorizedUser.id) {
-    throw new AuthenticationError("You must be the creator of the event in order to update it.")
+    throw new AuthenticationError("You must be the creator of the event in order to update it.");
   }
 
   let body: Partial<EventType> = { ...data };
@@ -135,7 +135,7 @@ export const updateEvent = async (id: string | number, event: Event, authorizedU
   if (event.sportId) {
     const sport = await getSport(event.sportId);
     const { name: sportName } = sport;
-    body = { ...body, sportName }
+    body = { ...body, sportName };
   }
   
   try {
@@ -143,7 +143,7 @@ export const updateEvent = async (id: string | number, event: Event, authorizedU
     if (result.status === 201) {
       // handles join table operations
       await locationSportAdd(initialEvent, body.locationId, body.sportId);
-      await locationSportDelete(initialEvent, body.locationId, body.sportId);
+      await locationSportDelete(initialEvent);
       return result.data;
     } 
   } catch (error) {
@@ -167,7 +167,7 @@ export const deleteEvent = async (id: string | number, authorizedUser: User): Pr
       return true;
     } catch (error) {
       console.log(error);
-      throw new ApolloError("Could not delete the event")
+      throw new ApolloError("Could not delete the event");
     }
   }
 

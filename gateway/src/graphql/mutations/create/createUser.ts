@@ -25,7 +25,7 @@ interface Args {
 
 export const resolvers = {
   Mutation: {
-    createSport: async (_obj: null, args: Args) => await createUser(args.user)
+    createUser: async (_obj: null, args: Args) => await createUser(args.user)
   }
 };
 

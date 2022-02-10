@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SPORT_SERVICE_URL } from "../utils/config";
+import { EVENT_SERVICE_URL, SPORT_SERVICE_URL } from "../utils/config";
 import { InvalidIdError, NameTakenError } from "./errors";
 import { Sport as SportType, User } from "../entities";
 import { object, string } from "yup";
@@ -49,7 +49,7 @@ const sportSchema = object({
   name: string().required()
 });
 
-export const createSport = async (sport: Partial<SportType>, authorizedUser: User) => {
+export const createSport = async (sport: Partial<SportType>, authorizedUser: User): Promise<string | boolean> => {
 
   const data = await sportSchema.validate(sport);
 
@@ -74,7 +74,7 @@ const updateSchema = object({
   name: string()
 });
 
-export const updateSport = async (id: string | number, sport: Partial<SportType>, authorizedUser: User) => {
+export const updateSport = async (id: string | number, sport: Partial<SportType>, authorizedUser: User): Promise<string> => {
 
   const data = await updateSchema.validate(sport);
   const initialSport = await getSport(id);
@@ -86,6 +86,10 @@ export const updateSport = async (id: string | number, sport: Partial<SportType>
   try {
     const result = await axios.put(`${SPORT_SERVICE_URL}/${id}`, data);
     if (result.status === 201) {
+      // if name is changed, update name of all events of this location
+      if (data.name) {
+        await axios.put(`${EVENT_SERVICE_URL}?sport=${id}`, { sportName: data.name });
+      }
       return result.data;
     }
   } catch (error) {

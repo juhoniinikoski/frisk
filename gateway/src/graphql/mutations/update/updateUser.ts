@@ -29,7 +29,7 @@ export const resolvers = {
   Mutation: {
     updateUser: async (_obj: null, args: Args, { authService }: Context) => {
       const authorizedUser = await authService.getAuthorizedUserOrFail();
-      return await updateUser(args.id, args.data, authorizedUser)
+      return await updateUser(args.id, args.data, authorizedUser);
     }
   }
 };

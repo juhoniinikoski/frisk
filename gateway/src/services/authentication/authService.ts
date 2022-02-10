@@ -4,17 +4,20 @@ import { ACCESS_TOKEN_EXPIRATION_TIME } from '../../utils/config';
 import signJwt from './signJwt';
 import verifyJwt from './verifyJwt';
 
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 const subject = 'accessToken';
 
 class AuthService {
   
-  accessToken: string
+  accessToken: string;
 
   constructor({ accessToken }: { accessToken: string }) {
     this.accessToken = accessToken;
   }
 
-  async getAuthorizedUserId() {
+  getAuthorizedUserId(): string | number {
     if (!this.accessToken) {
       return null;
     }
@@ -31,7 +34,8 @@ class AuthService {
   }
 
   async getAuthorizedUser() {
-    const id = await this.getAuthorizedUserId();
+
+    const id: string | number = this.getAuthorizedUserId();
 
     if (!id) {
       return null;

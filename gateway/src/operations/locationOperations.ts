@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOCATION_SERVICE_URL } from "../utils/config";
+import { EVENT_SERVICE_URL, LOCATION_SERVICE_URL } from "../utils/config";
 import { InvalidIdError, NameTakenError } from "./errors";
 import { Location as LocationType, User } from "../entities";
 import { object, string } from "yup";
@@ -54,7 +54,7 @@ const locationSchema = object({
   country: string()
 });
 
-export const createLocation = async (location: Partial<LocationType>, authorizedUser: User) => {
+export const createLocation = async (location: Partial<LocationType>, authorizedUser: User): Promise<string> => {
 
   const data = await locationSchema.validate(location);
 
@@ -84,19 +84,23 @@ const updateSchema = object({
 });
 
 
-export const updateLocation = async (id: string | number, location: Partial<LocationType>, authorizedUser: User) => {
+export const updateLocation = async (id: string | number, location: Partial<LocationType>, authorizedUser: User): Promise<string> => {
 
   const data = await updateSchema.validate(location);
   const initialLocation = await getLocation(id);
 
   if (initialLocation.createdById !== authorizedUser.id) {
-    console.log(initialLocation.createdById)
-    throw new AuthenticationError("You must be the creator of the location in order to update it.")
+    console.log(initialLocation.createdById);
+    throw new AuthenticationError("You must be the creator of the location in order to update it.");
   }
   
   try {
     const result = await axios.put(`${LOCATION_SERVICE_URL}/${id}`, data);
     if (result.status === 201) {
+      // if name is changed, update name of all events of this location
+      if (data.name) {
+        await axios.put(`${EVENT_SERVICE_URL}?location=${id}`, { locationName: data.name });
+      }
       return result.data;
     }
   } catch (error) {

@@ -25,7 +25,7 @@ export const resolvers = {
         zipcode: obj.zipcode,
         city: obj.city,
         country: obj.country
-      }
+      };
     }
   }
 };

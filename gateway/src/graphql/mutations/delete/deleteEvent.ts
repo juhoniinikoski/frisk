@@ -19,7 +19,7 @@ export const resolvers = {
   Mutation: {
     deleteEvent: async (_obj: null, args: Args, { authService }: Context) => {
       const authorizedUser = await authService.getAuthorizedUserOrFail();
-      return await deleteEvent(args.id, authorizedUser)
+      return await deleteEvent(args.id, authorizedUser);
     }
   }
 };

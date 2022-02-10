@@ -20,7 +20,7 @@ export const typeDefs = gql`
     """
     authorize(credentials: AuthorizeInput): AuthorizationPayload
   }
-`
+`;
 
 const argsSchema = yup.object().shape({
   credentials: yup.object().shape({
@@ -34,7 +34,7 @@ const argsSchema = yup.object().shape({
       .required()
       .trim(),
   }),
-})
+});
 
 interface Args {
   credentials: {
@@ -50,18 +50,18 @@ export const resolvers = {
         credentials: { username, password },
       } = await argsSchema.validate(args, {
         stripUnknown: true,
-      })
+      });
 
       const user = await getUser(username);
 
       if (!user) {
-        throw new UserInputError('Invalid username or password')
+        throw new UserInputError('Invalid username or password');
       }
 
-      const match = await bcrypt.compare(password, user.password)
+      const match = await bcrypt.compare(password, user.password);
 
       if (!match) {
-        throw new UserInputError('Invalid username or password')
+        throw new UserInputError('Invalid username or password');
       }
 
       return {

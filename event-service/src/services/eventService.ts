@@ -98,3 +98,45 @@ export const deleteEvent = async (id: string | number) => {
   }
 
 };
+
+export const updateEventsLocation = async (id: string | number, event: Partial<EventClass>) => {
+
+  try {
+    const events = Event.query().where("locationId", id);
+    await events.update(event);
+    return true;
+ 
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+
+};
+
+export const updateEventsSport = async (id: string | number, event: Partial<EventClass>) => {
+
+  try {
+    const events = Event.query().where("sportId", id);
+    await events.update(event);
+    return true;
+ 
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+
+};
+
+export const updateEventsCreator = async (id: string | number, event: Partial<EventClass>) => {
+
+  try {
+    const events = Event.query().where("createdById", id);
+    await events.update(event);
+    return true;
+ 
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+
+};

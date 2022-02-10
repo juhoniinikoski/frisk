@@ -48,9 +48,9 @@ const userSchema = object({
   password: string().required()
 });
 
-export const createUser = async (user: Partial<UserType>) => {
+export const createUser = async (user: Partial<UserType>): Promise<string | boolean> => {
 
-  const data = await userSchema.validate(location);
+  const data = await userSchema.validate(user);
 
   try {
     const result = await axios.post(USER_SERVICE_URL, data);
@@ -69,7 +69,7 @@ const updateSchema = object({
   email: string()
 });
 
-export const updateUser = async (id: string | number, user: Partial<UserType>, authorizedUser: UserType) => {
+export const updateUser = async (id: string | number, user: Partial<UserType>, authorizedUser: UserType): Promise<string> => {
 
   const data = await updateSchema.validate(user);
 
