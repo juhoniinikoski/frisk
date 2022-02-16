@@ -1,8 +1,8 @@
 exports.up = function(knex) {
-  return knex.schema.createTable('location_sport', table => {
+  return knex.schema.createTable('location_activity', table => {
     table.increments('id').primary()
     table.text('location_id').notNullable()
-    table.text('sport_id').notNullable()
+    table.text('activity_id').notNullable()
 
     table.foreign('location_id')
       .references('id')
@@ -12,5 +12,5 @@ exports.up = function(knex) {
 }
 
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists('location_sport')
+  return knex.schema.dropTableIfExists('location_activity')
 }

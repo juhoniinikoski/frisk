@@ -14,10 +14,10 @@ const locationsQuery = {
   `
 };
 
-const locationsBySport = {
+const locationsByActivity = {
   query: `
     query {
-      locations (sport: "3") {
+      locations (activity: "3") {
         name
         id
       }
@@ -42,7 +42,7 @@ const locationQuery = {
       location (id: "Nordis1234") {
         name
         id
-        sports {
+        activities {
           name
         }
         events {
@@ -82,8 +82,8 @@ describe("get locations", () => {
     return expect(result.errors[0].message).toBeDefined();
   });
 
-  it("should get locations by given sport", async () => {
-    const result = await testServer.executeOperation({query: locationsBySport.query});
+  it("should get locations by given activity", async () => {
+    const result = await testServer.executeOperation({query: locationsByActivity.query});
     expect(result).toBeDefined();
     return expect(result.data.locations).toBeInstanceOf(Array);
   });

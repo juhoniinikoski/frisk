@@ -5,16 +5,16 @@ const createDateColumns = date => ({
   updated_at: date,
 })
 
-const createColumns = (ownerName, eventTitle, createdBy, sportId, sportName) => ({
+const createColumns = (ownerName, eventTitle, createdBy, activityId, activityName) => ({
   id: `${ownerName}.${eventTitle}`,
   created_by_id: createdBy,
   created_by_name: ownerName,
-  sport_name: sportName,
+  activity_name: activityName,
   description: 'Testitapahtuma',
   name: eventTitle,
   location_id: 'Nordis1234',
   location_name: 'Nordis',
-  sport_id: sportId,
+  activity_id: activityId,
   repetition: 'SINGLE',
   free: true,
   price: 0.00,

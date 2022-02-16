@@ -217,43 +217,43 @@ describe("saved attributes", () => {
     });
   });
   
-  describe("sports", () => {
+  describe("activities", () => {
 
     const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c";
-    const sportId = "3";
+    const activityId = "3";
 
-    it("should save a sport", async () => {
+    it("should save a activity", async () => {
 
       const initial = await supertest(app).get(`/users/${userId}`);
 
-      await supertest(app).post(`/users/${userId}/sports`)
-        .send({ sportId });
+      await supertest(app).post(`/users/${userId}/activities`)
+        .send({ activityId });
 
       const result = await supertest(app).get(`/users/${userId}`);
-      return expect(result.body.savedSports.length).toBe(initial.body.savedSports.length + 1);
+      return expect(result.body.savedActivities.length).toBe(initial.body.savedActivities.length + 1);
     });
 
-    it("sends sport to wrong address -> returns 400", async () => {
+    it("sends activity to wrong address -> returns 400", async () => {
 
       const initial = await supertest(app).get(`/users/${userId}`);
 
       await supertest(app).post(`/users/${userId}/locations`)
-        .send({ sportId })
+        .send({ activityId })
         .expect(400);
 
       const result = await supertest(app).get(`/users/${userId}`);
-      return expect(result.body.savedSports.length).toBe(initial.body.savedSports.length);
+      return expect(result.body.savedActivities.length).toBe(initial.body.savedActivities.length);
     });
     
-    it("should un-save a sport", async () => {
+    it("should un-save a activity", async () => {
 
       const initial = await supertest(app).get(`/users/${userId}`);
 
-      await supertest(app).post(`/users/${userId}/sports`)
-        .send({ sportId });
+      await supertest(app).post(`/users/${userId}/activities`)
+        .send({ activityId });
 
       const result = await supertest(app).get(`/users/${userId}`);
-      return expect(result.body.savedSports.length).toBe(initial.body.savedSports.length - 1);
+      return expect(result.body.savedActivities.length).toBe(initial.body.savedActivities.length - 1);
     });
   });
 

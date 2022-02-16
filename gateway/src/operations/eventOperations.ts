@@ -2,10 +2,10 @@ import axios from "axios";
 import { InvalidIdError, NameTakenError } from "./errors";
 import { Event as EventType, User } from "../entities";
 import { getLocation } from "./locationOperations";
-import { getSport } from "./sportOperations";
+import { getActivity } from "./activityOperations";
 import { EVENT_SERVICE_URL } from "../utils/config";
 import { object, string, number, date, bool } from 'yup';
-import { locationSportAdd, locationSportDelete } from "./joinTableOperations";
+import { locationActivityAdd, locationActivityDelete } from "./joinTableOperations";
 import { ApolloError, AuthenticationError } from "apollo-server";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -14,7 +14,7 @@ interface Event {
   name: string
   description: string
   locationId: string | number
-  sportId: string | number
+  activityId: string | number
   start: number
   end: number
   repetition: string
@@ -28,7 +28,7 @@ interface Args {
   searchKeyword?: string
   location?: string | number
   user?: string | number
-  sport?: string | number
+  activity?: string | number
   savedBy?: string | number
 }
 
@@ -65,7 +65,7 @@ const eventSchema = object({
   name: string().required(),
   description: string(),
   locationId: string().required(),
-  sportId: string().required(),
+  activityId: string().required(),
   start: date().required(),
   end: date().required(),
   repetition: string().required(),
@@ -78,8 +78,8 @@ export const createEvent = async (event: Event, authorizedUser: User): Promise<b
   const location = await getLocation(event.locationId);
   const { name: locationName } = location;
 
-  const sport = await getSport(event.sportId);
-  const { name: sportName } = sport;
+  const activity = await getActivity(event.activityId);
+  const { name: activityName } = activity;
 
   const data = await eventSchema.validate(event);
 
@@ -88,14 +88,14 @@ export const createEvent = async (event: Event, authorizedUser: User): Promise<b
     createdById: authorizedUser.id,
     createdByName: authorizedUser.username,
     locationName: locationName,
-    sportName: sportName,
+    activityName: activityName,
   };
 
   try {
     const result = await axios.post(EVENT_SERVICE_URL, body);
     if (result.status === 201) {
       // handling join tables related to creating an event
-      await locationSportAdd(event);
+      await locationActivityAdd(event);
       return result.data;
     }
   } catch (error) {
@@ -107,7 +107,7 @@ const updateSchema = object({
   name: string(),
   description: string(),
   locationId: string(),
-  sportId: string(),
+  activityId: string(),
   start: date(),
   end: date(),
   repetition: string(),
@@ -132,18 +132,18 @@ export const updateEvent = async (id: string | number, event: Event, authorizedU
     body = { ...body, locationName };
   }
 
-  if (event.sportId) {
-    const sport = await getSport(event.sportId);
-    const { name: sportName } = sport;
-    body = { ...body, sportName };
+  if (event.activityId) {
+    const activity = await getActivity(event.activityId);
+    const { name: activityName } = activity;
+    body = { ...body, activityName };
   }
   
   try {
     const result = await axios.put(`${EVENT_SERVICE_URL}/${id}`, body);
     if (result.status === 201) {
       // handles join table operations
-      await locationSportAdd(initialEvent, body.locationId, body.sportId);
-      await locationSportDelete(initialEvent);
+      await locationActivityAdd(initialEvent, body.locationId, body.activityId);
+      await locationActivityDelete(initialEvent);
       return result.data;
     } 
   } catch (error) {
@@ -162,7 +162,7 @@ export const deleteEvent = async (id: string | number, authorizedUser: User): Pr
       const result = await axios.delete(`${EVENT_SERVICE_URL}/${id}`);
       if (result.status === 204) {
         // handles join table operations
-        await locationSportDelete(event);
+        await locationActivityDelete(event);
       }
       return true;
     } catch (error) {

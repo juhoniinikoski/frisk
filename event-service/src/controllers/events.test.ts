@@ -17,17 +17,17 @@ describe("events", () => {
     return expect(result.body.length).toBeDefined();
   });
   
-  it("should return array of events with sport as a filter", async () => {
+  it("should return array of events with activity as a filter", async () => {
 
-    const sportId = "1";
+    const activityId = "1";
 
-    const result = await supertest(app).get(`/events?sport=${sportId}`)
+    const result = await supertest(app).get(`/events?activity=${activityId}`)
       .expect(200)
       .expect('Content-Type', /json/);
 
     expect(result.body.length).toBeDefined();
     return result.body.forEach((body: any) => {
-      expect(body.sportId).toBe(sportId);
+      expect(body.activityId).toBe(activityId);
     });
   });
   
@@ -59,20 +59,20 @@ describe("events", () => {
     });
   });
 
-  it("should return array of events with location, sport and user as filters", async () => {
+  it("should return array of events with location, activity and user as filters", async () => {
 
     const locationId = "Nordis1234";
-    const sportId = "2";
+    const activityId = "2";
     const userId = "bbe42984-051b-4a01-b45d-b8d29c32200c";
 
-    const result = await supertest(app).get(`/events?location=${locationId}&sport=${sportId}&user=${userId}`)
+    const result = await supertest(app).get(`/events?location=${locationId}&activity=${activityId}&user=${userId}`)
       .expect(200)
       .expect('Content-Type', /json/);
 
     expect(result.body.length).toBeDefined();
   
     result.body.forEach((body: any) => {
-      expect(body.sportId).toBe(sportId);
+      expect(body.activityId).toBe(activityId);
     });
     
     result.body.forEach((body: any) => {
@@ -104,22 +104,22 @@ describe("events", () => {
 
   });
   
-  it("should update all events with certain sport to new sport name", async () => {
+  it("should update all events with certain activity to new activity name", async () => {
 
-    const sportId = "1";
+    const activityId = "1";
     const newName = "Salibandy";
 
-    await supertest(app).put(`/events?sport=${sportId}`)
-      .send({ sportName: newName })
+    await supertest(app).put(`/events?activity=${activityId}`)
+      .send({ activityName: newName })
       .set('Accept', 'application/json')
       .expect(201);
 
-    const result = await supertest(app).get(`/events?sport=${sportId}`)
+    const result = await supertest(app).get(`/events?activity=${activityId}`)
       .expect(200)
       .expect('Content-Type', /json/);
     
     return result.body.forEach((event: any) => {
-      expect(event.sportName).toBe(newName)
+      expect(event.activityName).toBe(newName)
     });
 
   });
@@ -171,7 +171,7 @@ describe("event", () => {
       name: "testin tekemä event",
       description: "huippudescriptioni",
       locationId: "lokaatioId",
-      sportId: "1",
+      activityId: "1",
       createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f",
       free: true,
       price: 0,

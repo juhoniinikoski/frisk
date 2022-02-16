@@ -97,11 +97,11 @@ export const getUser = async (id: string | number) => {
   try {
 
     let data = await User.query().findById(id)
-      .withGraphFetched('[followedUsers, savedEvents, savedSports, savedLocations]');
+      .withGraphFetched('[followedUsers, savedEvents, savedActivities, savedLocations]');
     
     if (!data) {
       data = await User.query().findOne({ username: id })
-        .withGraphFetched('[followedUsers, savedEvents, savedSports, savedLocations]');
+        .withGraphFetched('[followedUsers, savedEvents, savedActivities, savedLocations]');
     }
 
     if (!data) {
@@ -116,15 +116,15 @@ export const getUser = async (id: string | number) => {
       location.locationId
     );
     
-    const sports = data.savedSports.map(sport => 
-      sport.sportId
+    const activities = data.savedActivities.map(activity => 
+      activity.activityId
     );
 
     return { 
       ...data,
       savedEvents: events,
       savedLocations: locations,
-      savedSports: sports
+      savedActivities: activities
     };
     
   } catch (error) {

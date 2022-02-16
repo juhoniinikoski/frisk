@@ -6,8 +6,8 @@ exports.up = function(knex) {
     table.text('name')
     table.text('location_id')
     table.text('location_name')
-    table.text('sport_id')
-    table.text('sport_name')
+    table.text('activity_id')
+    table.text('activity_name')
     table.boolean('free')
     table.float('price')
     table.text('description')
@@ -16,7 +16,7 @@ exports.up = function(knex) {
     table.timestamp('start')
     table.timestamp('end')
     table.text('repetition')
-    table.index(['created_by_id', 'location_id', 'sport_id'])
+    table.index(['created_by_id', 'location_id', 'activity_id'])
   })
 };
 

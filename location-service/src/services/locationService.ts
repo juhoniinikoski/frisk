@@ -1,18 +1,18 @@
 import LocationClass, { Location } from "../models/Location";
 import { v4 as uuid } from "uuid";
 
-export const getLocations = async (sportId: string, savedBy: string) => {
+export const getLocations = async (activityId: string, savedBy: string) => {
   
   let query = Location.query();
 
-  if (sportId) {
-    query = Location.query().withGraphJoined('sports(onlySportId)')
+  if (activityId) {
+    query = Location.query().withGraphJoined('activities(onlyActivityId)')
       .modifiers({
-        onlySportId(builder) {
-          void builder.select('sportId');
+        onlyActivityId(builder) {
+          void builder.select('activityId');
         }
       })
-      .where('sportId', sportId);
+      .where('activityId', activityId);
   };
   
   if (savedBy) {
@@ -42,7 +42,7 @@ export const getLocation = async (id: string | number) => {
 export const getLocationTest = async (id: string | number) => {
 
   try {
-    return await Location.query().findById(id).withGraphFetched('[sports, savedBy]');
+    return await Location.query().findById(id).withGraphFetched('[activities, savedBy]');
   } catch (error) {
     console.log(error);
     return false;

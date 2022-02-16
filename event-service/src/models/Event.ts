@@ -25,7 +25,7 @@ class EventClass extends BaseModel {
   name: string;
   description: string;
   locationId: string | number;
-  sportId: string | number;
+  activityId: string | number;
   free: boolean;
   price: number;
   createdById: string | number;

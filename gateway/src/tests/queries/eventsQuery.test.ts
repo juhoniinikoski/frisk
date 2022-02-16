@@ -12,7 +12,7 @@ const eventsQuery = {
         location {
           name
         }
-        sport {
+        activity {
           name
         }
         createdBy {
@@ -103,13 +103,13 @@ const eventsQueryBySaver2 = {
   `
 };
 
-const eventsQueryBySport = {
+const eventsQueryByActivity = {
   query: `
     query {
-      events (sport: "3") {
+      events (activity: "3") {
         name
         id
-        sport {
+        activity {
           name
         }
       }
@@ -117,13 +117,13 @@ const eventsQueryBySport = {
   `
 };
 
-const eventsQueryBySport2 = {
+const eventsQueryByActivity2 = {
   query: `
     query {
-      events (sport: "3456") {
+      events (activity: "3456") {
         name
         id
-        sport {
+        activity {
           name
         }
       }
@@ -140,7 +140,7 @@ const eventQuery = {
         location {
           name
         }
-        sport {
+        activity {
           name
         }
         createdBy {
@@ -195,16 +195,16 @@ describe("get events", () => {
     return expect(result.data.events).toEqual([]);
   });
   
-  it("should get events with specific sport", async () => {
-    const result = await testServer.executeOperation({query: eventsQueryBySport.query});
+  it("should get events with specific activity", async () => {
+    const result = await testServer.executeOperation({query: eventsQueryByActivity.query});
     result.data.events.forEach((event: any) => {
-      expect(event.sport.name).toBe("Futis");
+      expect(event.activity.name).toBe("Futis");
     });
     return expect(result.data.events).toBeInstanceOf(Array);
   });
 
-  it("should return with empty array if events with given sport doesn't exist", async () => {
-    const result = await testServer.executeOperation({query: eventsQueryBySport2.query});
+  it("should return with empty array if events with given activity doesn't exist", async () => {
+    const result = await testServer.executeOperation({query: eventsQueryByActivity2.query});
     return expect(result.data.events).toEqual([]);
   });
 

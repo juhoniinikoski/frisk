@@ -1,7 +1,7 @@
 import EventClass, { Event } from "../models/Event";
 import { v4 as uuid } from "uuid";
 
-export const getEvents = async (locationId: string, sportId: string, userId: string, savedBy: string) =>  {
+export const getEvents = async (locationId: string, activityId: string, userId: string, savedBy: string) =>  {
   
   let query = Event.query();
 
@@ -9,8 +9,8 @@ export const getEvents = async (locationId: string, sportId: string, userId: str
     query = query.where({locationId: locationId});
   }
 
-  if (sportId) {
-    query = query.where({sportId: sportId});
+  if (activityId) {
+    query = query.where({activityId: activityId});
   }
 
   if (userId) {
@@ -113,10 +113,10 @@ export const updateEventsLocation = async (id: string | number, event: Partial<E
 
 };
 
-export const updateEventsSport = async (id: string | number, event: Partial<EventClass>) => {
+export const updateEventsActivity = async (id: string | number, event: Partial<EventClass>) => {
 
   try {
-    const events = Event.query().where("sportId", id);
+    const events = Event.query().where("activityId", id);
     await events.update(event);
     return true;
  

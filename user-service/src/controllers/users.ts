@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { followUser, saveEvent, saveLocation, saveSport } from '../services/followService';
+import { followUser, saveEvent, saveLocation, saveActivity } from '../services/followService';
 import { createUser, deleteUser, getUser, getUsers, updateUser } from '../services/userService';
 
 interface UserInput {
@@ -21,8 +21,8 @@ interface LocationInput {
   locationId: string | number
 }
 
-interface SportInput {
-  sportId: string | number
+interface ActivityInput {
+  activityId: string | number
 }
 
 interface UserInput {
@@ -36,7 +36,7 @@ interface Params {
 type UserRequest = Request<Params, unknown, UserInput>;
 type EventRequest = Request<Params, unknown, EventInput>;
 type LocationRequest = Request<Params, unknown, LocationInput>;
-type SportRequest = Request<Params, unknown, SportInput>;
+type ActivityRequest = Request<Params, unknown, ActivityInput>;
 type FollowRequest = Request<Params, unknown, FollowInput>;
 
 const usersRouter = express.Router();
@@ -132,12 +132,12 @@ usersRouter.post("/:id/locations", async (req: LocationRequest, res: Response) =
 
 });
 
-usersRouter.post("/:id/sports", async (req: SportRequest, res: Response) => {
+usersRouter.post("/:id/activities", async (req: ActivityRequest, res: Response) => {
 
   const userId = req.params.id;
-  const sportId = req.body.sportId;
+  const activityId = req.body.activityId;
 
-  const result = await saveSport(userId, sportId);
+  const result = await saveActivity(userId, activityId);
   if (!result) {
     return res.sendStatus(400);
   }

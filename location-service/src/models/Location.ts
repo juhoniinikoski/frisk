@@ -10,12 +10,12 @@ export default class LocationClass extends BaseModel {
 
   static relationMappings = {
 
-    sports: {
+    activities: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '/LocationSport',
+      modelClass: __dirname + '/LocationActivity',
       join: {
         from: 'locations.id',
-        to: 'location_sport.locationId'
+        to: 'location_activity.locationId'
       }
     },
     

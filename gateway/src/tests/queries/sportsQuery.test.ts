@@ -3,10 +3,10 @@ import testServer from "../config/testServer";
 /* eslint-disable @typescript-eslint/no-unsafe-call*/
 /* eslint-disable @typescript-eslint/no-explicit-any*/
 
-const sportsQuery = {
+const activitiesQuery = {
   query: `
     query {
-      sports {
+      activities {
         name
         id
       }
@@ -14,10 +14,10 @@ const sportsQuery = {
   `
 };
 
-const sportsByLocation = {
+const activitiesByLocation = {
   query: `
     query {
-      sports (location: "Nordis1234") {
+      activities (location: "Nordis1234") {
         name
         id
       }
@@ -25,10 +25,10 @@ const sportsByLocation = {
   `
 };
 
-const sportsBySaver = {
+const activitiesBySaver = {
   query: `
     query {
-      sports (savedBy: "bbe42984-051b-4a01-b45d-b8d29c32200c") {
+      activities (savedBy: "bbe42984-051b-4a01-b45d-b8d29c32200c") {
         name
         id
       }
@@ -36,10 +36,10 @@ const sportsBySaver = {
   `
 };
 
-const sportQuery = {
+const activityQuery = {
   query: `
     query {
-      sport (id: "3") {
+      activity (id: "3") {
         name
         id
         locations {
@@ -56,7 +56,7 @@ const sportQuery = {
 const invalidQuery = {
   query: `
     query {
-      sport (id: "500") {
+      activity (id: "500") {
         name
         id
       }
@@ -64,34 +64,34 @@ const invalidQuery = {
   `
 };
 
-describe("get sports", () => {
+describe("get activities", () => {
 
-  it("should get an array of sports", async () => {
-    const result = await testServer.executeOperation({query: sportsQuery.query});
+  it("should get an array of activities", async () => {
+    const result = await testServer.executeOperation({query: activitiesQuery.query});
     expect(result).toBeDefined();
-    return expect(result.data.sports).toBeInstanceOf(Array);
+    return expect(result.data.activities).toBeInstanceOf(Array);
   });
 
-  it("should get a sport with valid id", async () => {
-    const result = await testServer.executeOperation({query: sportQuery.query});
-    return expect(result.data.sport.name).toBe("Futis");
+  it("should get a activity with valid id", async () => {
+    const result = await testServer.executeOperation({query: activityQuery.query});
+    return expect(result.data.activity.name).toBe("Futis");
   });
 
-  it("should throw an error when getting sport with invalid id", async () => {
+  it("should throw an error when getting activity with invalid id", async () => {
     const result = await testServer.executeOperation({query: invalidQuery.query});
     return expect(result.errors[0].message).toBeDefined();
   });
 
-  it("should get sports by specific location", async () => {
-    const result = await testServer.executeOperation({query: sportsByLocation.query});
+  it("should get activities by specific location", async () => {
+    const result = await testServer.executeOperation({query: activitiesByLocation.query});
     expect(result).toBeDefined();
-    return expect(result.data.sports).toBeInstanceOf(Array);
+    return expect(result.data.activities).toBeInstanceOf(Array);
   });
 
   it("should get locations saved by specific user", async () => {
-    const result = await testServer.executeOperation({query: sportsBySaver.query});
+    const result = await testServer.executeOperation({query: activitiesBySaver.query});
     expect(result).toBeDefined();
-    return expect(result.data.sports).toBeInstanceOf(Array);
+    return expect(result.data.activities).toBeInstanceOf(Array);
   });
 
 });

@@ -10,7 +10,7 @@ const invalidLocation = {
         name: "Testi",
         description: "koriksen descriptioni",
         locationId: "Nordis1234567",
-        sportId: "4",
+        activityId: "4",
         start: "2022-02-07T17:45:53.719Z",
         end: "2022-02-07T19:45:53.719Z",
         free: true,
@@ -21,14 +21,14 @@ const invalidLocation = {
   `
 };
 
-const invalidSport = {
+const invalidActivity = {
   mutation: `
     mutation {
       createEvent (event: {
         name: "Testi",
         description: "koriksen descriptioni",
         locationId: "Nordis1234",
-        sportId: "45678",
+        activityId: "45678",
         start: "2022-02-07T17:45:53.719Z",
         end: "2022-02-07T19:45:53.719Z",
         free: true,
@@ -46,7 +46,7 @@ const invalidInput = {
         name: "",
         description: "koriksen descriptioni",
         locationId: "Nordis1234",
-        sportId: "4",
+        activityId: "4",
         start: "2022-02-07T17:45:53.719Z",
         end: "2022-02-07T19:45:53.719Z",
         free: true,
@@ -61,9 +61,9 @@ describe("create event", () => {
 
   it.todo("should create an event succesfully");
 
-  it.todo("should add a new location to sport with id 4");
+  it.todo("should add a new location to activity with id 4");
 
-  it.todo("should not add or remove loctation from sport with id 4");
+  it.todo("should not add or remove loctation from activity with id 4");
 
   it("should throw an error if event is created with undefined location", async () => {
 
@@ -72,10 +72,10 @@ describe("create event", () => {
 
   });
 
-  it("should throw an error if event is created with undefined sport", async () => {
+  it("should throw an error if event is created with undefined activity", async () => {
 
-    const result = await testServer.executeOperation({query: invalidSport.mutation});
-    return expect(result.errors[0].message).toBe("Sport with given id doesn't exist.");
+    const result = await testServer.executeOperation({query: invalidActivity.mutation});
+    return expect(result.errors[0].message).toBe("Activity with given id doesn't exist.");
 
   });
 

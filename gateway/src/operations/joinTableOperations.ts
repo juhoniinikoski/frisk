@@ -1,43 +1,43 @@
 import axios from "axios";
-import { LOCATION_SERVICE_URL, SPORT_SERVICE_URL } from "../utils/config";
-import { Sport, Event } from "../entities";
-import { getSports } from "./sportOperations";
+import { LOCATION_SERVICE_URL, ACTIVITY_SERVICE_URL } from "../utils/config";
+import { Activity, Event } from "../entities";
+import { getActivities } from "./activityOperations";
 import { getEvents } from "./eventOperations";
 
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 
 type ID = string | number;
 
-export const locationSportAdd = async (event: Partial<Event>, locationUpdate?: ID, sportUpdate?: ID): Promise<void> => {
+export const locationActivityAdd = async (event: Partial<Event>, locationUpdate?: ID, activityUpdate?: ID): Promise<void> => {
 
-  const sportId = sportUpdate ? sportUpdate : event.sportId;
+  const activityId = activityUpdate ? activityUpdate : event.activityId;
   const locationId = locationUpdate ? locationUpdate : event.locationId;
 
-  // find if location of the event is already added to sports's locations
-  const sportsByLocation: Sport[] = await getSports({ location: locationId })
-    .then((sports: Sport[]) => sports.filter(sport => sport.id === sportId));
+  // find if location of the event is already added to activities's locations
+  const activitiesByLocation: Activity[] = await getActivities({ location: locationId })
+    .then((activities: Activity[]) => activities.filter(activity => activity.id === activityId));
 
-  if (sportsByLocation.length === 0) {
-    const body = { sportId: sportId };
-    await axios.post(`${LOCATION_SERVICE_URL}/${locationId}/sports`, body);
+  if (activitiesByLocation.length === 0) {
+    const body = { activityId: activityId };
+    await axios.post(`${LOCATION_SERVICE_URL}/${locationId}/activities`, body);
     const body2 = { locationId: locationId };
-    await axios.post(`${SPORT_SERVICE_URL}/${sportId}/locations`, body2);
+    await axios.post(`${ACTIVITY_SERVICE_URL}/${activityId}/locations`, body2);
   }
 
 };
 
-export const locationSportDelete = async (event: Partial<Event>): Promise<void> => {
+export const locationActivityDelete = async (event: Partial<Event>): Promise<void> => {
 
-  const sportId = event.sportId;
+  const activityId = event.activityId;
   const locationId = event.locationId;
 
-  // find if deleted event was only event with that sport in event's location
-  const locationsBySport: Event[] = await getEvents({ location: locationId, sport: sportId });
-  if (locationsBySport.length === 0) {
-    const body = { sportId: sportId };
-    await axios.post(`${LOCATION_SERVICE_URL}/${locationId}/sports`, body);
+  // find if deleted event was only event with that activity in event's location
+  const locationsByActivity: Event[] = await getEvents({ location: locationId, activity: activityId });
+  if (locationsByActivity.length === 0) {
+    const body = { activityId: activityId };
+    await axios.post(`${LOCATION_SERVICE_URL}/${locationId}/activities`, body);
     const body2 = { locationId: locationId };
-    await axios.post(`${SPORT_SERVICE_URL}/${sportId}/locations`, body2);
+    await axios.post(`${ACTIVITY_SERVICE_URL}/${activityId}/locations`, body2);
   }
 
 };

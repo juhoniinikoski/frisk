@@ -1,31 +1,31 @@
-import { LocationSport } from "../models/LocationSport";
+import { LocationActivity } from "../models/LocationActivity";
 import { LocationUser } from "../models/LocationUser";
 
 
-export const addSport = async (locationId: string | number, sportId: string | number) => {
+export const addActivity = async (locationId: string | number, activityId: string | number) => {
 
   try {
 
-    const alreadyFollow = await LocationSport.query().where({
+    const alreadyFollow = await LocationActivity.query().where({
       locationId: locationId,
-      sportId: sportId,
+      activityId: activityId,
     });
   
     // Delete the follow
     if (alreadyFollow.length !== 0) {
-      await LocationSport.query()
+      await LocationActivity.query()
         .where({
           locationId: locationId,
-          sportId: sportId,
+          activityId: activityId,
         })
         .delete();
   
       return true;
     }
   
-    await LocationSport.query().insertAndFetch({
+    await LocationActivity.query().insertAndFetch({
       locationId: locationId,
-      sportId: sportId,
+      activityId: activityId,
     });
   
     return true;

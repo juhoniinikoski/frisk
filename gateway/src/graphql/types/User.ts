@@ -9,7 +9,7 @@ export const typeDefs = gql`
     upcomingEvents(first: Int, after: String): [Event]
     followedUsers(first: Int, after: String): [User]
     savedLocations(first: Int, after: String): [Location]
-    savedSports(first: Int, after: String): [Sport]
+    savedActivities(first: Int, after: String): [Activity]
     savedEvents(first: Int, after: String): [Event]
   }
 `;

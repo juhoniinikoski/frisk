@@ -13,18 +13,18 @@ describe("locations", () => {
 
   });
   
-  it("should return array of locations filtered with sport", async () => {
+  it("should return array of locations filtered with activity", async () => {
 
-    const sportId = '1';
+    const activityId = '1';
 
-    const result = await supertest(app).get(`/locations?sport=${sportId}`)
+    const result = await supertest(app).get(`/locations?activity=${activityId}`)
       .expect(200)
       .expect('Content-Type', /json/);
     
     expect(result.body.length).toBeDefined();  
     return result.body.forEach((location: any) => {
-      location.sports.forEach((sport: any) => {
-        expect(sport.sportId).toBe(sportId)
+      location.activities.forEach((activity: any) => {
+        expect(activity.activityId).toBe(activityId)
       });
     });
 
@@ -165,35 +165,35 @@ describe("location", () => {
 
 describe("location attributes", () => {
 
-  it("should add a sport to location", async () => {
+  it("should add a activity to location", async () => {
 
     const locationId = "Ogeli1234";
-    const sportId = "6";
+    const activityId = "6";
     const initial = await supertest(app).get(`/locations/${locationId}/test`);
 
-    await supertest(app).post(`/locations/${locationId}/sports`)
-      .send({ sportId })
+    await supertest(app).post(`/locations/${locationId}/activities`)
+      .send({ activityId })
       .set('Accept', 'application/json')
       .expect(201);
     
     const result = await supertest(app).get(`/locations/${locationId}/test`);
-    return expect(result.body.sports.length).toBe(initial.body.sports.length + 1);
+    return expect(result.body.activities.length).toBe(initial.body.activities.length + 1);
 
   });
   
-  it("should remove a sport from location", async () => {
+  it("should remove a activity from location", async () => {
 
     const locationId = "Ogeli1234";
-    const sportId = "6";
+    const activityId = "6";
     const initial = await supertest(app).get(`/locations/${locationId}/test`);
 
-    await supertest(app).post(`/locations/${locationId}/sports`)
-      .send({ sportId })
+    await supertest(app).post(`/locations/${locationId}/activities`)
+      .send({ activityId })
       .set('Accept', 'application/json')
       .expect(201);
     
     const result = await supertest(app).get(`/locations/${locationId}/test`);
-    return expect(result.body.sports.length).toBe(initial.body.sports.length - 1);
+    return expect(result.body.activities.length).toBe(initial.body.activities.length - 1);
 
   });
 

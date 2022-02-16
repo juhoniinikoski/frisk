@@ -23,7 +23,7 @@ const userQuery = {
         followedUsers {
           username
         }
-        savedSports {
+        savedActivities {
           name
         }
         savedEvents {

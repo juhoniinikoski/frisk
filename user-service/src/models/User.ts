@@ -22,10 +22,10 @@ class UserClass extends BaseModel {
     userId: string | number;
     locationId: string | number
   }[];
-  savedSports: {
+  savedActivities: {
     id: string | number;
     userId: string | number;
-    sportId: string | number
+    activityId: string | number
   }[];
 
   static relationMappings = {
@@ -53,12 +53,12 @@ class UserClass extends BaseModel {
       }
     },
 
-    savedSports: {
+    savedActivities: {
       relation: Model.HasManyRelation,
-      modelClass: __dirname + '/UserSport',
+      modelClass: __dirname + '/UserActivity',
       join: {
         from: 'users.id',
-        to: 'user_sport.userId'
+        to: 'user_activity.userId'
       }
     },
 

@@ -1,6 +1,6 @@
 import { UserEvent } from "../models/UserEvent";
 import { UserLocation } from "../models/UserLocation";
-import { UserSport } from "../models/UserSport";
+import { UserActivity } from "../models/UserActivity";
 import { UserUser } from "../models/UserUser";
 
 export const followUser = async (followerId: string | number, followingId: string | number) => {
@@ -105,30 +105,30 @@ export const saveLocation = async (userId: string | number, locationId: string |
 
 };
 
-export const saveSport = async (userId: string | number, sportId: string | number) => {
+export const saveActivity = async (userId: string | number, activityId: string | number) => {
 
   try {
 
-    const alreadyFollow = await UserSport.query().where({
+    const alreadyFollow = await UserActivity.query().where({
       userId: userId,
-      sportId: sportId,
+      activityId: activityId,
     });
   
     // Delete the follow
     if (alreadyFollow.length !== 0) {
-      await UserSport.query()
+      await UserActivity.query()
         .where({
           userId: userId,
-          sportId: sportId,
+          activityId: activityId,
         })
         .delete();
   
       return true;
     }
   
-    await UserSport.query().insertAndFetch({
+    await UserActivity.query().insertAndFetch({
       userId: userId,
-      sportId: sportId,
+      activityId: activityId,
     });
   
     return true;

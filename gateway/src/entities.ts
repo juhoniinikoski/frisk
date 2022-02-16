@@ -7,9 +7,9 @@ export interface Event {
   locationId: string | number
   location: Location
   locationName: string
-  sport: Sport
-  sportName: string
-  sportId: string | number
+  activity: Activity
+  activityName: string
+  activityId: string | number
   attendants: User[]
   free: boolean
   price: number
@@ -28,7 +28,7 @@ export interface Location {
   description: string
   createdById: string | number
   events: Event[]
-  sports: Sport[]
+  activities: Activity[]
   city: string
   zipcode: string
   country: string
@@ -36,7 +36,7 @@ export interface Location {
   address: Address
 }
 
-export interface Sport {
+export interface Activity {
   id: string | number
   name: string
   createdById: string | number
@@ -53,7 +53,7 @@ export interface User {
   upcoming: Event[]
   followedUsers: User[]
   savedEvents: Event[]
-  savedSports: Sport[]
+  savedActivities: Activity[]
   savedLocations: Location[]
 }
 

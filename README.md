@@ -10,7 +10,7 @@ Stay Frisk'y
 <!-- ABOUT THE PROJECT -->
 ## ❓ About The Project
 
-Where has the culture gone, where young people, why not adults, gather together and go out to sport together? The price of the population's exercise or rather immobility habits is estimated to rise to billions of euros here in Finland alone in the future. If poor condition occurs as early as school age, we can only imagine how it will affect adulthood, reflecting in joint pain, overweight and general energy, as well as working capacity. Luckily, there is Frisk.
+Where has the culture gone, where young people, why not adults, gather together and go out to activity together? The price of the population's exercise or rather immobility habits is estimated to rise to billions of euros here in Finland alone in the future. If poor condition occurs as early as school age, we can only imagine how it will affect adulthood, reflecting in joint pain, overweight and general energy, as well as working capacity. Luckily, there is Frisk.
 
 Frisk in a nutshell:
 

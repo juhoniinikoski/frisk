@@ -5,12 +5,12 @@ import { merge } from 'lodash';
 import Repetition from './enums/Repetition';
 
 import User from './types/User';
-import Sport from './types/Sport';
+import Activity from './types/Activity';
 import Location from './types/Location';
 import Address from './types/Address';
 import Event from './types/Event';
 import UserConnection from './types/UserConnection';
-import SportConnection from './types/SportConnection';
+import ActivityConnection from './types/ActivityConnection';
 import EventConnection from './types/EventConnection';
 import LocationConnection from './types/LocationConnection';
 import PageInfo from './types/PageInfo';
@@ -21,19 +21,19 @@ import eventsQuery from './queries/events';
 import eventQuery from './queries/event';
 import locationsQuery from './queries/locations';
 import locationQuery from './queries/location';
-import sportsQuery from './queries/sports';
-import sportQuery from './queries/sport';
+import activitiesQuery from './queries/activities';
+import activityQuery from './queries/activity';
 import meQuery from './queries/me';
 
 import authorizeMutation from './mutations/authorize';
 import createUserMutation from './mutations/create/createUser';
 import createEventMutation from './mutations/create/createEvent';
 import createLocationMutation from './mutations/create/createLocation';
-import createSportMutation from './mutations/create/createSport';
+import createActivityMutation from './mutations/create/createActivity';
 
 import deleteEventMutation from './mutations/delete/deleteEvent';
 import deleteLocationMutation from './mutations/delete/deleteLocation';
-import deleteSportMutation from './mutations/delete/deleteSport';
+import deleteActivityMutation from './mutations/delete/deleteActivity';
 import deleteUserMutation from './mutations/delete/deleteUser';
 
 import followUser from './mutations/follow/followUser';
@@ -41,13 +41,13 @@ import followUser from './mutations/follow/followUser';
 import updateUser from './mutations/update/updateUser';
 import updateEvent from './mutations/update/updateEvent';
 import updateLocation from './mutations/update/updateLocation';
-import updateSport from './mutations/update/updateSport';
+import updateActivity from './mutations/update/updateActivity';
 
 import saveEvent from './mutations/save/saveEvent';
 import saveLocation from './mutations/save/saveLocation';
-import saveSport from './mutations/save/saveSport';
+import saveActivity from './mutations/save/saveActivity';
 
-import addSport from './mutations/add/addSport';
+import addActivity from './mutations/add/addActivity';
 
 import DateTime from './scalars/DateTime';
 
@@ -66,12 +66,12 @@ const typeDefs = [
   rootTypeDefs,
   Repetition.typeDefs,
   User.typeDefs,
-  Sport.typeDefs,
+  Activity.typeDefs,
   Location.typeDefs,
   Address.typeDefs,
   Event.typeDefs,
   UserConnection.typeDefs,
-  SportConnection.typeDefs,
+  ActivityConnection.typeDefs,
   EventConnection.typeDefs,
   LocationConnection.typeDefs,
   PageInfo.typeDefs,
@@ -82,38 +82,38 @@ const typeDefs = [
   locationsQuery.typeDefs,
   locationQuery.typeDefs,
   eventQuery.typeDefs,
-  sportsQuery.typeDefs,
-  sportQuery.typeDefs,
+  activitiesQuery.typeDefs,
+  activityQuery.typeDefs,
   authorizeMutation.typeDefs,
   createUserMutation.typeDefs,
   deleteEventMutation.typeDefs,
   createEventMutation.typeDefs,
   createLocationMutation.typeDefs,
   deleteLocationMutation.typeDefs,
-  deleteSportMutation.typeDefs,
+  deleteActivityMutation.typeDefs,
   followUser.typeDefs,
   saveEvent.typeDefs,
-  addSport.typeDefs,
-  createSportMutation.typeDefs,
+  addActivity.typeDefs,
+  createActivityMutation.typeDefs,
   meQuery.typeDefs,
   saveLocation.typeDefs,
-  saveSport.typeDefs,
+  saveActivity.typeDefs,
   updateUser.typeDefs,
   updateEvent.typeDefs,
   updateLocation.typeDefs,
-  updateSport.typeDefs,
+  updateActivity.typeDefs,
   deleteEventMutation.typeDefs,
   deleteUserMutation.typeDefs
 ];
 
 const resolvers = merge(
   User.resolvers,
-  Sport.resolvers,
+  Activity.resolvers,
   Location.resolvers,
   Address.resolvers,
   Event.resolvers,
   UserConnection.resolvers,
-  SportConnection.resolvers,
+  ActivityConnection.resolvers,
   EventConnection.resolvers,
   LocationConnection.resolvers,
   PageInfo.resolvers,
@@ -124,26 +124,26 @@ const resolvers = merge(
   locationsQuery.resolvers,
   locationQuery.resolvers,
   eventQuery.resolvers,
-  sportsQuery.resolvers,
-  sportQuery.resolvers,
+  activitiesQuery.resolvers,
+  activityQuery.resolvers,
   authorizeMutation.resolvers,
   createUserMutation.resolvers,
   deleteEventMutation.resolvers,
   createEventMutation.resolvers,
   createLocationMutation.resolvers,
   deleteLocationMutation.resolvers,
-  deleteSportMutation.resolvers,
+  deleteActivityMutation.resolvers,
   followUser.resolvers,
   saveEvent.resolvers,
-  addSport.resolvers,
-  createSportMutation.resolvers,
+  addActivity.resolvers,
+  createActivityMutation.resolvers,
   meQuery.resolvers,
-  saveSport.resolvers,
+  saveActivity.resolvers,
   saveLocation.resolvers,
   updateUser.resolvers,
   updateEvent.resolvers,
   updateLocation.resolvers,
-  updateSport.resolvers,
+  updateActivity.resolvers,
   deleteUserMutation.resolvers
 );
 

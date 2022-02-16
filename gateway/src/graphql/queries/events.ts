@@ -12,7 +12,7 @@ export const typeDefs = gql`
       searchKeyword: String
       location: ID
       user: ID
-      sport: ID
+      activity: ID
       savedBy: ID
     ): [Event]
   }
@@ -26,7 +26,7 @@ interface Args {
   searchKeyword: string
   location: string | number
   user: string | number
-  sport: string | number
+  activity: string | number
   savedBy: string | number
 }
 

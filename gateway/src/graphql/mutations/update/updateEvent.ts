@@ -8,7 +8,7 @@ export const typeDefs = gql`
     name: String
     description: String
     locationId: ID
-    sportId: ID
+    activityId: ID
     start: DateTime
     end: DateTime
     free: Boolean
@@ -26,7 +26,7 @@ interface Args {
     name: string
     description: string
     locationId: string | number
-    sportId: string | number
+    activityId: string | number
     price: number
     repetition: string
     free: boolean

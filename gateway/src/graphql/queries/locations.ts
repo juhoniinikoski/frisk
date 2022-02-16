@@ -10,7 +10,7 @@ export const typeDefs = gql`
       first: Int
       after: String
       searchKeyword: String
-      sport: ID
+      activity: ID
       savedBy: ID
     ): [Location]!
   }
@@ -22,7 +22,7 @@ interface Args {
   first: number
   after: string
   searchKeyword: string
-  sport: string | number
+  activity: string | number
   savedBy: string | number
 }
 

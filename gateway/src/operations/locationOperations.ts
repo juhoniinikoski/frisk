@@ -12,7 +12,7 @@ interface Args {
   first?: number
   after?: string
   searchKeyword?: string
-  sport?: string | number
+  activity?: string | number
   savedBy?: string | number
 }
 

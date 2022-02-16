@@ -8,14 +8,14 @@ type Event {
   description: String
   location: Location!
   locationId: ID!
-  sport: Sport!
+  activity: Activity!
   attendants: [User]
   free: Boolean!
   price: Float!
   createdById: ID!
   createdBy: User!
   createdAt: DateTime!
-  sportId: ID!
+  activityId: ID!
   start: DateTime!
   end: DateTime!
   repetition: Repetition!
@@ -36,10 +36,10 @@ export const resolvers = {
         id: obj.locationId
       };
     },
-    sport: (obj: Event) => {
+    activity: (obj: Event) => {
       return {
-        name: obj.sportName,
-        id: obj.sportId
+        name: obj.activityName,
+        id: obj.activityId
       };
     }
   }

@@ -30,10 +30,10 @@ services:
     networks: 
       - microservice-network
   
-  sport-api:
-    image: frisk-sport
+  activity-api:
+    image: frisk-activity
     build: 
-      context: ./sport-service
+      context: ./activity-service
       args: 
         build_info: Built from Docker compose
     ports: 

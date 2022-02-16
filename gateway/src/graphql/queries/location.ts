@@ -2,7 +2,7 @@ import { gql } from 'apollo-server';
 import { Location } from '../../entities';
 import { getEvents } from '../../operations/eventOperations';
 import { getLocation } from '../../operations/locationOperations';
-import { getSports } from '../../operations/sportOperations';
+import { getActivities } from '../../operations/activityOperations';
 
 export const typeDefs = gql`
   extend type Query {
@@ -23,7 +23,7 @@ export const resolvers = {
   },
   Location: {
     events: async (obj: Location) => await getEvents({ location: obj.id }),
-    sports: async (obj: Location) => await getSports({ location: obj.id }),
+    activities: async (obj: Location) => await getActivities({ location: obj.id }),
   }
 };
 

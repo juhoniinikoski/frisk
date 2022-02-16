@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import EventClass from '../models/Event';
 import { addUser } from '../services/addService';
-import { createEvent, deleteEvent, getEvent, getEvents, getEventTest, updateEvent, updateEventsCreator, updateEventsLocation, updateEventsSport } from '../services/eventService';
+import { createEvent, deleteEvent, getEvent, getEvents, getEventTest, updateEvent, updateEventsCreator, updateEventsLocation, updateEventsActivity } from '../services/eventService';
 
 const eventsRouter = express.Router();
 
@@ -19,9 +19,9 @@ type EventRequest = Request<Params, unknown, Partial<EventClass>>;
 eventsRouter.get("/", async (req: Request, res: Response) => {
 
   const filters = req.query;
-  const { location, sport, user, savedBy } = filters;
+  const { location, activity, user, savedBy } = filters;
 
-  const result = await getEvents(location as string, sport as string, user as string, savedBy as string);
+  const result = await getEvents(location as string, activity as string, user as string, savedBy as string);
 
   if (!result) {
     return res.sendStatus(404);
@@ -89,15 +89,15 @@ eventsRouter.put("/:id", async (req: EventRequest, res: Response) => {
 eventsRouter.put("/", async (req: EventRequest, res: Response) => {
 
   const filters = req.query;
-  const { location, sport, user } = filters;
+  const { location, activity, user } = filters;
   
   let result = null;
   const event = req.body;
   
   if (location) {
     result = await updateEventsLocation(location as string, event);
-  } else if (sport) {
-    result = await updateEventsSport(sport as string, event);
+  } else if (activity) {
+    result = await updateEventsActivity(activity as string, event);
   } else {
     result = await updateEventsCreator(user as string, event);
   }
