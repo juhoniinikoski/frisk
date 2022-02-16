@@ -19,7 +19,9 @@ export interface Event {
   createdAt: Date
   start: Date | number
   end: Date | number
-  repetition: string
+  repetition: string,
+  latitude: number,
+  longitude: number
 }
 
 export interface Location {
@@ -33,7 +35,9 @@ export interface Location {
   zipcode: string
   country: string
   street: string
-  address: Address
+  address: Address,
+  latitude: number,
+  longitude: number
 }
 
 export interface Activity {

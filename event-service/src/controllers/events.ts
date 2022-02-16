@@ -19,9 +19,15 @@ type EventRequest = Request<Params, unknown, Partial<EventClass>>;
 eventsRouter.get("/", async (req: Request, res: Response) => {
 
   const filters = req.query;
-  const { location, activity, user, savedBy } = filters;
+  const { location, activity, user, savedBy, orderBy } = filters;
 
-  const result = await getEvents(location as string, activity as string, user as string, savedBy as string);
+  const result = await getEvents(
+    location as string,
+    activity as string,
+    user as string,
+    savedBy as string,
+    orderBy as string
+  );
 
   if (!result) {
     return res.sendStatus(404);

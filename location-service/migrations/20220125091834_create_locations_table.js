@@ -6,6 +6,8 @@ exports.up = function (knex) {
     table.text('description')
     table.timestamp('created_at')
     table.timestamp('updated_at')
+    table.specificType('latitude', 'double precision')
+    table.specificType('longitude', 'double precision')
     table.text('street')
     table.text('zipcode')
     table.text('city')

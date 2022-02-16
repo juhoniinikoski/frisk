@@ -1,12 +1,14 @@
 import ActivityClass, { Activity } from "../models/Activity";
 import { v4 as uuid } from 'uuid';
 
-export const getActivities = async (locationId: string, savedById: string) => {
+export const getActivities = async (locationId: string, savedById: string, orderBy?: string) => {
+
+  const order = orderBy ? orderBy : 'name';
   
   let query = Activity.query();
 
   if (locationId) {
-    query = Activity.query().withGraphJoined('locations(onlyLocationId)')
+    query = query.withGraphJoined('locations(onlyLocationId)')
       .modifiers({
         onlyLocationId(builder) {
           void builder.select('locationId');
@@ -16,7 +18,7 @@ export const getActivities = async (locationId: string, savedById: string) => {
   };
   
   if (savedById) {
-    query = Activity.query().withGraphJoined('users(onlyUserId)')
+    query = query.withGraphJoined('users(onlyUserId)')
       .modifiers({
         onlyUserId(builder) {
           void builder.select('userId');
@@ -25,7 +27,7 @@ export const getActivities = async (locationId: string, savedById: string) => {
       .where('userId', savedById);
   };
 
-  return await query;
+  return await query.orderBy(order);
 };
 
 export const getActivity = async (id: string | number) => {

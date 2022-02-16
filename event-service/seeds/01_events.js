@@ -14,6 +14,8 @@ const createColumns = (ownerName, eventTitle, createdBy, activityId, activityNam
   name: eventTitle,
   location_id: 'Nordis1234',
   location_name: 'Nordis',
+  latitude: 60.188969,
+  longitude: 24.919491,
   activity_id: activityId,
   repetition: 'SINGLE',
   free: true,

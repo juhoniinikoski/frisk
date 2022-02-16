@@ -6,6 +6,8 @@ exports.up = function(knex) {
     table.text('name')
     table.text('location_id')
     table.text('location_name')
+    table.specificType('latitude', 'double precision')
+    table.specificType('longitude', 'double precision')
     table.text('activity_id')
     table.text('activity_name')
     table.boolean('free')

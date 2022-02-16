@@ -23,8 +23,8 @@ type ActivityRequest = Request<Params, unknown, Partial<ActivityClass>>;
 
 activitiesRouter.get("/", async (req: Request, res: Response) => {
 
-  const { location, savedBy } = req.query;
-  const result = await getActivities(location as string, savedBy as string);
+  const { location, savedBy, orderBy } = req.query;
+  const result = await getActivities(location as string, savedBy as string, orderBy as string);
 
   if (!result) {
     return res.sendStatus(404);

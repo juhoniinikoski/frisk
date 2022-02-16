@@ -1,9 +1,11 @@
 import EventClass, { Event } from "../models/Event";
 import { v4 as uuid } from "uuid";
 
-export const getEvents = async (locationId: string, activityId: string, userId: string, savedBy: string) =>  {
+export const getEvents = async (locationId: string, activityId: string, userId: string, savedBy: string, orderBy?: string) =>  {
   
-  let query = Event.query();
+  let order = orderBy ? orderBy : 'start';
+
+  let query = Event.query().orderBy(order);
 
   if (locationId) {
     query = query.where({locationId: locationId});
@@ -52,6 +54,12 @@ export const getEventTest = async (id: string | number) => {
 export const createEvent = async (event: Partial<EventClass>) => {
 
   try {
+
+    const { latitude, longitude } = event;
+
+    if (!(latitude || longitude)) {
+      return false;
+    }
 
     const id = uuid();
     

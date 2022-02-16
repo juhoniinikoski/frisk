@@ -34,6 +34,8 @@ export default class LocationClass extends BaseModel {
   id: string | number;
   name: string;
   description: string;
+  longitude: number;
+  latitude: number;
   
 }
 

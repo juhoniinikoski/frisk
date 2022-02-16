@@ -10,6 +10,8 @@ export const typeDefs = gql`
     zipcode: String
     city: String!
     country: String
+    latitude: Float!
+    longitude: Float!
   }
   extend type Mutation {
     createLocation(location: CreateLocationInput): String

@@ -10,6 +10,8 @@ type Location {
   activities: [Activity]!
   city: String!
   createdById: String!
+  latitude: Float!
+  longitude: Float!
   zipcode: String
   country: String
   street: String!
@@ -26,7 +28,7 @@ export const resolvers = {
         city: obj.city,
         country: obj.country
       };
-    }
+    },
   }
 };
 

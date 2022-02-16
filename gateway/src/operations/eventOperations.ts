@@ -47,7 +47,6 @@ export const getEvents = async (args: Args): Promise<EventType[]> | null => {
       return res.data;
     }
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -76,7 +75,7 @@ const eventSchema = object({
 export const createEvent = async (event: Event, authorizedUser: User): Promise<boolean> => {
 
   const location = await getLocation(event.locationId);
-  const { name: locationName } = location;
+  const { name: locationName, latitude, longitude } = location;
 
   const activity = await getActivity(event.activityId);
   const { name: activityName } = activity;
@@ -85,6 +84,8 @@ export const createEvent = async (event: Event, authorizedUser: User): Promise<b
 
   const body = {
     ...data,
+    latitude: latitude,
+    longitude: longitude,
     createdById: authorizedUser.id,
     createdByName: authorizedUser.username,
     locationName: locationName,
@@ -147,7 +148,6 @@ export const updateEvent = async (id: string | number, event: Event, authorizedU
       return result.data;
     } 
   } catch (error) {
-    console.log(error);
     throw new NameTakenError("event");
   }
 
@@ -166,7 +166,6 @@ export const deleteEvent = async (id: string | number, authorizedUser: User): Pr
       }
       return true;
     } catch (error) {
-      console.log(error);
       throw new ApolloError("Could not delete the event");
     }
   }

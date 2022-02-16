@@ -31,7 +31,6 @@ export const getActivities = async (args: Args): Promise<ActivityType[]> | null 
       return res.data;
     }
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -93,7 +92,6 @@ export const updateActivity = async (id: string | number, activity: Partial<Acti
       return result.data;
     }
   } catch (error) {
-    console.log(error);
     throw new NameTakenError("activity");
   }
   

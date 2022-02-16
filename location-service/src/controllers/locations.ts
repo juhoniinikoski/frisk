@@ -23,8 +23,8 @@ type LocationRequest = Request<Params, unknown, Partial<LocationClass>>;
 
 locationRouter.get("/", async (req: Request, res: Response) => {
 
-  const { activity, savedBy } = req.query;
-  const result = await getLocations(activity as string, savedBy as string);
+  const { activity, savedBy, orderBy } = req.query;
+  const result = await getLocations(activity as string, savedBy as string, orderBy as string);
 
   if (!result) {
     return res.sendStatus(404);

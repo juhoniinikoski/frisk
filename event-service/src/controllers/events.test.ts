@@ -8,13 +8,14 @@ import EventClass from "../models/Event";
 
 describe("events", () => {
   
-  it("should return array of events", async () => {
+  it("should return array of events ordered by start time", async () => {
 
     const result = await supertest(app).get('/events')
       .expect(200)
       .expect('Content-Type', /json/);
 
-    return expect(result.body.length).toBeDefined();
+    expect(result.body.length).toBeDefined();
+    return expect(result.body[0].start).toBeLessThanOrEqual(result.body[1].start);
   });
   
   it("should return array of events with activity as a filter", async () => {
@@ -173,6 +174,8 @@ describe("event", () => {
       locationId: "lokaatioId",
       activityId: "1",
       createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f",
+      latitude: 60.188969,
+      longitude: 24.919491,
       free: true,
       price: 0,
       repetition: "SINGLE",
@@ -184,6 +187,26 @@ describe("event", () => {
     .send(event)
     .set('Accept', 'application/json')
     .expect(201);
+  });
+
+  it("shouldn't create an event if coordinates aren't given", async () => {
+    const event: Partial<EventClass> = {
+      name: "testin tekemä event",
+      description: "huippudescriptioni",
+      locationId: "lokaatioId",
+      activityId: "1",
+      createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f",
+      free: true,
+      price: 0,
+      repetition: "SINGLE",
+      start: Date.now() / 1000,
+      end: (Date.now() + 1000 * 60 * 60) / 1000
+    };
+
+    return await supertest(app).post('/events')
+    .send(event)
+    .set('Accept', 'application/json')
+    .expect(404);
   });
     
   it("should update one event succesfully", async () => {

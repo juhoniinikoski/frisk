@@ -28,7 +28,6 @@ export const getUsers = async (args: Args): Promise<UserType[]> | null => {
       return res.data;
     }
   } catch (error) {
-    console.log(error);
     return null;
   }
 };

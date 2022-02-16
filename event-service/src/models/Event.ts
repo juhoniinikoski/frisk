@@ -33,6 +33,8 @@ class EventClass extends BaseModel {
   start: Date | number;
   end: Date | number;
   repetition: string;
+  latitude: number;
+  longitude: number;
 }
 
 export default EventClass;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { EVENT_SERVICE_URL, LOCATION_SERVICE_URL } from "../utils/config";
 import { InvalidIdError, NameTakenError } from "./errors";
 import { Location as LocationType, User } from "../entities";
-import { object, string } from "yup";
+import { number, object, string } from "yup";
 import { ApolloError, AuthenticationError } from "apollo-server";
 import { getEvents } from "./eventOperations";
 
@@ -31,7 +31,6 @@ export const getLocations = async (args: Args): Promise<LocationType[]> | null =
       return res.data;
     }
   } catch (error) {
-    console.log(error);
     return null;
   }
 };
@@ -51,7 +50,9 @@ const locationSchema = object({
   street: string().required(),
   zipcode: string(),
   city: string().required(),
-  country: string()
+  country: string(),
+  latitude: number().required(),
+  longitude: number().required()
 });
 
 export const createLocation = async (location: Partial<LocationType>, authorizedUser: User): Promise<string> => {
@@ -90,7 +91,6 @@ export const updateLocation = async (id: string | number, location: Partial<Loca
   const initialLocation = await getLocation(id);
 
   if (initialLocation.createdById !== authorizedUser.id) {
-    console.log(initialLocation.createdById);
     throw new AuthenticationError("You must be the creator of the location in order to update it.");
   }
   

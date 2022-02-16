@@ -33,7 +33,9 @@ export const resolvers = {
     location: (obj: Event) => {
       return {
         name: obj.locationName,
-        id: obj.locationId
+        id: obj.locationId,
+        latitude: obj.latitude,
+        longitude: obj.longitude
       };
     },
     activity: (obj: Event) => {

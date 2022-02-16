@@ -1,12 +1,14 @@
 import LocationClass, { Location } from "../models/Location";
 import { v4 as uuid } from "uuid";
 
-export const getLocations = async (activityId: string, savedBy: string) => {
+export const getLocations = async (activityId: string, savedBy: string, orderBy?: string) => {
+
+  const order = orderBy ? orderBy : 'name';
   
   let query = Location.query();
 
   if (activityId) {
-    query = Location.query().withGraphJoined('activities(onlyActivityId)')
+    query = query.withGraphJoined('activities(onlyActivityId)')
       .modifiers({
         onlyActivityId(builder) {
           void builder.select('activityId');
@@ -16,7 +18,7 @@ export const getLocations = async (activityId: string, savedBy: string) => {
   };
   
   if (savedBy) {
-    query = Location.query().withGraphJoined('savedBy(onlyUserId)')
+    query = query.withGraphJoined('savedBy(onlyUserId)')
       .modifiers({
         onlyUserId(builder) {
           void builder.select('userId');
@@ -25,7 +27,7 @@ export const getLocations = async (activityId: string, savedBy: string) => {
       .where('userId', savedBy);
   };
 
-  return await query;
+  return await query.orderBy(order);
 }
 
 export const getLocation = async (id: string | number) => {
@@ -54,7 +56,11 @@ export const createLocation = async (location: Partial<LocationClass>) => {
 
   try {
 
-    const { name } = location;
+    const { name, latitude, longitude } = location;
+
+    if (!latitude || ! longitude) {
+      return false;
+    }
 
     const existingLocation = await Location.query().where('name', name);
     if (existingLocation.length !== 0) {
