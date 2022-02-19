@@ -55,12 +55,6 @@ export const createEvent = async (event: Partial<EventClass>) => {
 
   try {
 
-    const { latitude, longitude } = event;
-
-    if (!(latitude || longitude)) {
-      return false;
-    }
-
     const id = uuid();
     
     await Event.query().insertAndFetch({

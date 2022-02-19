@@ -188,26 +188,6 @@ describe("event", () => {
     .set('Accept', 'application/json')
     .expect(201);
   });
-
-  it("shouldn't create an event if coordinates aren't given", async () => {
-    const event: Partial<EventClass> = {
-      name: "testin tekemä event",
-      description: "huippudescriptioni",
-      locationId: "lokaatioId",
-      activityId: "1",
-      createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f",
-      free: true,
-      price: 0,
-      repetition: "SINGLE",
-      start: Date.now() / 1000,
-      end: (Date.now() + 1000 * 60 * 60) / 1000
-    };
-
-    return await supertest(app).post('/events')
-    .send(event)
-    .set('Accept', 'application/json')
-    .expect(404);
-  });
     
   it("should update one event succesfully", async () => {
 

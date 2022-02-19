@@ -75,26 +75,6 @@ describe("location", () => {
     return expect(result.body.length).toBe(initial.body.length + 1);
   });
 
-  it("shouldn't create a location when coords arent given", async () => {
-
-    const location: Partial<LocationClass> = {
-      name: "Testilokaatio, joka ei pitäisi mennä läpi",
-      description: "testilokaation descriptioni",
-      createdById: "9b9d927e-2ee9-4f93-b96b-c8f677c63a5f"
-    };
-
-    const initial = await supertest(app).get('/locations');
-
-    await supertest(app).post('/locations')
-      .send(location)
-      .set('Accept', 'application/json')
-      .expect(404);
-
-    const result = await supertest(app).get('/locations');
-
-    return expect(result.body.length).toBe(initial.body.length);
-  });
-
   it("shouldn't create a new location if name is already taken", async () => {
 
     const location: Partial<LocationClass> = {

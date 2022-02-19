@@ -56,11 +56,7 @@ export const createLocation = async (location: Partial<LocationClass>) => {
 
   try {
 
-    const { name, latitude, longitude } = location;
-
-    if (!latitude || ! longitude) {
-      return false;
-    }
+    const { name } = location;
 
     const existingLocation = await Location.query().where('name', name);
     if (existingLocation.length !== 0) {
