@@ -1,0 +1,53 @@
+import * as React from 'react';
+import { FunctionComponent } from 'react';
+import { Text, StyleSheet, TextStyle } from 'react-native';
+
+const styles = StyleSheet.create({
+  large: {
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  regular: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  small: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
+
+type HeaderTextProps = {
+  textType?: 'large' | 'regular' | 'small';
+  style?: TextStyle | TextStyle[];
+};
+
+const HeaderText: FunctionComponent<HeaderTextProps> = ({
+  children,
+  textType,
+  style,
+}) => {
+  let textStyle: {};
+  switch (textType) {
+    case 'large':
+      textStyle = styles.large;
+      break;
+    case 'regular':
+      textStyle = styles.regular;
+      break;
+    case 'small':
+      textStyle = styles.small;
+      break;
+    default:
+      textStyle = styles.regular;
+      break;
+  }
+
+  const passedStyles = Array.isArray(style)
+    ? Object.assign({}, ...style)
+    : style;
+
+  return <Text style={[textStyle, { ...passedStyles }]}>{children}</Text>;
+};
+
+export default HeaderText;

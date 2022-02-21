@@ -1,13 +1,37 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { FlatList, StyleSheet, View, Text } from 'react-native';
+import FilterButton from '../../components/common/FilterButton';
+import EventLarge from '../../components/events/EventLarge';
+import Layout from '../../components/layout/Layout';
+import HeaderText from '../../components/common/HeaderText';
+import { events } from '../../content/testContent';
 
-interface Props {}
+const styles = StyleSheet.create({
+  header: {
+    fontSize: 16,
+  },
+  headerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
+});
 
-const Events = (props: Props) => {
+const Events = () => {
+
   return (
-    <View>
-      <Text>Events</Text>
-    </View>
+    <Layout>
+      <View style={styles.headerContainer}>
+        <HeaderText textType="large">Events</HeaderText>
+        <FilterButton />
+      </View>
+      <FlatList
+        data={events}
+        renderItem={({ item }) => <EventLarge event={item} />}
+        keyExtractor={item => item.id}
+      />
+    </Layout>
   );
 };
 

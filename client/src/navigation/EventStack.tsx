@@ -6,7 +6,12 @@ const Stack = createNativeStackNavigator();
 
 const EventStack = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerTransparent: true,
+        title: '',
+      }}
+    >
       <Stack.Screen name="Events" component={Events} />
     </Stack.Navigator>
   );
