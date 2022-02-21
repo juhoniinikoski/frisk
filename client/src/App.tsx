@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { ApolloProvider } from '@apollo/client';
+import * as React from 'react';
+import { StyleSheet } from 'react-native';
 import { AuthProvider } from './contexts/auth';
+import Router from './navigation/Router';
 import apolloClient from './utils/apolloClient';
 
 const styles = StyleSheet.create({
@@ -15,13 +16,11 @@ const styles = StyleSheet.create({
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <AuthProvider>
-        <ApolloProvider client={apolloClient}>
-          <Text>Testi</Text>
-        </ApolloProvider>
-      </AuthProvider>
-    </View>
+    <AuthProvider>
+      <ApolloProvider client={apolloClient}>
+        <Router />
+      </ApolloProvider>
+    </AuthProvider>
   );
 };
 
