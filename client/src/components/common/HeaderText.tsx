@@ -27,7 +27,7 @@ const HeaderText: FunctionComponent<HeaderTextProps> = ({
   textType,
   style,
 }) => {
-  let textStyle: {};
+  let textStyle: TextStyle;
   switch (textType) {
     case 'large':
       textStyle = styles.large;
@@ -48,6 +48,11 @@ const HeaderText: FunctionComponent<HeaderTextProps> = ({
     : style;
 
   return <Text style={[textStyle, { ...passedStyles }]}>{children}</Text>;
+};
+
+HeaderText.defaultProps = {
+  textType: 'regular',
+  style: {},
 };
 
 export default HeaderText;

@@ -1,5 +1,5 @@
-import { StyleSheet, Pressable } from 'react-native'
-import * as React from 'react'
+import { StyleSheet, Pressable } from 'react-native';
+import * as React from 'react';
 
 const styles = StyleSheet.create({
   filterButton: {
@@ -8,18 +8,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 50,
     shadowColor: 'rgba(228, 218, 207, 0.4)',
-    shadowOffset: {width: 0, height: 10},
+    shadowOffset: { width: 0, height: 10 },
     shadowRadius: 20,
-    shadowOpacity: 1.0
+    shadowOpacity: 1.0,
   },
-})
+});
 
-type Props = {}
+const FilterButton = () => {
+  return <Pressable style={styles.filterButton} />;
+};
 
-const FilterButton = (props: Props) => {
-  return (
-    <Pressable style={styles.filterButton}></Pressable>
-  )
-}
-
-export default FilterButton
+export default FilterButton;

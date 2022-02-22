@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, StyleSheet, View, Text } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import FilterButton from '../../components/common/FilterButton';
 import EventLarge from '../../components/events/EventLarge';
 import Layout from '../../components/layout/Layout';
@@ -14,19 +14,24 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 const Events = () => {
-
-  return (
-    <Layout>
+  const listHeader = () => {
+    return (
       <View style={styles.headerContainer}>
         <HeaderText textType="large">Events</HeaderText>
         <FilterButton />
       </View>
+    );
+  };
+
+  return (
+    <Layout>
       <FlatList
+        ListHeaderComponent={listHeader}
         data={events}
         renderItem={({ item }) => <EventLarge event={item} />}
         keyExtractor={item => item.id}

@@ -1,18 +1,28 @@
-import { StyleSheet, Pressable, View } from 'react-native'
-import * as React from 'react'
-import { Event } from '../../entities'
-import HeaderText from '../common/HeaderText'
-import BodyText from '../common/BodyText'
-import LocationButton from '../common/LocationButton'
-import LikeButton from '../common/LikeButton'
+import { StyleSheet, Pressable, View } from 'react-native';
+import * as React from 'react';
+import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { Event } from '../../entities';
+import HeaderText from '../common/HeaderText';
+import BodyText from '../common/BodyText';
+import LocationButton from '../common/LocationButton';
+import LikeButton from '../common/LikeButton';
+import {
+  getDate,
+  getDuration,
+  getTime,
+} from '../../services/dateService/dateService';
+import { textContentFI } from '../../content/textContent';
+import { EventsStackParamList } from '../../navigation/EventStack';
 
 const styles = StyleSheet.create({
   eventContainer: {
     flex: 1,
-    height: 285,
+    paddingBottom: 24,
     backgroundColor: 'white',
     marginVertical: 8,
-    borderRadius: 20
+    borderRadius: 20,
   },
   imageContainer: {
     height: 165,
@@ -26,7 +36,7 @@ const styles = StyleSheet.create({
     marginBottom: -16,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   locationButton: {
     display: 'flex',
@@ -38,38 +48,91 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: 'red',
     borderRadius: 16,
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: { width: 0, height: 4 },
     shadowColor: 'rgba(228, 218, 207, 0.4)',
     shadowRadius: 4,
-    shadowOpacity: 1.0
+    shadowOpacity: 1.0,
   },
-  likeButton: {
-
-  }
-})
+  timeDate: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  attendants: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 12,
+  },
+});
 
 type Props = {
-  event: Event
-}
+  event: Event;
+};
+
+type NavigationProps = NativeStackNavigationProp<EventsStackParamList>;
 
 const EventLarge = ({ event }: Props) => {
+  const navigation = useNavigation<NavigationProps>();
 
   const handlePress = () => {
-    console.log('Click')
-  }
+    navigation.navigate('EventDetail', { eventId: event.id });
+  };
+
+  const date = getDate(Date.parse(event.start));
+  const { weekdays } = textContentFI;
+  const [start, end] = getTime(Date.parse(event.start), Date.parse(event.end));
+  const duration = getDuration(Date.parse(event.start), Date.parse(event.end));
+  const price = event.price === 0 ? textContentFI.common.free : event.price;
 
   return (
     <Pressable onPress={handlePress} style={styles.eventContainer}>
-      <View style={styles.imageContainer}></View>
-      <View style={{marginHorizontal: 16}}>
+      <View style={styles.imageContainer} />
+      <View style={{ marginHorizontal: 16 }}>
         <View style={styles.buttonContainer}>
-          <LocationButton name={event.location.name}/>
-          <LikeButton type='event'/>
+          <LocationButton name={event.location.name} />
+          <LikeButton />
         </View>
-        <HeaderText textType='small'>{event.name}</HeaderText>
+        <View style={styles.timeDate}>
+          <MaterialCommunityIcons
+            name="calendar-month"
+            size={17}
+            color="black"
+            style={{ marginRight: 8 }}
+          />
+          <BodyText style={{ marginRight: 16 }}>
+            {weekdays[date[0]]} {date[1]}
+          </BodyText>
+          <Ionicons
+            name="ios-time"
+            size={17}
+            style={{ marginRight: 8 }}
+            color="black"
+          />
+          <BodyText style={{ marginRight: 8 }}>
+            {start} - {end}
+          </BodyText>
+        </View>
+        <HeaderText textType="small">{event.name}</HeaderText>
+        <BodyText style={{ marginTop: 4 }}>
+          {event.activity.name} · {duration} · {price}
+        </BodyText>
+        <View style={styles.attendants}>
+          <Ionicons
+            name="ios-person"
+            size={20}
+            color="black"
+            style={{ marginRight: 8 }}
+          />
+          {/* <BodyText>
+            {event.attendants.current} / {event.attendants.max}{' '}
+            {textContentFI.common.attendants}
+          </BodyText> */}
+        </View>
       </View>
     </Pressable>
-  )
-}
+  );
+};
 
-export default EventLarge
+export default EventLarge;

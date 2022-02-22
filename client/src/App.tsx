@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from './contexts/auth';
 import Router from './navigation/Router';
 import apolloClient from './utils/apolloClient';
@@ -17,7 +18,9 @@ const App = () => {
     <View style={styles.container}>
       <AuthProvider>
         <ApolloProvider client={apolloClient}>
-          <Router />
+          <SafeAreaProvider>
+            <Router />
+          </SafeAreaProvider>
         </ApolloProvider>
       </AuthProvider>
     </View>

@@ -5,6 +5,19 @@ export const textContentEn = {
     search: 'Search',
     profile: 'Profile',
   },
+  weekdays: [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ],
+  common: {
+    free: 'free',
+    attendants: 'attendants',
+  },
 };
 
 export const textContentFI = {
@@ -13,5 +26,18 @@ export const textContentFI = {
     locations: 'Sijainnit',
     search: 'Haku',
     profile: 'Profiili',
+  },
+  weekdays: [
+    'sunnuntai',
+    'maanantai',
+    'tiistai',
+    'keskiviikko',
+    'torstai',
+    'perjantai',
+    'lauantai',
+  ],
+  common: {
+    free: 'ilmainen',
+    attendants: 'osallistujaa',
   },
 };

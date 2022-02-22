@@ -1,23 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import * as React from 'react';
 import { FunctionComponent } from 'react';
-import { useHeaderHeight } from '@react-navigation/elements';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 16,
-    justifyContent: 'center',
     display: 'flex',
+    flex: 1,
   },
 });
 
 const Layout: FunctionComponent = ({ children }) => {
-  const headerHeight = useHeaderHeight();
 
   return (
-    <View style={{ ...styles.container, marginTop: headerHeight }}>
+    <SafeAreaView
+      edges={['top', 'left', 'right']}
+      style={{ ...styles.container }}
+    >
       {children}
-    </View>
+    </SafeAreaView>
   );
 };
 

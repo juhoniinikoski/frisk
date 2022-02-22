@@ -7,18 +7,18 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
   },
-  semiBold: {
-    fontSize: 15,
-    fontWeight: '600',
+  medium: {
+    fontSize: 16,
+    fontWeight: '500',
   },
   regular: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '400',
   },
 });
 
 type BodyTextProps = {
-  textType?: 'bold' | 'semi-bold' | 'regular';
+  textType?: 'bold' | 'medium' | 'regular';
   style?: TextStyle | TextStyle[];
 };
 
@@ -27,7 +27,7 @@ const BodyText: FunctionComponent<BodyTextProps> = ({
   textType,
   style,
 }) => {
-  let textStyle: {};
+  let textStyle: TextStyle;
   switch (textType) {
     case 'bold':
       textStyle = styles.bold;
@@ -35,8 +35,8 @@ const BodyText: FunctionComponent<BodyTextProps> = ({
     case 'regular':
       textStyle = styles.regular;
       break;
-    case 'semi-bold':
-      textStyle = styles.semiBold;
+    case 'medium':
+      textStyle = styles.medium;
       break;
     default:
       textStyle = styles.regular;
@@ -48,6 +48,11 @@ const BodyText: FunctionComponent<BodyTextProps> = ({
     : style;
 
   return <Text style={[textStyle, { ...passedStyles }]}>{children}</Text>;
+};
+
+BodyText.defaultProps = {
+  textType: 'regular',
+  style: {},
 };
 
 export default BodyText;

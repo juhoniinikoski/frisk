@@ -1,7 +1,7 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import * as React from 'react'
-import BodyText from './BodyText'
+import { Pressable, StyleSheet } from 'react-native';
+import * as React from 'react';
 import { MaterialIcons } from '@expo/vector-icons';
+import BodyText from './BodyText';
 
 const styles = StyleSheet.create({
   locationButton: {
@@ -12,27 +12,31 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 24,
     height: '100%',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     borderRadius: 16,
-    shadowOffset: {width: 0, height: 4},
+    shadowOffset: { width: 0, height: 4 },
     shadowColor: 'rgba(228, 218, 207, 0.4)',
     shadowRadius: 4,
-    shadowOpacity: 1.0
-  }
-})
+    shadowOpacity: 1.0,
+  },
+});
 
-const LocationButton = ( {name}: {name: string} ) => {
-
+const LocationButton = ({ name }: { name: string }) => {
   const handleLocationPress = () => {
-    console.log('location press')
-  }
+    console.log('location press');
+  };
 
   return (
     <Pressable style={styles.locationButton} onPress={handleLocationPress}>
-      <MaterialIcons name="location-pin" size={24} color="black" style={{marginRight: 4}} />
-      <BodyText textType='semi-bold'>{name}</BodyText>
+      <MaterialIcons
+        name="location-pin"
+        size={24}
+        color="black"
+        style={{ marginRight: 4 }}
+      />
+      <BodyText textType="medium">{name}</BodyText>
     </Pressable>
-  )
-}
+  );
+};
 
-export default LocationButton
+export default LocationButton;
