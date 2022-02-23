@@ -15,10 +15,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
+  smallest: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
 });
 
 type HeaderTextProps = {
-  textType?: 'large' | 'regular' | 'small';
+  textType?: 'large' | 'regular' | 'small' | 'smallest';
   style?: TextStyle | TextStyle[];
 };
 
@@ -37,6 +41,9 @@ const HeaderText: FunctionComponent<HeaderTextProps> = ({
       break;
     case 'small':
       textStyle = styles.small;
+      break;
+    case 'smallest':
+      textStyle = styles.smallest;
       break;
     default:
       textStyle = styles.regular;

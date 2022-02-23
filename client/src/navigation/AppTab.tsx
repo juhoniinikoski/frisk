@@ -5,21 +5,30 @@ import LocationStack from './LocationStack';
 import SearchStack from './SearchStack';
 import ProfileStack from './ProfileStack';
 import { textContentFI } from '../content/textContent';
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
 const { events, locations, search, profile } = textContentFI.tabNav;
+
+const PlaceHolderIcon = () => {
+  return (
+    <View style={{height: 28, width: 28, backgroundColor: '#f1f2f4', borderRadius: 50}}></View>
+  )
+}
 
 const AppTab = () => {
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
+        tabBarIcon: () => <PlaceHolderIcon />
       }}
     >
       <Tab.Screen
         name="EventStack"
         component={EventStack}
+        
         options={{ title: events }}
       />
       <Tab.Screen

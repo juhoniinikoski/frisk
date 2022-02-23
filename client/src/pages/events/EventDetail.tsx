@@ -10,7 +10,7 @@ const styles = StyleSheet.create({});
 type Props = NativeStackScreenProps<EventsStackParamList, 'EventDetail'>;
 
 const EventDetail = ({ route }: Props) => {
-  console.log(route.params.eventId);
+
   return (
     <Layout>
       <HeaderText>Event</HeaderText>

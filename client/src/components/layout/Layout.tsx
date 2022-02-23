@@ -15,7 +15,7 @@ const Layout: FunctionComponent = ({ children }) => {
 
   return (
     <SafeAreaView
-      edges={['top', 'left', 'right']}
+      edges={['left', 'right']}
       style={{ ...styles.container }}
     >
       {children}

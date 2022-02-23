@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginVertical: 8,
     borderRadius: 20,
+    borderWidth: 1,
+    borderColor: '#e4e5e5'
   },
   imageContainer: {
     height: 165,
@@ -37,21 +39,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  locationButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: 16,
-    paddingRight: 24,
-    height: '100%',
-    backgroundColor: 'red',
-    borderRadius: 16,
-    shadowOffset: { width: 0, height: 4 },
-    shadowColor: 'rgba(228, 218, 207, 0.4)',
-    shadowRadius: 4,
-    shadowOpacity: 1.0,
   },
   timeDate: {
     display: 'flex',

@@ -22,8 +22,6 @@ const Events = () => {
   const listHeader = () => {
     return (
       <View style={styles.headerContainer}>
-        <HeaderText textType="large">Events</HeaderText>
-        <FilterButton />
       </View>
     );
   };

@@ -138,3 +138,27 @@ export const events = [
     },
   },
 ];
+
+export const event = {
+  name: "Pihapelit",
+  id: "juhoniinikoski.Pihapelit",
+  description: "Testitapahtuma",
+  activity: {
+    name: "Sähly",
+    id: "1"
+  },
+  location: {
+    name: "Nordis",
+    id: "Nordis1234",
+    address: {
+      street: "Testitienpolku 1",
+      zipcode: "00100",
+      city: "Helsinki",
+      country: "Finland"
+    }
+  },
+  createdBy: {
+    username: "juhoniinikoski",
+    id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
+  }
+}

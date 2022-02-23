@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(228, 218, 207, 0.4)',
     shadowRadius: 4,
     shadowOpacity: 1.0,
+    borderWidth: 1,
+    borderColor: '#e4e5e5'
   },
 });
 
