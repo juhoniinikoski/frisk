@@ -27,7 +27,7 @@ const Events = () => {
   };
 
   return (
-    <Layout>
+    <Layout style={{marginHorizontal: 16}}>
       <FlatList
         ListHeaderComponent={listHeader}
         data={events}

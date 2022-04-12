@@ -160,5 +160,12 @@ export const event = {
   createdBy: {
     username: "juhoniinikoski",
     id: "bbe42984-051b-4a01-b45d-b8d29c32200c"
-  }
+  },
+  price: 0,
+    start: '2022-12-01T10:00:00.000Z',
+    end: '2022-12-01T12:00:00.000Z',
+    attendants: {
+      current: 8,
+      max: 12,
+    },
 }

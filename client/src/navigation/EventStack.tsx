@@ -53,7 +53,11 @@ const EventStack = () => {
       <Stack.Screen
         name="EventDetail"
         component={EventDetail}
-      />
+        options={{
+          headerTransparent: true,
+          title: '',
+          headerRight: () => <FilterButton style={{marginBottom: 8}}/>
+        }}/>
     </Stack.Navigator>
   );
 };

@@ -1,22 +1,26 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewStyle } from 'react-native';
 import * as React from 'react';
 import { FunctionComponent } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 16,
     display: 'flex',
     flex: 1,
   },
 });
 
-const Layout: FunctionComponent = ({ children }) => {
+interface Props {
+  children?: React.ReactNode
+  style?: ViewStyle | ViewStyle[]
+}
+
+const Layout = ({ children, style }: Props ) => {
 
   return (
     <SafeAreaView
       edges={['left', 'right']}
-      style={{ ...styles.container }}
+      style={[styles.container, style]}
     >
       {children}
     </SafeAreaView>
