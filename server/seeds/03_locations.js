@@ -17,11 +17,11 @@ exports.seed = async (knex) => {
 
   await knex('locations').insert([
     {
-      ...createColumns('Ogeli', 'käskynhaltijantie11'),
+      ...createColumns('Ogeli', 'kaskynhaltijantie11'),
       ...createDateColumns(new Date(Date.now() - oneHour))
     },
     {
-      ...createColumns('Nordis', 'nordenskiöldinkatu1113'),
+      ...createColumns('Nordis', 'nordenskioldinkatu1113'),
       ...createDateColumns(new Date(Date.now() - 2 * oneHour))
     },
     {

@@ -17,3 +17,9 @@ export class EmailTakenError extends ApolloError {
     super('Given email is already taken.', 'EMAIL_TAKEN', { field: field });
   }
 }
+
+export class NameTakenError extends ApolloError {
+  constructor(field: string) {
+    super('Given name is already taken.', 'NAME_TAKEN', { field: field });
+  }
+}

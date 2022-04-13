@@ -10,7 +10,7 @@ export const typeDefs = gql`
   }
   extend type Mutation {
     """
-   Updates a user, if the provided username or email does not already exist.
+    Updates a user, if the provided username or email does not already exist.
     """
     updateUser(id: ID!, data: UpdateUserInput): String
   }
